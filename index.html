@@ -583,9 +583,6 @@ tailwind.config = {
   <div class="reveal mt-12 grid lg:grid-cols-[1.1fr_.9fr] gap-6 items-start">
     <!-- LEFT · lo que incluye -->
     <div class="bg-white rounded-[1.75rem] border border-ink/10 p-6 md:p-8 card-glow">
-      <div class="rounded-2xl overflow-hidden ring-1 ring-ink/5 bg-paper mb-7">
-        <img src="assets/laptop.webp" alt="Plataforma AI Mastery — acceso a las clases" class="w-full">
-      </div>
       <h3 class="font-display font-extrabold text-xl md:text-2xl">Todo lo que te llevas</h3>
       <ul class="mt-5 grid sm:grid-cols-2 gap-x-6 gap-y-3 text-[15px] text-ink/80">
         <li class="flex gap-2.5"><span class="text-brand font-bold shrink-0">✓</span> Acceso de por vida al Máster en IA Creativa <span class="text-ink/45">(+30 clases · 9 módulos)</span></li>
@@ -603,12 +600,19 @@ tailwind.config = {
           <li class="flex gap-2.5"><span class="text-brand font-bold shrink-0">✓</span> <span><b>Bonus 2</b> · Guionizado viral: hooks y CTAs que funcionan</span></li>
         </ul>
       </div>
+      <div class="mt-7 flex items-center justify-between gap-4 rounded-2xl bg-brand-soft border border-brand/20 px-5 py-4">
+        <span class="text-sm font-semibold text-ink/70 leading-tight">Valor total de todo<br class="hidden sm:block"> lo que incluye</span>
+        <span class="font-display font-extrabold text-3xl text-brand">+497$</span>
+      </div>
     </div>
 
     <!-- RIGHT · order box -->
     <div class="relative bg-ink text-white rounded-[1.75rem] p-8 cta-glow grain overflow-hidden lg:sticky lg:top-24">
       <div class="mesh absolute inset-0 opacity-30"></div>
       <div class="relative">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black mb-6">
+          <img src="assets/laptop.webp" alt="Plataforma AI Mastery — acceso a las clases" class="w-full">
+        </div>
         <div class="flex items-center justify-between">
           <div class="text-sm font-semibold text-gold uppercase tracking-wider">AI Mastery — Acceso completo</div>
           <span class="grid place-items-center w-14 h-14 rounded-full bg-gold text-ink font-display font-extrabold text-xs text-center leading-tight rotate-6 shrink-0">-90%</span>
