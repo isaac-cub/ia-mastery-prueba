@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Mastery — Deja que la IA haga tu contenido viral por ti</title>
+<meta name="description" content="Aprende a crear vídeos e imágenes con IA que paran el scroll y venden. Sin conocimientos técnicos y sin pagar suscripciones cada mes. Pago único, acceso de por vida.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink:   '#0B1220',
+        paper: '#F5F8FF',
+        brand: { DEFAULT: '#0052CC', deep: '#003A99', bright: '#2D7FF9', soft: '#E8F0FF' },
+        gold:  { DEFAULT: '#FFC83D', deep: '#E0A100' },
+      },
+      fontFamily: {
+        display: ['"Bricolage Grotesque"', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
+        hand: ['Caveat', 'cursive'],
+      },
+      maxWidth: { read: '40rem' },
+    },
+  },
+};
+</script>
+<style>
+  html { -webkit-text-size-adjust: 100%; }
+  body { background: #F5F8FF; color: #0B1220; font-size: 17px; line-height: 1.6; text-rendering: optimizeLegibility; }
+  ::selection { background: #0052CC; color: #fff; }
+
+  .mesh {
+    background:
+      radial-gradient(55% 50% at 12% 8%, rgba(0,82,204,.16), transparent 60%),
+      radial-gradient(50% 45% at 88% 4%, rgba(45,127,249,.16), transparent 60%),
+      radial-gradient(45% 45% at 72% 88%, rgba(255,200,61,.14), transparent 60%);
+  }
+  .grain:before { content:""; position:absolute; inset:0; opacity:.5; pointer-events:none;
+    background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 4px 4px; }
+
+  /* reading rhythm — big, airy, very legible */
+  .lede p { font-size: clamp(1.12rem, 1rem + .5vw, 1.45rem); line-height: 1.62; }
+  .lede p + p { margin-top: 1.25rem; }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  .card-glow { box-shadow: 0 1px 2px rgba(11,18,32,.04), 0 18px 40px -18px rgba(0,82,204,.28); }
+  .cta-glow  { box-shadow: 0 12px 30px -8px rgba(0,82,204,.55); }
+
+  /* hand-drawn underline under a word */
+  .scribble { position: relative; display: inline-block; }
+  .scribble svg { position: absolute; left: -2%; bottom: -.42em; width: 104%; height: .5em; overflow: visible; }
+
+  /* marquee */
+  .marquee { display: flex; gap: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+  .marquee__track { display: flex; flex-shrink: 0; align-items: center; gap: 2.5rem; padding-right: 2.5rem; animation: scroll 34s linear infinite; }
+  @keyframes scroll { to { transform: translateX(-100%); } }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .faq-ic { transform: rotate(45deg); }
+
+  .vid { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none} .marquee__track{animation:none} }
+</style>
+</head>
+<body class="font-sans antialiased pb-24 md:pb-0">
+
+<!-- ░░ 0 · ANNOUNCEMENT ░░ -->
+<div class="bg-ink text-white text-center text-[13px] sm:text-sm py-2.5 px-4 font-medium tracking-tight">
+  <span class="text-gold">✦</span> Nueva versión 2026 ya disponible · un solo pago, acceso de por vida —
+  <span class="text-white/60">sin mensualidades nunca</span>
+  <a href="#precio" class="underline decoration-gold/60 underline-offset-2 hover:text-gold transition">Acceder →</a>
+</div>
+
+<!-- ░░ HEADER ░░ -->
+<header id="hdr" class="sticky top-0 z-50 transition-all duration-300 bg-paper/80 backdrop-blur-md border-b border-transparent">
+  <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#" class="font-display font-extrabold text-xl tracking-tight">AI<span class="text-brand">Mastery</span></a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/65">
+      <a href="#programa" class="hover:text-ink transition">El programa</a>
+      <a href="#resultados" class="hover:text-ink transition">Resultados</a>
+      <a href="#precio" class="hover:text-ink transition">Precio</a>
+      <a href="#faq" class="hover:text-ink transition">FAQ</a>
+    </div>
+    <a href="#precio" class="bg-ink text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-brand transition-colors">Quiero acceso →</a>
+  </nav>
+</header>
+
+<!-- ░░ 1 · HERO ░░ -->
+<section class="relative overflow-hidden mesh">
+  <div class="max-w-6xl mx-auto px-5 pt-14 pb-16 md:pt-20 md:pb-24 grid md:grid-cols-[1.05fr_.95fr] gap-12 items-center">
+    <div class="reveal">
+      <div class="inline-flex items-center gap-2 bg-white/80 border border-brand/15 rounded-full pl-1.5 pr-3.5 py-1.5 text-xs font-semibold text-brand mb-7 shadow-sm">
+        <span class="bg-brand text-white rounded-full px-2 py-0.5">NUEVO</span> El método completo, sin suscripciones
+      </div>
+      <h1 class="font-display font-extrabold tracking-tight leading-[0.96] text-[clamp(2.5rem,6vw,4.3rem)]">
+        Deja que la IA haga tu<br>
+        <span class="scribble text-brand">contenido viral
+          <svg viewBox="0 0 320 16" fill="none" preserveAspectRatio="none"><path d="M4 11C70 4 232 3 316 8" stroke="#FFC83D" stroke-width="6" stroke-linecap="round"/></svg>
+        </span><br>
+        por ti.
+      </h1>
+      <p class="mt-7 text-lg sm:text-xl text-ink/70 max-w-md leading-relaxed">
+        Sin conocimientos técnicos. Sin pagar 5 suscripciones de IA cada mes. Aprende a crear vídeos e imágenes que <span class="text-ink font-semibold">paran el scroll y venden</span> — en cuestión de minutos.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-3.5">
+        <a href="#precio" class="cta-glow bg-gold text-ink font-semibold px-7 py-4 rounded-full hover:bg-white transition-colors">Acceder ahora · 47$ →</a>
+        <a href="#programa" class="font-semibold px-6 py-4 rounded-full border border-ink/15 hover:border-ink/40 transition">Ver qué incluye</a>
+      </div>
+      <div class="mt-8 flex items-center gap-4 text-sm">
+        <div class="flex -space-x-2.5">
+          <img src="assets/t-jj.jpeg"   class="w-9 h-9 rounded-full border-2 border-paper object-cover" alt="">
+          <img src="assets/t-raul.jpeg" class="w-9 h-9 rounded-full border-2 border-paper object-cover" alt="">
+          <img src="assets/person-1.webp" class="w-9 h-9 rounded-full border-2 border-paper object-cover" alt="">
+          <span class="w-9 h-9 rounded-full border-2 border-paper bg-brand text-white text-[10px] font-bold grid place-items-center">+1.5K</span>
+        </div>
+        <div><span class="font-bold">+1.500 creadores</span> <span class="text-ink/40">·</span> <span class="text-gold-deep font-bold">★ 4.8</span><span class="text-ink/40">/5</span></div>
+      </div>
+    </div>
+
+    <!-- hero visual -->
+    <div class="relative reveal">
+      <div class="relative mx-auto w-full max-w-md">
+        <div class="rounded-[1.75rem] overflow-hidden card-glow ring-1 ring-ink/5 bg-ink">
+          <img src="assets/hero-collage.png" alt="Contenido creado con IA por Diego — antes y después" class="w-full">
+        </div>
+        <!-- floating chip: savings hammer #1 -->
+        <div class="absolute -left-4 sm:-left-8 bottom-10 bg-white rounded-2xl card-glow px-4 py-3 -rotate-3 hidden sm:block">
+          <div class="text-2xl font-display font-extrabold text-brand">0$<span class="text-sm text-ink/45 font-sans">/mes</span></div>
+          <div class="text-[11px] text-ink/55 font-medium">en suscripciones</div>
+        </div>
+        <div class="absolute -left-3 -top-3 bg-white/90 backdrop-blur text-ink ring-1 ring-ink/10 rounded-full px-3.5 py-1.5 text-xs font-semibold -rotate-2 hidden sm:flex items-center gap-1.5 shadow-lg">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span> Generado con IA
+        </div>
+      </div>
+      <p class="font-hand text-brand text-[1.7rem] leading-none absolute -bottom-3 right-2 -rotate-6 hidden md:block">¡sin tarjeta de crédito!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 2 · MARQUEE — savings hammer #2 ░░ -->
+<div class="bg-ink text-white py-4 border-y border-white/5 overflow-hidden">
+  <div class="marquee">
+    <div class="marquee__track font-display font-bold text-lg sm:text-xl tracking-tight" aria-hidden="true">
+      <span>Higgsfield</span><span class="text-gold">· UN SOLO PAGO ·</span>
+      <span>Heygen</span><span class="text-gold">· SIN MENSUALIDADES ·</span>
+      <span>Freepik</span><span class="text-gold">· PARA SIEMPRE ·</span>
+      <span>Runway</span><span class="text-gold">· UN SOLO PAGO ·</span>
+      <span>Midjourney</span><span class="text-gold">· SIN MENSUALIDADES ·</span>
+      <span>ChatGPT</span><span class="text-gold">· PARA SIEMPRE ·</span>
+    </div>
+    <div class="marquee__track font-display font-bold text-lg sm:text-xl tracking-tight" aria-hidden="true">
+      <span>Higgsfield</span><span class="text-gold">· UN SOLO PAGO ·</span>
+      <span>Heygen</span><span class="text-gold">· SIN MENSUALIDADES ·</span>
+      <span>Freepik</span><span class="text-gold">· PARA SIEMPRE ·</span>
+      <span>Runway</span><span class="text-gold">· UN SOLO PAGO ·</span>
+      <span>Midjourney</span><span class="text-gold">· SIN MENSUALIDADES ·</span>
+      <span>ChatGPT</span><span class="text-gold">· PARA SIEMPRE ·</span>
+    </div>
+  </div>
+</div>
+<div class="bg-white border-b border-ink/10">
+  <div class="max-w-6xl mx-auto px-5 py-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm font-medium text-ink/65">
+    <span class="text-ink/55 text-xs uppercase tracking-widest">Crea para</span>
+    <span>TikTok</span><span>Instagram</span><span>Reels</span><span>YouTube Shorts</span><span>Anuncios</span><span>E-commerce</span>
+  </div>
+</div>
+
+<!-- ░░ 3 · ENTRADA 01 — Empecemos por la verdad ░░ -->
+<section class="max-w-read mx-auto px-5 py-20 md:py-28">
+  <div class="reveal">
+    <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">01 — Empecemos por la verdad</span>
+    <h2 class="font-display font-extrabold text-[clamp(2rem,4.6vw,3rem)] leading-[1.04] mt-4">
+      No necesitas pagar 5 <span class="text-brand">suscripciones</span> de IA.
+    </h2>
+    <div class="lede mt-8 text-ink/75">
+      <p>Cada semana aparece una herramienta nueva prometiendo ser “la definitiva”.</p>
+      <p class="!mt-6 text-ink/90 font-medium leading-snug">
+        Una para crear avatares.<br>
+        Otra para generar vídeos.<br>
+        Otra para hacer imágenes de producto.<br>
+        Otra para voces.<br>
+        Otra para anuncios.
+      </p>
+      <p>¿El resultado? Acabas regalando <span class="text-ink font-semibold">30, 40 o 50 dólares al mes</span> a plataformas que apenas sabes sacar provecho.</p>
+    </div>
+
+    <div class="mt-8 grid sm:grid-cols-2 gap-3">
+      <div class="flex items-start gap-3 bg-white rounded-2xl p-4 border border-ink/8">
+        <span class="text-red-500 mt-0.5">✕</span>
+        <p class="text-[15px] text-ink/75">Si un mes no las utilizas: <span class="font-semibold text-ink">te cobran igual.</span></p>
+      </div>
+      <div class="flex items-start gap-3 bg-white rounded-2xl p-4 border border-ink/8">
+        <span class="text-red-500 mt-0.5">✕</span>
+        <p class="text-[15px] text-ink/75">Si las dejas de pagar: <span class="font-semibold text-ink">pierdes el acceso a tu trabajo.</span></p>
+      </div>
+    </div>
+
+    <div class="lede mt-8 text-ink/75">
+      <p>Y luego aparecen las herramientas técnicas que prometen solucionar esto. Pero tienes que saber de código, y te acaba superando.</p>
+      <p class="!mt-7 font-display font-bold text-ink text-[clamp(1.3rem,2.6vw,1.7rem)] leading-snug">
+        ¿De verdad hace falta pasar por todo esto para crear contenido con IA que venda?
+      </p>
+    </div>
+    <p class="font-hand text-brand text-[1.9rem] leading-none mt-5 flex items-center gap-3">
+      Spoiler: no. Ni de lejos.
+      <svg width="46" height="26" viewBox="0 0 46 26" fill="none" class="-rotate-3"><path d="M2 5C14 19 30 22 42 14" stroke="#0052CC" stroke-width="2.5" stroke-linecap="round"/><path d="M42 14L34 16M42 14L38 7" stroke="#0052CC" stroke-width="2.5" stroke-linecap="round"/></svg>
+    </p>
+  </div>
+</section>
+
+<!-- ░░ 4 · ENTRADA 02 — El punto de giro ░░ -->
+<section class="bg-white border-y border-ink/10">
+  <div class="max-w-read mx-auto px-5 py-20 md:py-28">
+    <div class="reveal">
+      <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">02 — Lo que lo cambió todo</span>
+      <h2 class="font-display font-extrabold text-[clamp(2rem,4.6vw,3rem)] leading-[1.04] mt-4">
+        El sistema es más simple de lo que parece.
+      </h2>
+      <div class="lede mt-8 text-ink/75">
+        <p>Para crear contenido con IA no necesitas pagar una suscripción distinta para cada cosa. Puedes trabajar con herramientas de <span class="text-ink font-semibold">pago por uso</span>: generas lo que necesitas y solo pagas cuando realmente creas algo.</p>
+        <p>Si un mes no produces, no pagas. Y muchas veces hablamos de <span class="text-brand font-semibold">céntimos por imagen</span> o <span class="text-brand font-semibold">menos de 1 dólar por vídeo entero.</span></p>
+        <p>Pero ahorrar dinero es solo una parte. La diferencia real está en <span class="text-ink font-semibold">saber qué crear.</span></p>
+      </div>
+
+      <div class="mt-8 grid sm:grid-cols-2 gap-4">
+        <div class="rounded-2xl border border-ink/10 p-5 bg-paper">
+          <div class="text-xs font-bold uppercase tracking-wider text-ink/40 mb-2">Una persona</div>
+          <p class="text-ink/70 text-[15px]">Crea una imagen genérica. La misma de siempre.</p>
+        </div>
+        <div class="rounded-2xl border-2 border-brand/30 p-5 bg-brand-soft">
+          <div class="text-xs font-bold uppercase tracking-wider text-brand mb-2">La otra</div>
+          <p class="text-ink/80 text-[15px]">Crea una pieza que parece de marca, sirve para un anuncio, mejora una web o se convierte en contenido que <span class="font-semibold">sí genera ventas.</span></p>
+        </div>
+      </div>
+
+      <p class="lede mt-8 text-ink/75"><span class="text-ink font-semibold">La herramienta puede ser la misma.</span> Lo que cambia es cómo la usas.</p>
+      <p class="font-hand text-brand text-[1.9rem] leading-none mt-6 flex items-center gap-3">
+        Eso es lo que aprendes dentro de AI Mastery
+        <svg width="30" height="40" viewBox="0 0 30 40" fill="none" class="animate-bounce"><path d="M15 3V31" stroke="#FFC83D" stroke-width="3" stroke-linecap="round"/><path d="M5 22L15 33L25 22" stroke="#FFC83D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 5 · ENTRADA 03 — Los números (dark) ░░ -->
+<section class="bg-ink text-white grain relative overflow-hidden">
+  <div class="mesh absolute inset-0 opacity-30"></div>
+  <div class="max-w-6xl mx-auto px-5 py-20 md:py-28 relative">
+    <div class="reveal max-w-xl">
+      <span class="text-xs font-bold tracking-[0.2em] text-gold uppercase">03 — Los números</span>
+      <h2 class="font-display font-extrabold text-[clamp(2rem,4.5vw,3.2rem)] leading-[1.04] mt-4">Los números que no te vas a creer.</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 mt-12">
+      <div class="reveal rounded-3xl border border-white/10 bg-white/[.03] p-8">
+        <div class="text-sm font-semibold text-white/45 uppercase tracking-wider">Antes</div>
+        <div class="font-display font-extrabold text-[clamp(2.6rem,7vw,4rem)] leading-none mt-3 text-white/90">40-50 <span class="text-2xl text-white/40">USD/mes</span></div>
+        <p class="mt-4 text-white/60 leading-relaxed">Todos los meses, aunque no la utilices. Y si se te acaban los créditos… a pagar más.</p>
+      </div>
+      <div class="reveal rounded-3xl border-2 border-gold/40 bg-gradient-to-br from-brand/20 to-transparent p-8 relative overflow-hidden">
+        <span class="absolute top-5 right-5 text-gold text-xs font-bold border border-gold/40 rounded-full px-3 py-1">PARA SIEMPRE</span>
+        <div class="text-sm font-semibold text-gold uppercase tracking-wider">Ahora</div>
+        <div class="font-display font-extrabold text-[clamp(2.6rem,7vw,4rem)] leading-none mt-3"><span class="count text-gold" data-target="0">0</span> <span class="text-2xl text-white/40">USD/mes</span></div>
+        <p class="mt-4 text-white/70 leading-relaxed">Imágenes por céntimos. Vídeos completos por <span class="text-white font-semibold">menos de 1 dólar.</span></p>
+      </div>
+    </div>
+    <p class="reveal mt-10 text-center text-lg sm:text-xl text-white/75 max-w-3xl mx-auto leading-relaxed">
+      Mientras otros pagan decenas cada mes para hacer cuatro vídeos, tú los haces por <span class="font-hand text-gold text-2xl">menos de lo que cuesta un café.</span> Esa es toda la diferencia.
+    </p>
+  </div>
+</section>
+
+<!-- ░░ 6 · ENTRADA 04 — El programa (formatos) ░░ -->
+<section id="programa" class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+  <div class="max-w-2xl reveal">
+    <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">04 — El programa</span>
+    <h2 class="font-display font-extrabold text-[clamp(2rem,4.6vw,3.2rem)] leading-[1.04] mt-4">
+      Lo que antes necesitaba cámara, estudio o actor… <span class="text-brand">ahora lo creas con IA.</span>
+    </h2>
+    <p class="mt-5 text-lg text-ink/65 leading-relaxed">Aprenderás el proceso entero de creación, aunque empieces desde cero. Desde la idea, a los prompts para copiar y pegar, la mejor IA para cada uso y la generación.</p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-14">
+    <!-- 1 -->
+    <article class="reveal group bg-white rounded-3xl overflow-hidden card-glow hover:-translate-y-1 transition-transform duration-300">
+      <div class="relative aspect-[4/3] bg-ink overflow-hidden">
+        <video class="vid" src="assets/fmt-cinema.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">8 ejemplos</span>
+      </div>
+      <div class="p-5">
+        <h3 class="font-display font-bold text-lg">Vídeo cinematográfico</h3>
+        <p class="mt-1.5 text-ink/60 text-sm leading-relaxed">Escenas con calidad de cine: iluminación, cámara y dirección. Sin cámaras, sin focos, sin rodaje.</p>
+      </div>
+    </article>
+    <!-- 2 -->
+    <article class="reveal group bg-white rounded-3xl overflow-hidden card-glow hover:-translate-y-1 transition-transform duration-300">
+      <div class="relative aspect-[4/3] bg-ink overflow-hidden">
+        <video class="vid" src="assets/fmt-vfx.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">Modo Hollywood</span>
+      </div>
+      <div class="p-5">
+        <h3 class="font-display font-bold text-lg">Efectos especiales</h3>
+        <p class="mt-1.5 text-ink/60 text-sm leading-relaxed">Explosiones, fuego realista y transiciones imposibles que hacen tu contenido adictivo.</p>
+      </div>
+    </article>
+    <!-- 3 -->
+    <article class="reveal group bg-white rounded-3xl overflow-hidden card-glow hover:-translate-y-1 transition-transform duration-300">
+      <div class="relative aspect-[4/3] bg-ink overflow-hidden">
+        <video class="vid" src="assets/fmt-images.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">17 ejemplos</span>
+      </div>
+      <div class="p-5">
+        <h3 class="font-display font-bold text-lg">Imágenes para contenido</h3>
+        <p class="mt-1.5 text-ink/60 text-sm leading-relaxed">Listas para Instagram, banners o anuncios. Por céntimos.</p>
+      </div>
+    </article>
+    <!-- 4 -->
+    <article class="reveal group bg-white rounded-3xl overflow-hidden card-glow hover:-translate-y-1 transition-transform duration-300 relative">
+      <span class="absolute top-3 right-3 z-10 bg-gold text-ink text-[10px] font-bold px-2.5 py-1 rounded-full rotate-3 shadow">NUEVO</span>
+      <div class="relative aspect-[4/3] bg-ink overflow-hidden">
+        <video class="vid" src="assets/fmt-avatar.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      </div>
+      <div class="p-5">
+        <h3 class="font-display font-bold text-lg">Avatares realistas</h3>
+        <p class="mt-1.5 text-ink/60 text-sm leading-relaxed">Conviértete en quien quieras y crea vídeos y anuncios que convierten, sin gastar en actores.</p>
+      </div>
+    </article>
+    <!-- 5 -->
+    <article class="reveal group bg-white rounded-3xl overflow-hidden card-glow hover:-translate-y-1 transition-transform duration-300">
+      <div class="relative aspect-[4/3] bg-ink overflow-hidden">
+        <img src="assets/thumb-1.png" alt="" class="vid">
+        <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">Thumbnails</span>
+      </div>
+      <div class="p-5">
+        <h3 class="font-display font-bold text-lg">Miniaturas con IA</h3>
+        <p class="mt-1.5 text-ink/60 text-sm leading-relaxed">Miniaturas tuyas con cualquier estilo, ropa o escenario que disparan las visitas. Sin diseñadores.</p>
+      </div>
+    </article>
+    <!-- 6 -->
+    <article class="reveal group bg-white rounded-3xl overflow-hidden card-glow hover:-translate-y-1 transition-transform duration-300">
+      <div class="relative aspect-[4/3] bg-ink overflow-hidden">
+        <video class="vid" src="assets/fmt-product.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">E-commerce</span>
+      </div>
+      <div class="p-5">
+        <h3 class="font-display font-bold text-lg">Fotografía de producto</h3>
+        <p class="mt-1.5 text-ink/60 text-sm leading-relaxed">Calidad de catálogo en segundos. Tu producto en cualquier escenario, con luz perfecta.</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- highlight format: avatares clonados -->
+  <article class="reveal mt-5 grid md:grid-cols-[1.2fr_1fr] gap-0 bg-ink text-white rounded-3xl overflow-hidden card-glow">
+    <div class="p-8 md:p-10 flex flex-col justify-center">
+      <span class="inline-flex w-max items-center gap-1.5 bg-gold text-ink text-[11px] font-bold px-2.5 py-1 rounded-full mb-4">NUEVO</span>
+      <h3 class="font-display font-extrabold text-2xl md:text-3xl leading-tight">Avatares clonados</h3>
+      <p class="mt-3 text-white/70 leading-relaxed max-w-md">Clónate a ti mismo y genera contenido sin volver a grabar nunca más. Tu cara, tu voz, en piloto automático.</p>
+    </div>
+    <div class="relative min-h-[220px] bg-black">
+      <video class="vid" src="assets/fmt-clone.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    </div>
+  </article>
+</section>
+
+<!-- ░░ 7 · NUEVA CLASE — Espacio de grabación ░░ -->
+<section class="bg-white border-y border-ink/10">
+  <div class="max-w-6xl mx-auto px-5 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
+    <div class="relative order-2 md:order-1 reveal">
+      <div class="rounded-3xl overflow-hidden aspect-[4/3] bg-ink card-glow ring-1 ring-ink/5">
+        <video class="vid" src="assets/new-space.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      </div>
+      <span class="absolute -top-3 -left-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full -rotate-6 shadow">¡Nueva clase!</span>
+    </div>
+    <div class="order-1 md:order-2 reveal">
+      <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">Nueva clase 2026</span>
+      <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,2.8rem)] leading-[1.05] mt-3">Transforma tu espacio de grabación</h2>
+      <p class="mt-3 text-lg text-ink/70">Grábate donde quieras y haz que parezca un set profesional.</p>
+      <p class="mt-4 text-ink/65 leading-relaxed">Con IA cambias el ambiente de tus vídeos: conviertes un fondo normal en una habitación elegante, un estudio moderno o un entorno premium — sin depender de tener el espacio perfecto.</p>
+      <ul class="mt-6 space-y-2.5 text-[15px]">
+        <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> Transforma fondos normales en espacios profesionales.</li>
+        <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> Mejora la estética de tus vídeos aunque grabes desde casa.</li>
+        <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> Aumenta la percepción de autoridad y calidad visual.</li>
+        <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> Evita gastar en estudios, decoración o setups complejos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 8 · NUEVA CLASE — Avatares realistas ░░ -->
+<section class="max-w-6xl mx-auto px-5 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
+  <div class="reveal">
+    <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">Nueva clase 2026</span>
+    <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,2.8rem)] leading-[1.05] mt-3">Crea avatares realistas</h2>
+    <p class="mt-3 text-lg text-ink/70">Tus gestos y expresiones, convertidos en un avatar IA.</p>
+    <p class="mt-4 text-ink/65 leading-relaxed">Convierte tus movimientos y expresiones en avatares IA para crear anuncios, vídeos UGC y promociones — sin depender de actores ni de grabaciones caras.</p>
+    <ul class="mt-6 space-y-2.5 text-[15px]">
+      <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> Crea distintos personajes para promocionar productos o servicios.</li>
+      <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> Produce contenido estilo UGC sin contratar actores.</li>
+      <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> Adapta el aspecto del avatar según tu nicho.</li>
+      <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> Perfecto para anuncios, creatividades y vídeos comerciales.</li>
+    </ul>
+  </div>
+  <div class="relative reveal">
+    <div class="rounded-3xl overflow-hidden aspect-[4/3] bg-ink card-glow ring-1 ring-ink/5">
+      <video class="vid" src="assets/new-avatars.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    </div>
+    <span class="absolute -top-3 -right-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full rotate-6 shadow">¡Nueva clase!</span>
+  </div>
+</section>
+
+<!-- ░░ 9 · MÉTRICAS DE IMPACTO ░░ -->
+<section class="bg-brand text-white relative overflow-hidden grain">
+  <div class="max-w-6xl mx-auto px-5 py-14 grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 lg:divide-x divide-white/15">
+    <div class="reveal lg:px-8"><div class="font-display font-extrabold text-4xl md:text-5xl text-gold">x100</div><p class="mt-2 text-white/80 text-sm leading-snug">más rápido que grabar y editar a mano.</p></div>
+    <div class="reveal lg:px-8"><div class="font-display font-extrabold text-4xl md:text-5xl text-gold">0€</div><p class="mt-2 text-white/80 text-sm leading-snug">en fotógrafos o estudios: miniaturas, retratos y producto.</p></div>
+    <div class="reveal lg:px-8"><div class="font-display font-extrabold text-4xl md:text-5xl text-gold">Hollywood</div><p class="mt-2 text-white/80 text-sm leading-snug">efectos y transiciones imposibles de ignorar.</p></div>
+    <div class="reveal lg:px-8"><div class="font-display font-extrabold text-4xl md:text-5xl text-gold">+ Ventas</div><p class="mt-2 text-white/80 text-sm leading-snug">imágenes y vídeos que convierten miradas en compras.</p></div>
+  </div>
+</section>
+
+<!-- ░░ 10 · LO QUE TE LLEVAS ░░ -->
+<section class="max-w-5xl mx-auto px-5 py-20 md:py-28">
+  <div class="text-center max-w-2xl mx-auto reveal">
+    <h2 class="font-display font-extrabold text-[clamp(2rem,4.6vw,3rem)] leading-[1.05]">Pago único, <span class="scribble text-brand">acceso de por vida.<svg viewBox="0 0 300 16" fill="none" preserveAspectRatio="none"><path d="M4 10C66 4 220 4 296 9" stroke="#FFC83D" stroke-width="6" stroke-linecap="round"/></svg></span></h2>
+    <p class="mt-5 text-lg text-ink/65">Todo lo que necesitas para dominar la creación con IA. Un pago, y es tuyo para siempre.</p>
+  </div>
+  <div class="grid sm:grid-cols-2 gap-3 mt-12 reveal">
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80">Acceso de por vida al Máster en IA Creativa.</p></div>
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80">+30 clases prácticas y al grano <span class="text-ink/45">(9 módulos)</span>.</p></div>
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80">Todos los recursos y prompts incluidos para practicar.</p></div>
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80">Avatares, vídeo cinematográfico, imágenes y producto.</p></div>
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80"><b>Bonus 1:</b> crea tu web con IA en minutos.</p></div>
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80"><b>Bonus 2:</b> guionizado viral (hooks y CTAs que funcionan).</p></div>
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80">Comunidad privada de alumnos para resolver dudas.</p></div>
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80">Actualizaciones futuras gratis, para siempre.</p></div>
+    <div class="flex gap-3 bg-white rounded-2xl p-4 border border-ink/8"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/80">Certificado AI Mastery al completar la formación.</p></div>
+    <div class="flex gap-3 bg-brand-soft rounded-2xl p-4 border border-brand/20"><span class="text-brand font-bold">✓</span><p class="text-[15px] text-ink/90 font-medium">Pago único, sin suscripciones ni costes ocultos.</p></div>
+  </div>
+</section>
+
+<!-- ░░ 11 · LA FILOSOFÍA ░░ -->
+<section class="bg-white border-y border-ink/10">
+  <div class="max-w-read mx-auto px-5 py-20 md:py-28 text-center reveal">
+    <h2 class="font-display font-extrabold text-[clamp(2.2rem,5.5vw,3.6rem)] leading-[1]">La IA ejecuta.<br><span class="text-brand">Tú diriges.</span></h2>
+    <div class="lede mt-8 text-ink/75 text-left max-w-xl mx-auto">
+      <p>No te voy a vender magia. No vas a crear un anuncio brutal con un prompt cualquiera.</p>
+      <p>Pero cuando sabes qué herramienta usar, cómo construir la idea, cómo generar la pieza y cómo terminarla con edición, puedes crear contenido que antes requería cámaras, diseñadores, actores o muchas horas de trabajo.</p>
+      <p class="text-ink font-medium">En AI Mastery aprendes el proceso completo. La IA hace el trabajo pesado. Tú aprendes a controlar el resultado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 12 · ENTRADA 05 — Lo que NO es ░░ -->
+<section class="max-w-5xl mx-auto px-5 py-20 md:py-28">
+  <div class="max-w-2xl reveal">
+    <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">05 — Lo que NO es</span>
+    <h2 class="font-display font-extrabold text-[clamp(2rem,4.6vw,3rem)] leading-[1.04] mt-4">Lo que AI Mastery <span class="text-brand">NO</span> es</h2>
+  </div>
+  <div class="grid md:grid-cols-2 gap-4 mt-12">
+    <div class="reveal bg-white rounded-2xl p-6 border border-ink/8"><h3 class="font-display font-bold text-lg flex items-center gap-2"><span class="text-red-500">✕</span> No es un software ni una suscripción.</h3><p class="mt-2 text-ink/65 text-[15px] leading-relaxed">Es una formación completa. Pagas una vez y es tuya de por vida, con actualizaciones incluidas sin coste adicional.</p></div>
+    <div class="reveal bg-white rounded-2xl p-6 border border-ink/8"><h3 class="font-display font-bold text-lg flex items-center gap-2"><span class="text-red-500">✕</span> No es nada técnico.</h3><p class="mt-2 text-ink/65 text-[15px] leading-relaxed">Nada de código ni de instalar cosas complicadas. Si sabes usar un móvil, puedes seguirlo. Cero curva técnica.</p></div>
+    <div class="reveal bg-white rounded-2xl p-6 border border-ink/8"><h3 class="font-display font-bold text-lg flex items-center gap-2"><span class="text-red-500">✕</span> No es IA falsa.</h3><p class="mt-2 text-ink/65 text-[15px] leading-relaxed">Nada de caras demasiado perfectas ni textos distorsionados. Lo que vas a crear funciona y convierte a ventas.</p></div>
+    <div class="reveal bg-white rounded-2xl p-6 border border-ink/8"><h3 class="font-display font-bold text-lg flex items-center gap-2"><span class="text-red-500">✕</span> No es magia con un clic.</h3><p class="mt-2 text-ink/65 text-[15px] leading-relaxed">No es un botón mágico. Dominarás la IA para crear contenido que vende, no por suerte, sino con conocimiento.</p></div>
+  </div>
+  <div class="reveal mt-4 bg-ink text-white rounded-2xl p-7 flex items-start gap-3">
+    <span class="text-gold text-xl font-bold">✓</span>
+    <p class="text-lg leading-relaxed"><span class="text-gold font-semibold">Lo que SÍ es:</span> el proceso completo, paso a paso, para crear contenido profesional con IA sin pagar una sola mensualidad.</p>
+  </div>
+</section>
+
+<!-- ░░ 13 · ENTRADA 06 — Testimonios ░░ -->
+<section id="resultados" class="bg-white border-y border-ink/10">
+  <div class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+    <div class="flex flex-wrap items-end justify-between gap-4 reveal">
+      <div class="max-w-lg">
+        <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">06 — DMs reales</span>
+        <h2 class="font-display font-extrabold text-[clamp(1.9rem,4.2vw,2.9rem)] leading-[1.05] mt-3">+1.500 personas ya crean sin depender de suscripciones.</h2>
+      </div>
+      <div class="text-right">
+        <div class="text-gold-deep text-2xl font-bold tracking-wide">★★★★★</div>
+        <div class="text-sm text-ink/50">4.8 / 5 valoración media</div>
+      </div>
+    </div>
+
+    <!-- real screenshot wall (masonry) -->
+    <div class="columns-2 md:columns-3 gap-4 mt-12 [&>*]:mb-4 [&>*]:break-inside-avoid">
+      <img src="assets/t-diego.jpeg"   alt="Testimonio real de un alumno por WhatsApp" class="reveal rounded-2xl border border-ink/10 shadow-sm w-full">
+      <img src="assets/t-raul.jpeg"    alt="Testimonio de Raúl (Papi Marketing)" class="reveal rounded-2xl border border-ink/10 shadow-sm w-full">
+      <img src="assets/t-metrics.jpg"  alt="Métricas reales de un alumno: 231.151 visualizaciones" class="reveal rounded-2xl border border-ink/10 shadow-sm w-full">
+      <img src="assets/t-jj.jpeg"      alt="Comentario real en Instagram" class="reveal rounded-2xl border border-ink/10 shadow-sm w-full">
+      <img src="assets/t-kinzen.jpeg"  alt="Testimonio de Kinzen por WhatsApp" class="reveal rounded-2xl border border-ink/10 shadow-sm w-full">
+    </div>
+
+    <!-- text testimonials -->
+    <div class="grid md:grid-cols-3 gap-5 mt-4">
+      <figure class="reveal bg-paper rounded-2xl p-6 border border-ink/8">
+        <div class="text-gold-deep text-sm mb-3">★★★★★</div>
+        <blockquote class="text-ink/80 leading-relaxed">“En una semana ya tenía 3 anuncios listos. Cancelé Higgsfield. Esto se paga solo.”</blockquote>
+        <figcaption class="flex items-center gap-3 mt-5 text-sm"><span class="w-9 h-9 rounded-full bg-brand text-white text-xs font-bold grid place-items-center">MR</span><span><span class="font-semibold block">Marta R.</span><span class="text-ink/55 text-xs">E-commerce de moda</span></span></figcaption>
+      </figure>
+      <figure class="reveal bg-paper rounded-2xl p-6 border border-ink/8">
+        <div class="text-gold-deep text-sm mb-3">★★★★★</div>
+        <blockquote class="text-ink/80 leading-relaxed">“Cero conocimientos técnicos y monté mi primer reel para mi negocio el mismo día. El método es oro.”</blockquote>
+        <figcaption class="flex items-center gap-3 mt-5 text-sm"><span class="w-9 h-9 rounded-full bg-brand text-white text-xs font-bold grid place-items-center">DG</span><span><span class="font-semibold block">Dani G.</span><span class="text-ink/55 text-xs">Creador de contenido</span></span></figcaption>
+      </figure>
+      <figure class="reveal bg-paper rounded-2xl p-6 border border-ink/8">
+        <div class="text-gold-deep text-sm mb-3">★★★★★</div>
+        <blockquote class="text-ink/80 leading-relaxed">“Llevaba meses pagando suscripciones que no usaba. Esto es pago único y vale x10 lo que cuesta. Además, lo van actualizando.”</blockquote>
+        <figcaption class="flex items-center gap-3 mt-5 text-sm"><span class="w-9 h-9 rounded-full bg-brand text-white text-xs font-bold grid place-items-center">LM</span><span><span class="font-semibold block">Lucía M.</span><span class="text-ink/55 text-xs">Agencia de marketing</span></span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 13.2 · CERTIFICADO ░░ -->
+<section class="max-w-6xl mx-auto px-5 py-20 md:py-28 grid md:grid-cols-[1fr_.9fr] gap-12 items-center">
+  <div class="reveal">
+    <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">Certificado oficial</span>
+    <h2 class="font-display font-extrabold text-[clamp(1.9rem,4.2vw,2.9rem)] leading-[1.05] mt-3">Certifica que sabes usar IA</h2>
+    <div class="lede mt-6 text-ink/70">
+      <p>La IA ya no es “algo extra”. Cada vez más marcas y clientes buscan perfiles que sepan crear más rápido y usar herramientas de IA sin perderse.</p>
+      <p>Muchos dicen “ya lo aprenderé”. Otros ya lo usan para destacar, trabajar mejor y <span class="text-ink font-semibold">cobrar más.</span></p>
+    </div>
+    <p class="mt-5 text-ink/65 leading-relaxed">Al completar AI Mastery consigues tu <span class="text-brand font-semibold">certificado de finalización</span> y demuestras que te has formado en creación de contenido con IA, herramientas actuales y flujos de trabajo reales.</p>
+  </div>
+  <!-- CSS certificate -->
+  <div class="reveal">
+    <div class="relative bg-white rounded-2xl border border-ink/10 card-glow p-7 md:p-9 rotate-[-1.5deg] hover:rotate-0 transition-transform duration-500">
+      <div class="absolute inset-3 rounded-xl border border-brand/15 pointer-events-none"></div>
+      <div class="flex items-center justify-between">
+        <span class="font-display font-extrabold tracking-tight">AI<span class="text-brand">Mastery</span></span>
+        <span class="text-[10px] uppercase tracking-widest text-ink/40">Certificado</span>
+      </div>
+      <p class="mt-8 text-xs uppercase tracking-widest text-ink/45">Se certifica que</p>
+      <p class="font-hand text-brand text-4xl mt-1">Tu Nombre</p>
+      <div class="h-px bg-ink/10 my-4"></div>
+      <p class="text-[13px] text-ink/60 leading-relaxed">ha completado la formación <span class="font-semibold text-ink">Máster en IA Creativa</span>, dominando creación de vídeo, imagen y avatares con inteligencia artificial.</p>
+      <div class="flex items-end justify-between mt-8">
+        <div><div class="font-hand text-2xl text-ink">Diego Arroyo</div><div class="text-[10px] text-ink/40 uppercase tracking-wider">Fundador · Creator Club</div></div>
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-gold to-gold-deep grid place-items-center text-ink font-display font-extrabold text-[10px] text-center leading-none rotate-6">AI<br>2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 14 · QUIÉN ESTÁ DETRÁS ░░ -->
+<section class="bg-white border-y border-ink/10">
+  <div class="max-w-5xl mx-auto px-5 py-20 md:py-28">
+    <div class="reveal grid md:grid-cols-[1fr_1.2fr] gap-8 md:gap-12 items-center bg-paper rounded-3xl p-6 md:p-10 card-glow">
+      <div class="relative rounded-2xl overflow-hidden aspect-[4/5] bg-ink ring-1 ring-ink/5">
+        <video class="vid" src="assets/founder-loop.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/40 rounded-full px-3 py-1 backdrop-blur">Creado con IA</span>
+      </div>
+      <div>
+        <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">Quién está detrás</span>
+        <h2 class="font-display font-extrabold text-[clamp(1.8rem,4vw,2.6rem)] leading-[1.06] mt-3">No es teoría. Es lo que hago cada día.</h2>
+        <p class="mt-5 text-ink/70 leading-relaxed">Soy <span class="font-semibold text-ink">Diego Arroyo</span>, emprendedor digital especializado en creación de contenido con más de 8 años de experiencia y fundador de <span class="font-semibold text-ink">NXTGEN Agency</span>. He generado decenas de millones de visitas trabajando con referentes y he formado a más de 10.000 alumnos.</p>
+        <p class="mt-4 text-ink/70 leading-relaxed">Lo he condensado todo en una formación con la que ya he ayudado a <span class="font-semibold text-ink">+1.500 personas</span> a dominar la IA desde cero.</p>
+        <p class="font-hand text-brand text-[1.7rem] leading-none mt-5">— paso a paso, sin humo, y se sigue actualizando contigo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 15 · ENTRADA 07 — Precios ░░ -->
+<section id="precio" class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+  <div class="text-center max-w-2xl mx-auto reveal">
+    <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">07 — Elige cómo empezar</span>
+    <h2 class="font-display font-extrabold text-[clamp(2rem,4.6vw,3.2rem)] leading-[1.04] mt-4">Elige cómo quieres empezar.</h2>
+    <p class="mt-4 text-lg text-ink/65">Pago único. Sin letra pequeña. Lo que ves es lo que pagas, una vez, para siempre.</p>
+  </div>
+
+  <div class="max-w-xl mx-auto mt-12 reveal">
+    <div class="relative bg-ink text-white rounded-[1.75rem] p-8 md:p-10 cta-glow grain overflow-hidden">
+      <div class="mesh absolute inset-0 opacity-30"></div>
+      <div class="relative">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-sm font-semibold text-gold uppercase tracking-wider">AI Mastery — Completo</div>
+            <div class="mt-3 flex items-end gap-3">
+              <div class="font-display font-extrabold text-6xl">47$</div>
+              <div class="text-white/35 line-through text-2xl mb-2">497$</div>
+            </div>
+            <p class="text-sm text-white/55 mt-1">Pago único · acceso de por vida · sin mensualidades.</p>
+          </div>
+          <span class="hidden sm:grid place-items-center w-16 h-16 rounded-full bg-gold text-ink font-display font-extrabold text-xs text-center leading-tight rotate-6">-90%</span>
+        </div>
+
+        <ul class="mt-7 space-y-3 text-[15px] text-white/85">
+          <li class="flex gap-2.5"><span class="text-gold">✓</span> Acceso de por vida al Máster en IA Creativa (+30 clases, 9 módulos)</li>
+          <li class="flex gap-2.5"><span class="text-gold">✓</span> Todos los formatos: vídeo cinematográfico, imágenes, avatares, producto</li>
+          <li class="flex gap-2.5"><span class="text-gold">✓</span> Espacio de grabación + avatares realistas <span class="text-gold/80">(nuevo 2026)</span></li>
+          <li class="flex gap-2.5"><span class="text-gold">✓</span> Bonus: web con IA + guion viral</li>
+          <li class="flex gap-2.5"><span class="text-gold">✓</span> Comunidad privada de alumnos + certificado AI Mastery</li>
+          <li class="flex gap-2.5"><span class="text-gold">✓</span> Todos los recursos y prompts + actualizaciones de por vida</li>
+        </ul>
+
+        <a href="#" class="mt-8 block text-center font-semibold py-4 rounded-full bg-gold text-ink hover:bg-white transition-colors">Lo quiero todo, 47$ →</a>
+        <p class="text-center text-xs text-white/45 mt-3">🔒 Garantía 30 días · reembolso total</p>
+        <p class="text-center text-sm text-white/70 mt-5 border-t border-white/10 pt-5">Lo que cuesta <span class="text-gold font-semibold">UN mes</span> de una sola suscripción de IA — y es tuyo para siempre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 16 · ENTRADA 08 — Garantía ░░ -->
+<section class="max-w-4xl mx-auto px-5 pb-20">
+  <div class="reveal bg-gradient-to-br from-brand to-brand-bright rounded-3xl p-10 md:p-14 text-white text-center relative overflow-hidden grain">
+    <div class="inline-flex flex-col items-center justify-center w-24 h-24 rounded-full bg-white/15 border border-white/30 font-display font-extrabold leading-none mb-6"><span class="text-3xl">30</span><span class="text-xs mt-1 font-sans font-semibold tracking-wide">DÍAS</span></div>
+    <h2 class="font-display font-extrabold text-[clamp(1.7rem,3.6vw,2.5rem)] leading-tight">Pruébalo sin miedo durante 30 días</h2>
+    <p class="mt-4 text-white/85 max-w-xl mx-auto text-lg leading-relaxed">Entra, revisa las clases, mira los recursos y comprueba si encaja contigo. Si ves que no es para ti, nos escribes y te devolvemos el <span class="font-semibold">100% del dinero.</span></p>
+    <p class="mt-3 text-white/70">Pagas una vez, accedes de por vida y solo te quedas si realmente ves valor.</p>
+  </div>
+</section>
+
+<!-- ░░ 17 · ENTRADA 09 — FAQ ░░ -->
+<section id="faq" class="max-w-3xl mx-auto px-5 pb-24">
+  <div class="text-center reveal mb-10">
+    <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">09 — Antes de entrar</span>
+    <h2 class="font-display font-extrabold text-[clamp(1.8rem,4vw,2.6rem)] mt-3">Lo que todos preguntan</h2>
+  </div>
+  <div class="space-y-3">
+    <details class="reveal bg-white rounded-2xl border border-ink/10 px-6 py-5 group" open>
+      <summary class="flex justify-between items-center gap-4 cursor-pointer font-semibold">¿Es una suscripción o pago único? <span class="faq-ic text-brand text-xl transition-transform shrink-0">+</span></summary>
+      <p class="mt-3 text-ink/65 leading-relaxed">Es pago único, con acceso de por vida a toda la formación. Sin suscripciones molestas ni acceso limitado.</p>
+    </details>
+    <details class="reveal bg-white rounded-2xl border border-ink/10 px-6 py-5 group">
+      <summary class="flex justify-between items-center gap-4 cursor-pointer font-semibold">Una vez realizado el pago, ¿cómo accedo? <span class="faq-ic text-brand text-xl transition-transform shrink-0">+</span></summary>
+      <p class="mt-3 text-ink/65 leading-relaxed">El acceso a la plataforma te llega a tu email al terminar el pago (asegúrate de escribirlo bien). Puede tardar unos minutos en procesarse.</p>
+    </details>
+    <details class="reveal bg-white rounded-2xl border border-ink/10 px-6 py-5 group">
+      <summary class="flex justify-between items-center gap-4 cursor-pointer font-semibold">¿Me sirve si no sé nada sobre IA? <span class="faq-ic text-brand text-xl transition-transform shrink-0">+</span></summary>
+      <p class="mt-3 text-ink/65 leading-relaxed">Sí. La formación comienza desde cero, no necesitas conocimientos previos.</p>
+    </details>
+    <details class="reveal bg-white rounded-2xl border border-ink/10 px-6 py-5 group">
+      <summary class="flex justify-between items-center gap-4 cursor-pointer font-semibold">¿Debo pagar suscripciones de IA? <span class="faq-ic text-brand text-xl transition-transform shrink-0">+</span></summary>
+      <p class="mt-3 text-ink/65 leading-relaxed">No es necesario. Enseñamos a usar los mejores modelos directamente: de pago por uso (céntimos) e incluso 100% gratis, sin suscripciones requeridas.</p>
+    </details>
+    <details class="reveal bg-white rounded-2xl border border-ink/10 px-6 py-5 group">
+      <summary class="flex justify-between items-center gap-4 cursor-pointer font-semibold">Ya estoy en una plataforma como Higgsfield, ¿me sirve? <span class="faq-ic text-brand text-xl transition-transform shrink-0">+</span></summary>
+      <p class="mt-3 text-ink/65 leading-relaxed">Sí. Si ya tienes una suscripción y no quieres cancelarla, puedes aplicar todas las técnicas también en Higgsfield, Freepik y demás. Enseñamos los modelos de última generación que están dentro de ellas.</p>
+    </details>
+    <details class="reveal bg-white rounded-2xl border border-ink/10 px-6 py-5 group">
+      <summary class="flex justify-between items-center gap-4 cursor-pointer font-semibold">¿Incluye actualizaciones y certificado? <span class="faq-ic text-brand text-xl transition-transform shrink-0">+</span></summary>
+      <p class="mt-3 text-ink/65 leading-relaxed">Sí a ambos. La IA mejora cada pocos meses y tendrás siempre la info actualizada dentro de AI Mastery, sin más costes. Y al completar la formación obtienes tu certificado de IA.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ░░ 18 · ENTRADA 10 — Cierre ░░ -->
+<section class="bg-ink text-white grain relative overflow-hidden">
+  <div class="mesh absolute inset-0 opacity-40"></div>
+  <div class="max-w-3xl mx-auto px-5 py-24 text-center relative">
+    <span class="text-xs font-bold tracking-[0.2em] text-gold uppercase reveal">10 — El cierre</span>
+    <h2 class="font-display font-extrabold text-[clamp(2.2rem,5.5vw,3.8rem)] leading-[1.01] mt-4 reveal">La IA no va<br>a esperarte.</h2>
+    <p class="mt-6 text-white/70 text-lg max-w-xl mx-auto reveal leading-relaxed">Mientras unos siguen dejando pasar el momento, otros ya producen más rápido, prueban más ideas y se diferencian. Este mundo cambia cada semana — tú te mantienes al día, sin coste extra, de por vida.</p>
+    <p class="font-hand text-gold text-3xl mt-6 reveal">Ahora te toca a ti.</p>
+    <a href="#precio" class="reveal cta-glow inline-block mt-8 bg-gold text-ink font-semibold px-9 py-4 rounded-full hover:bg-white transition">Entrar en AI Mastery →</a>
+    <p class="mt-5 text-sm text-white/40 reveal">pago único · acceso de por vida · garantía 30 días</p>
+  </div>
+</section>
+
+<!-- ░░ 19 · FOOTER ░░ -->
+<footer class="bg-ink text-white/50 border-t border-white/10">
+  <div class="max-w-6xl mx-auto px-5 py-10 flex flex-wrap justify-between items-center gap-4 text-sm">
+    <div class="font-display font-extrabold text-white text-lg">AI<span class="text-brand-bright">Mastery</span> <span class="text-white/30 font-sans font-normal text-xs">· by Diego NXT — Creator Club</span></div>
+    <div class="flex gap-5"><a href="#" class="hover:text-white">Privacidad</a><a href="#" class="hover:text-white">Términos</a><a href="#" class="hover:text-white">Aviso legal</a><a href="#" class="hover:text-white">Contacto</a></div>
+    <div class="text-xs w-full sm:w-auto text-center sm:text-right">© 2026 Creator Club · pago único, sin mensualidades</div>
+  </div>
+</footer>
+
+<!-- ░░ STICKY MOBILE CTA ░░ -->
+<div class="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-t border-ink/10 px-4 py-3 flex items-center justify-between">
+  <div><div class="font-display font-extrabold text-lg leading-none">47$ <span class="text-ink/40 line-through text-sm font-sans">497$</span></div><div class="text-[11px] text-ink/55">pago único, de por vida</div></div>
+  <a href="#precio" class="bg-brand text-white font-semibold px-5 py-2.5 rounded-full text-sm">Acceder →</a>
+</div>
+
+<script>
+  const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const hdr = document.getElementById('hdr');
+  addEventListener('scroll', () => { const s = scrollY > 10; hdr.classList.toggle('shadow-sm', s); hdr.classList.toggle('border-ink/10', s); }, { passive: true });
+
+  const cio = new IntersectionObserver((es) => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.target;
+    let n = 0; const step = Math.max(1, Math.ceil(target / 40));
+    const t = setInterval(() => { n += step; if (n >= target) { n = target; clearInterval(t); } el.textContent = n; }, 25);
+    cio.unobserve(el);
+  }), { threshold: 0.6 });
+  document.querySelectorAll('.count').forEach(el => cio.observe(el));
+</script>
+</body>
+</html>
