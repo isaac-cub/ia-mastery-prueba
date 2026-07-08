@@ -1,0 +1,8 @@
+---
+import { sanityClient } from 'sanity:client';
+import Landing from '../components/Landing.astro';
+// Ruta SOLO para el Studio (Presentation): stega + overlays de clic-en-texto.
+// No enlazada públicamente; el público usa /.
+const h = await sanityClient.fetch(`*[_type == "home"][0]`, {}, { stega: true });
+---
+<Landing h={h} preview />
