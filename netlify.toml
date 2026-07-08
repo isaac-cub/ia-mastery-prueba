@@ -5,7 +5,7 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# TinaCMS admin SPA
+# Sanity Studio SPA (embebido en /admin)
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"

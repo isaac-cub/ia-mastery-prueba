@@ -6,19 +6,28 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "tinacms dev -c \"astro dev --port 4321\"",
-    "dev:astro": "astro dev",
-    "build": "NODE_OPTIONS=--max-old-space-size=4096 tinacms build && astro build",
-    "build:local": "tinacms build --skip-cloud-checks && astro build",
+    "dev": "astro dev --port 4321",
+    "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "import": "node scripts/import-home.mjs"
   },
   "dependencies": {
-    "@tinacms/astro": "0.5.1",
-    "@tinacms/cli": "^2.5.1",
+    "@astrojs/react": "^6.0.1",
+    "@sanity/astro": "^3.4.2",
+    "@sanity/client": "^7.23.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "astro": "^6.4.8",
-    "tinacms": "^3.9.3"
+    "react": "^19.2.2",
+    "react-dom": "^19.2.2",
+    "react-is": "^19.2.2",
+    "sanity": "^6.4.0",
+    "styled-components": "^6.1.19"
+  },
+  "allowScripts": {
+    "esbuild@0.27.7": true,
+    "esbuild@0.28.1": true,
+    "sharp@0.34.5": true
   }
 }

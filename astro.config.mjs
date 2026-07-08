@@ -1,14 +1,20 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import tina from '@tinacms/astro/integration';
-import { tinaAdminDevRedirect } from '@tinacms/astro/vite';
+import sanity from '@sanity/astro';
+import react from '@astrojs/react';
 
-// Static landing page. TinaCMS edits src/content/home.json via /admin,
-// commits to Git, Netlify rebuilds.
+// Landing estática. El contenido vive en Sanity (dataset público `production`),
+// se lee en build time vía `sanity:client`. El Studio se sirve embebido en /admin.
 export default defineConfig({
   site: 'https://ia-mastery.netlify.app',
-  integrations: [tina()],
-  vite: {
-    plugins: [tinaAdminDevRedirect()],
-  },
+  integrations: [
+    sanity({
+      projectId: 'qqzhyit9',
+      dataset: 'production',
+      apiVersion: '2024-01-01',
+      useCdn: false,
+      studioBasePath: '/admin',
+    }),
+    react(),
+  ],
 });

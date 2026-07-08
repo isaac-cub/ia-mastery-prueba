@@ -1,6 +1,6 @@
 ---
-import home from '../content/home.json';
-const h = home;
+import { sanityClient } from 'sanity:client';
+const h = await sanityClient.fetch(`*[_type == "home"][0]`);
 ---
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
