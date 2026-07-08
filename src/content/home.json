@@ -1,0 +1,285 @@
+{
+  "seoTitle": "AI Mastery — Deja que la IA haga tu contenido viral por ti",
+  "seoDescription": "Aprende a crear vídeos e imágenes con IA que paran el scroll y venden. Sin conocimientos técnicos y sin pagar suscripciones cada mes. Pago único, acceso de por vida.",
+  "announcement": "Un solo pago, acceso de por vida",
+  "nav": [
+    { "label": "El programa", "href": "#programa" },
+    { "label": "Resultados", "href": "#resultados" },
+    { "label": "Precio", "href": "#precio" },
+    { "label": "FAQ", "href": "#faq" }
+  ],
+  "headerCta": { "label": "Quiero acceso →", "href": "#precio" },
+  "hero": {
+    "badge": "El método completo, sin suscripciones",
+    "h1Line1": "Deja que la IA haga tu",
+    "h1Highlight": "contenido viral",
+    "h1Line3": "por ti.",
+    "lead": "Sin conocimientos técnicos. Sin pagar 5 suscripciones de IA cada mes. Aprende a crear vídeos e imágenes que <span class=\"text-ink font-semibold\">paran el scroll y venden</span> — en cuestión de minutos.",
+    "ctaPrimary": { "label": "Acceder ahora · 47$ →", "href": "#precio" },
+    "ctaSecondary": { "label": "Ver qué incluye", "href": "#programa" },
+    "avatars": ["/assets/t-jj.jpeg", "/assets/t-raul.jpeg", "/assets/person-1.webp"],
+    "socialProofCount": "+1.500 creadores",
+    "socialProofText": "ya crean sin suscripciones",
+    "videoEmbed": "https://player.mediadelivery.net/embed/569695/095b3edc-6824-4e84-ac17-419e7b763e56?autoplay=false&loop=false&muted=false&preload=true&responsive=true&playsinline=true",
+    "chipPrice": "0$",
+    "chipPriceUnit": "/mes",
+    "chipNote": "en suscripciones",
+    "handNote": "¡sin tarjeta de crédito!"
+  },
+  "marquee": {
+    "tools": ["Higgsfield", "Heygen", "Freepik", "Runway", "Midjourney"],
+    "phrases": ["UN SOLO PAGO", "SIN MENSUALIDADES", "PARA SIEMPRE"],
+    "forLabel": "Crea para",
+    "platforms": ["TikTok", "Instagram", "Reels", "YouTube Shorts", "Anuncios", "E-commerce"]
+  },
+  "entry01": {
+    "eyebrow": "Empecemos por la verdad",
+    "heading": "No necesitas pagar 5 <span class=\"text-brand\">suscripciones</span> de IA.",
+    "para1": "Cada semana aparece una herramienta nueva prometiendo ser “la definitiva”.",
+    "listTools": "Una para crear avatares.<br>Otra para generar vídeos.<br>Otra para hacer imágenes de producto.<br>Otra para voces.<br>Otra para anuncios.",
+    "para2": "¿El resultado? Acabas regalando <span class=\"text-ink font-semibold\">30, 40 o 50 dólares al mes</span> a plataformas que apenas sabes sacar provecho.",
+    "cons": [
+      "Si un mes no las utilizas: <span class=\"font-semibold text-ink\">te cobran igual.</span>",
+      "Si las dejas de pagar: <span class=\"font-semibold text-ink\">pierdes el acceso a tu trabajo.</span>"
+    ],
+    "para3": "Y luego aparecen las herramientas técnicas que prometen solucionar esto. Pero tienes que saber de código, y te acaba superando.",
+    "question": "¿De verdad hace falta pasar por todo esto para crear contenido con IA que venda?",
+    "handNote": "Spoiler: no. Ni de lejos."
+  },
+  "entry02": {
+    "eyebrow": "Lo que lo cambió todo",
+    "heading": "El sistema es más simple de lo que parece.",
+    "para1": "Para crear contenido con IA no necesitas pagar una suscripción distinta para cada cosa. Puedes trabajar con herramientas de <span class=\"text-ink font-semibold\">pago por uso</span>: generas lo que necesitas y solo pagas cuando realmente creas algo.",
+    "para2": "Si un mes no produces, no pagas. Y muchas veces hablamos de <span class=\"text-brand font-semibold\">céntimos por imagen</span> o <span class=\"text-brand font-semibold\">menos de 1 dólar por vídeo entero.</span>",
+    "para3": "Pero ahorrar dinero es solo una parte. La diferencia real está en <span class=\"text-ink font-semibold\">saber qué crear.</span>",
+    "cardALabel": "Una persona",
+    "cardAText": "Crea una imagen genérica. La misma de siempre.",
+    "cardBLabel": "La otra",
+    "cardBText": "Crea una pieza que parece de marca, sirve para un anuncio, mejora una web o se convierte en contenido que <span class=\"font-semibold\">sí genera ventas.</span>",
+    "para4": "<span class=\"text-ink font-semibold\">La herramienta puede ser la misma.</span> Lo que cambia es cómo la usas.",
+    "handNote": "Eso es lo que aprendes dentro de AI Mastery"
+  },
+  "entry03": {
+    "eyebrow": "Los números",
+    "heading": "Los números que no te vas a creer.",
+    "beforeLabel": "Antes",
+    "beforeValue": "40-50",
+    "beforeUnit": "USD/mes",
+    "beforeText": "Todos los meses, aunque no la utilices. Y si se te acaban los créditos… a pagar más.",
+    "afterBadge": "PARA SIEMPRE",
+    "afterLabel": "Ahora",
+    "afterValue": "0",
+    "afterUnit": "USD/mes",
+    "afterText": "Imágenes por céntimos. Vídeos completos por <span class=\"text-white font-semibold\">menos de 1 dólar.</span>",
+    "closer": "Mientras otros pagan decenas cada mes para hacer cuatro vídeos, tú los haces por <span class=\"font-hand text-gold text-[1.9rem] inline-block leading-none px-1\">menos de lo que cuesta un café.</span> Esa es toda la diferencia."
+  },
+  "programa": {
+    "eyebrow": "El programa",
+    "heading": "Lo que antes necesitaba cámara, estudio o actor… <span class=\"text-brand\">ahora lo creas con IA.</span>",
+    "lead": "Aprenderás el proceso entero de creación, aunque empieces desde cero. Desde la idea, a los prompts para copiar y pegar, la mejor IA para cada uso y la generación.",
+    "cards": [
+      { "media": "/assets/fmt-cinema.mp4", "type": "video", "badge": "", "title": "Vídeo cinematográfico", "text": "Escenas con calidad de cine: iluminación, cámara y dirección. Sin cámaras, sin focos, sin rodaje." },
+      { "media": "/assets/fmt-vfx.mp4", "type": "video", "badge": "Modo Hollywood", "title": "Efectos especiales", "text": "Explosiones, fuego realista y transiciones imposibles que hacen tu contenido adictivo." },
+      { "media": "/assets/fmt-images.mp4", "type": "video", "badge": "", "title": "Imágenes para contenido", "text": "Listas para Instagram, banners o anuncios. Por céntimos." },
+      { "media": "/assets/fmt-avatar.mp4", "type": "video", "badge": "", "title": "Avatares realistas", "text": "Conviértete en quien quieras y crea vídeos y anuncios que convierten, sin gastar en actores.", "cornerTag": "NUEVO" },
+      { "media": "/assets/thumb-1.png", "type": "image", "badge": "Thumbnails", "title": "Miniaturas con IA", "text": "Miniaturas tuyas con cualquier estilo, ropa o escenario que disparan las visitas. Sin diseñadores." },
+      { "media": "/assets/fmt-product.mp4", "type": "video", "badge": "E-commerce", "title": "Foto y vídeo de producto", "text": "Calidad de catálogo en segundos. Tu producto en cualquier escenario, con luz perfecta." }
+    ],
+    "highlight": {
+      "badge": "NUEVO",
+      "title": "Avatares clonados",
+      "text": "Clónate a ti mismo y genera contenido sin volver a grabar nunca más. Tu cara, tu voz, en piloto automático.",
+      "media": "/assets/fmt-clone.mp4"
+    }
+  },
+  "class01": {
+    "eyebrow": "Nueva clase 2026",
+    "badge": "¡Nueva clase!",
+    "heading": "Transforma tu espacio de grabación",
+    "lead": "Grábate donde quieras y haz que parezca un set profesional.",
+    "body": "Con IA cambias el ambiente de tus vídeos: conviertes un fondo normal en una habitación elegante, un estudio moderno o un entorno premium — sin depender de tener el espacio perfecto.",
+    "media": "/assets/new-space.mp4",
+    "bullets": [
+      "Transforma fondos normales en espacios profesionales.",
+      "Mejora la estética de tus vídeos aunque grabes desde casa.",
+      "Aumenta la percepción de autoridad y calidad visual.",
+      "Evita gastar en estudios, decoración o setups complejos."
+    ]
+  },
+  "class02": {
+    "eyebrow": "Nueva clase 2026",
+    "badge": "¡Nueva clase!",
+    "heading": "Crea avatares realistas",
+    "lead": "Tus gestos y expresiones, convertidos en un avatar IA.",
+    "body": "Convierte tus movimientos y expresiones en avatares IA para crear anuncios, vídeos UGC y promociones — sin depender de actores ni de grabaciones caras.",
+    "media": "/assets/new-avatars.mp4",
+    "bullets": [
+      "Crea distintos personajes para promocionar productos o servicios.",
+      "Produce contenido estilo UGC sin contratar actores.",
+      "Adapta el aspecto del avatar según tu nicho.",
+      "Perfecto para anuncios, creatividades y vídeos comerciales."
+    ]
+  },
+  "metrics": [
+    { "value": "x100", "text": "más rápido que grabar y editar a mano." },
+    { "value": "0€", "text": "en fotógrafos o estudios: miniaturas, retratos y producto." },
+    { "value": "Hollywood", "text": "efectos y transiciones imposibles de ignorar." },
+    { "value": "+ Ventas", "text": "imágenes y vídeos que convierten miradas en compras." }
+  ],
+  "included": {
+    "heading": "Pago único, ",
+    "headingHighlight": "acceso de por vida.",
+    "lead": "Todo lo que necesitas para dominar la creación con IA. Un pago, y es tuyo para siempre.",
+    "items": [
+      "Acceso de por vida al Máster en IA Creativa.",
+      "+30 clases prácticas y al grano <span class=\"text-ink/45\">(9 módulos)</span>.",
+      "Todos los recursos y prompts incluidos para practicar.",
+      "Avatares, vídeo cinematográfico, imágenes y producto.",
+      "<b>Bonus 1:</b> crea tu web con IA en minutos.",
+      "<b>Bonus 2:</b> guionizado viral (hooks y CTAs que funcionan).",
+      "Comunidad privada de alumnos para resolver dudas.",
+      "Actualizaciones futuras gratis, para siempre.",
+      "Certificado AI Mastery al completar la formación."
+    ],
+    "highlightItem": "Pago único, sin suscripciones ni costes ocultos.",
+    "cta": { "label": "Quiero todo esto · 47$ →", "href": "#precio" },
+    "ctaNote": "Pago único · acceso de por vida · garantía 7 días"
+  },
+  "philosophy": {
+    "headingA": "La IA ejecuta.",
+    "headingB": "Tú diriges.",
+    "para1": "No te voy a vender magia. No vas a crear un anuncio brutal con un prompt cualquiera.",
+    "para2": "Pero cuando sabes qué herramienta usar, cómo construir la idea, cómo generar la pieza y cómo terminarla con edición, puedes crear contenido que antes requería cámaras, diseñadores, actores o muchas horas de trabajo.",
+    "para3": "En AI Mastery aprendes el proceso completo. La IA hace el trabajo pesado. Tú aprendes a controlar el resultado."
+  },
+  "notIs": {
+    "eyebrow": "Lo que NO es",
+    "heading": "Lo que AI Mastery <span class=\"text-brand\">NO</span> es",
+    "cards": [
+      { "title": "No es un software ni una suscripción.", "text": "Es una formación completa. Pagas una vez y es tuya de por vida, con actualizaciones incluidas sin coste adicional." },
+      { "title": "No es nada técnico.", "text": "Nada de código ni de instalar cosas complicadas. Si sabes usar un móvil, puedes seguirlo. Cero curva técnica." },
+      { "title": "No es IA falsa.", "text": "Nada de caras demasiado perfectas ni textos distorsionados. Lo que vas a crear funciona y convierte a ventas." },
+      { "title": "No es magia con un clic.", "text": "No es un botón mágico. Dominarás la IA para crear contenido que vende, no por suerte, sino con conocimiento." }
+    ],
+    "isText": "<span class=\"text-gold font-semibold\">Lo que SÍ es:</span> el proceso completo, paso a paso, para crear contenido profesional con IA sin pagar una sola mensualidad."
+  },
+  "testimonials": {
+    "eyebrow": "DMs reales",
+    "heading": "+1.500 personas ya crean sin depender de suscripciones.",
+    "screenshots": [
+      { "src": "/assets/t-diego.jpeg", "alt": "Testimonio real de un alumno por WhatsApp" },
+      { "src": "/assets/t-raul.jpeg", "alt": "Testimonio de Raúl (Papi Marketing)" },
+      { "src": "/assets/t-metrics.jpg", "alt": "Métricas reales de un alumno: 231.151 visualizaciones" },
+      { "src": "/assets/t-jj.jpeg", "alt": "Comentario real en Instagram" },
+      { "src": "/assets/t-kinzen.jpeg", "alt": "Testimonio de Kinzen por WhatsApp" }
+    ],
+    "sliderNote": "desliza para ver más DMs reales",
+    "quotes": [
+      { "quote": "En una semana ya tenía 3 anuncios listos. Cancelé Higgsfield. Esto se paga solo.", "initials": "MR", "name": "Marta R.", "role": "E-commerce de moda" },
+      { "quote": "Cero conocimientos técnicos y monté mi primer reel para mi negocio el mismo día. El método es oro.", "initials": "DG", "name": "Dani G.", "role": "Creador de contenido" },
+      { "quote": "Llevaba meses pagando suscripciones que no usaba. Esto es pago único y vale x10 lo que cuesta. Además, lo van actualizando.", "initials": "LM", "name": "Lucía M.", "role": "Agencia de marketing" }
+    ],
+    "cta": { "label": "Únete a los +1.500 · 47$ →", "href": "#precio" }
+  },
+  "certificate": {
+    "eyebrow": "Certificado oficial",
+    "heading": "Certifica que sabes usar IA",
+    "para1": "La IA ya no es “algo extra”. Cada vez más marcas y clientes buscan perfiles que sepan crear más rápido y usar herramientas de IA sin perderse.",
+    "para2": "Muchos dicen “ya lo aprenderé”. Otros ya lo usan para destacar, trabajar mejor y <span class=\"text-ink font-semibold\">cobrar más.</span>",
+    "para3": "Al completar AI Mastery consigues tu <span class=\"text-brand font-semibold\">certificado de finalización</span> y demuestras que te has formado en creación de contenido con IA, herramientas actuales y flujos de trabajo reales.",
+    "cardBody": "ha completado la formación <span class=\"font-semibold text-ink\">Máster en IA Creativa</span>, dominando creación de vídeo, imagen y avatares con inteligencia artificial.",
+    "founderName": "Diego Arroyo",
+    "founderRole": "Fundador · AI Mastery"
+  },
+  "founder": {
+    "eyebrow": "Quién está detrás",
+    "heading": "No es teoría. Es lo que hago cada día.",
+    "image": "/assets/founder.jpg",
+    "imageAlt": "Diego Arroyo, fundador de AI Mastery",
+    "para1": "Soy <span class=\"font-semibold text-ink\">Diego Arroyo</span>, emprendedor digital especializado en creación de contenido con más de 8 años de experiencia y fundador de <span class=\"font-semibold text-ink\">NXTGEN Agency</span>. He generado decenas de millones de visitas trabajando con referentes y he formado a más de 10.000 alumnos.",
+    "para2": "Lo he condensado todo en una formación con la que ya he ayudado a <span class=\"font-semibold text-ink\">+1.500 personas</span> a dominar la IA desde cero.",
+    "handNote": "— paso a paso, sin humo, y se sigue actualizando contigo."
+  },
+  "pricing": {
+    "eyebrow": "Tu acceso",
+    "heading": "Venga, ",
+    "headingHighlight": "empieza hoy.",
+    "lead": "Un solo plan. Un solo pago. Todo lo que necesitas para crear con IA, tuyo para siempre.",
+    "includesTitle": "Todo lo que te llevas",
+    "includes": [
+      "Acceso de por vida al Máster en IA Creativa <span class=\"text-ink/45\">(+30 clases · 9 módulos)</span>",
+      "Vídeo cinematográfico, imágenes, avatares y foto/vídeo de producto",
+      "Nuevas clases 2026: espacio de grabación + avatares realistas",
+      "Todos los recursos y prompts listos para copiar y pegar",
+      "Comunidad privada de alumnos + certificado AI Mastery",
+      "Actualizaciones futuras gratis, para siempre"
+    ],
+    "bonusTitle": "Bonus incluidos",
+    "bonuses": [
+      "<b>Bonus 1</b> · Crea tu web con IA en minutos",
+      "<b>Bonus 2</b> · Guionizado viral: hooks y CTAs que funcionan"
+    ],
+    "totalValueLabel": "Valor total de todo lo que incluye",
+    "totalValue": "+497$",
+    "boxImage": "/assets/laptop.webp",
+    "boxImageAlt": "Plataforma AI Mastery — acceso a las clases",
+    "boxTitle": "AI Mastery — Acceso completo",
+    "discountBadge": "-90%",
+    "anchorLabel": "Valor real",
+    "anchorPrice": "497$",
+    "price": "47$",
+    "priceNote": "pago único<br>para siempre",
+    "priceSub": "Sin mensualidades. Sin letra pequeña. Lo que ves es lo que pagas, una vez.",
+    "cta": { "label": "Quiero mi acceso ahora →", "href": "#" },
+    "guaranteeNote": "🔒 Garantía 7 días · reembolso total",
+    "boxBullets": [
+      "Acceso inmediato por email",
+      "+30 clases + recursos + bonus",
+      "Actualizaciones de por vida"
+    ],
+    "boxFooter": "Menos de lo que cuesta <span class=\"text-gold font-semibold\">UN mes</span> de una sola suscripción de IA."
+  },
+  "guarantee": {
+    "days": "7",
+    "daysLabel": "DÍAS",
+    "heading": "Pruébalo sin miedo durante 7 días",
+    "para1": "Entra, revisa las clases, mira los recursos y comprueba si encaja contigo. Si ves que no es para ti, nos escribes y te devolvemos el <span class=\"font-semibold\">100% del dinero.</span>",
+    "para2": "Pagas una vez, accedes de por vida y solo te quedas si realmente ves valor."
+  },
+  "faq": {
+    "eyebrow": "Antes de entrar",
+    "heading": "Lo que todos preguntan",
+    "items": [
+      { "q": "¿Es una suscripción o pago único?", "a": "Es pago único, con acceso de por vida a toda la formación. Sin suscripciones molestas ni acceso limitado." },
+      { "q": "Una vez realizado el pago, ¿cómo accedo?", "a": "El acceso a la plataforma te llega a tu email al terminar el pago (asegúrate de escribirlo bien). Puede tardar unos minutos en procesarse." },
+      { "q": "¿Me sirve si no sé nada sobre IA?", "a": "Sí. La formación comienza desde cero, no necesitas conocimientos previos." },
+      { "q": "¿Debo pagar suscripciones de IA?", "a": "No es necesario. Enseñamos a usar los mejores modelos directamente: de pago por uso (céntimos) e incluso 100% gratis, sin suscripciones requeridas." },
+      { "q": "Ya estoy en una plataforma como Higgsfield, ¿me sirve?", "a": "Sí. Si ya tienes una suscripción y no quieres cancelarla, puedes aplicar todas las técnicas también en Higgsfield, Freepik y demás. Enseñamos los modelos de última generación que están dentro de ellas." },
+      { "q": "¿Incluye actualizaciones y certificado?", "a": "Sí a ambos. La IA mejora cada pocos meses y tendrás siempre la info actualizada dentro de AI Mastery, sin más costes. Y al completar la formación obtienes tu certificado de IA." }
+    ]
+  },
+  "closing": {
+    "eyebrow": "El cierre",
+    "heading": "La IA no va<br>a esperarte.",
+    "body": "Mientras unos siguen dejando pasar el momento, otros ya producen más rápido, prueban más ideas y se diferencian. Este mundo cambia cada semana — tú te mantienes al día, sin coste extra, de por vida.",
+    "handNote": "Ahora te toca a ti.",
+    "cta": { "label": "Entrar en AI Mastery →", "href": "#precio" },
+    "note": "pago único · acceso de por vida · garantía 7 días"
+  },
+  "footer": {
+    "brandSuffix": "· by Diego NXT — Creator Club",
+    "links": [
+      { "label": "Privacidad", "href": "#" },
+      { "label": "Términos", "href": "#" },
+      { "label": "Aviso legal", "href": "#" },
+      { "label": "Contacto", "href": "#" }
+    ],
+    "copyright": "© 2026 Creator Club · pago único, sin mensualidades"
+  },
+  "stickyBar": {
+    "price": "47$",
+    "anchorPrice": "497$",
+    "note": "pago único, de por vida",
+    "cta": { "label": "Acceder →", "href": "#precio" }
+  }
+}

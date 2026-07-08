@@ -1,0 +1,24 @@
+{
+  "name": "ia-mastery",
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "tinacms dev -c \"astro dev --port 4321\"",
+    "dev:astro": "astro dev",
+    "build": "NODE_OPTIONS=--max-old-space-size=4096 tinacms build && astro build",
+    "build:local": "tinacms build --skip-cloud-checks && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@tinacms/astro": "0.5.1",
+    "@tinacms/cli": "^2.5.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "astro": "^6.4.8",
+    "tinacms": "^3.9.3"
+  }
+}

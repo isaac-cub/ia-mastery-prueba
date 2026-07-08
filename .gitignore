@@ -1,5 +1,9 @@
+node_modules
+dist
+.astro
 .vercel
 _preview
 assets/orig
+_legacy-index.html
 .DS_Store
-node_modules
+.env
