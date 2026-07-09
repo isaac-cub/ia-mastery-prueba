@@ -1,5 +1,6 @@
 ---
 import { VisualEditing } from '@sanity/astro/visual-editing';
+import '../styles/tailwind.css';
 const { h, preview = false } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -13,27 +14,6 @@ const { h, preview = false } = Astro.props;
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
-<script is:inline src="https://cdn.tailwindcss.com"></script>
-<script is:inline>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        ink:   '#0B1220',
-        paper: '#F5F8FF',
-        brand: { DEFAULT: '#0052CC', deep: '#003A99', bright: '#2D7FF9', soft: '#E8F0FF' },
-        gold:  { DEFAULT: '#FFC83D', deep: '#E0A100' },
-      },
-      fontFamily: {
-        display: ['"Bricolage Grotesque"', 'sans-serif'],
-        sans: ['Inter', 'sans-serif'],
-        hand: ['Caveat', 'cursive'],
-      },
-      maxWidth: { read: '40rem' },
-    },
-  },
-};
-</script>
 <style is:global>
   html { -webkit-text-size-adjust: 100%; }
   body { background: #F5F8FF; color: #0B1220; font-size: 17px; line-height: 1.6; text-rendering: optimizeLegibility; }
