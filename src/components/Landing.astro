@@ -450,39 +450,40 @@ const { h, preview = false } = Astro.props;
     <p class="mt-5 text-lg text-ink/65">{h.pricing.lead}</p>
   </div>
 
-  <div class="reveal mt-12 grid lg:grid-cols-[1.1fr_.9fr] gap-6 items-start">
-    <div class="bg-white rounded-[1.75rem] border border-ink/10 p-6 md:p-8 card-glow">
-      <h3 class="font-display font-extrabold text-xl md:text-2xl">{h.pricing.includesTitle}</h3>
-      <ul class="mt-5 grid sm:grid-cols-2 gap-x-6 gap-y-3 text-[15px] text-ink/80">
-        {h.pricing.includes.map((it) => (
-          <li class="flex gap-2.5"><span class="text-brand font-bold shrink-0">✓</span> <span set:html={it}></span></li>
-        ))}
-      </ul>
-      <div class="mt-7 pt-6 border-t border-ink/10">
-        <p class="text-xs font-bold uppercase tracking-widest text-gold-deep mb-3">{h.pricing.bonusTitle}</p>
-        <ul class="space-y-2.5 text-[15px] text-ink/80">
-          {h.pricing.bonuses.map((b) => (
-            <li class="flex gap-2.5"><span class="text-brand font-bold shrink-0">✓</span> <span set:html={b}></span></li>
-          ))}
-        </ul>
-      </div>
-      <div class="mt-7 flex items-center justify-between gap-4 rounded-2xl bg-brand-soft border border-brand/20 px-5 py-4">
-        <span class="text-sm font-semibold text-ink/70 leading-tight">{h.pricing.totalValueLabel}</span>
-        <span class="font-display font-extrabold text-3xl text-brand">{h.pricing.totalValue}</span>
-      </div>
-    </div>
-
-    <div class="relative bg-ink text-white rounded-[1.75rem] p-8 cta-glow grain overflow-hidden lg:sticky lg:top-24">
+  <div class="reveal mt-12 max-w-2xl mx-auto">
+    <div class="relative bg-ink text-white rounded-[1.75rem] p-7 md:p-10 cta-glow grain overflow-hidden">
       <div class="mesh absolute inset-0 opacity-30"></div>
       <div class="relative">
-        <div class="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black mb-6">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black mb-7">
           <img src={h.pricing.boxImage} alt={h.pricing.boxImageAlt} class="w-full" />
         </div>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between gap-4">
           <div class="text-sm font-semibold text-gold uppercase tracking-wider">{h.pricing.boxTitle}</div>
           <span class="grid place-items-center w-14 h-14 rounded-full bg-gold text-ink font-display font-extrabold text-xs text-center leading-tight rotate-6 shrink-0">{h.pricing.discountBadge}</span>
         </div>
-        <div class="mt-6">
+
+        <h3 class="font-display font-extrabold text-xl md:text-2xl mt-7">{h.pricing.includesTitle}</h3>
+        <ul class="mt-5 grid sm:grid-cols-2 gap-x-6 gap-y-3 text-[15px] text-white/80">
+          {h.pricing.includes.map((it) => (
+            <li class="flex gap-2.5"><span class="text-gold font-bold shrink-0">✓</span> <span set:html={it}></span></li>
+          ))}
+        </ul>
+
+        <div class="mt-7 pt-6 border-t border-white/10">
+          <p class="text-xs font-bold uppercase tracking-widest text-gold mb-3">{h.pricing.bonusTitle}</p>
+          <ul class="space-y-2.5 text-[15px] text-white/80">
+            {h.pricing.bonuses.map((b) => (
+              <li class="flex gap-2.5"><span class="text-gold font-bold shrink-0">✓</span> <span set:html={b}></span></li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mt-7 flex items-center justify-between gap-4 rounded-2xl bg-white/[.05] border border-white/10 px-5 py-4">
+          <span class="text-sm font-semibold text-white/70 leading-tight">{h.pricing.totalValueLabel}</span>
+          <span class="font-display font-extrabold text-3xl text-gold">{h.pricing.totalValue}</span>
+        </div>
+
+        <div class="mt-7 pt-7 border-t border-white/10">
           <div class="text-sm text-white/45">{h.pricing.anchorLabel} <span class="line-through">{h.pricing.anchorPrice}</span></div>
           <div class="mt-1 flex items-end gap-3">
             <div class="font-display font-extrabold text-7xl leading-none text-gold">{h.pricing.price}</div>
@@ -490,6 +491,7 @@ const { h, preview = false } = Astro.props;
           </div>
           <p class="text-sm text-white/55 mt-3">{h.pricing.priceSub}</p>
         </div>
+
         <a href={h.pricing.cta.href} class="mt-7 block text-center font-bold py-4 rounded-full bg-gold text-ink hover:bg-white transition-colors text-lg">{h.pricing.cta.label}</a>
         <p class="text-center text-xs text-white/50 mt-3">{h.pricing.guaranteeNote}</p>
         <ul class="mt-6 pt-5 border-t border-white/10 space-y-2 text-sm text-white/70">
