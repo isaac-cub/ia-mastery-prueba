@@ -1,5 +1,6 @@
 ---
 import { VisualEditing } from '@sanity/astro/visual-editing';
+import { img } from '../lib/img';
 import '../styles/tailwind.css';
 const { h, preview = false } = Astro.props;
 ---
@@ -98,7 +99,7 @@ const { h, preview = false } = Astro.props;
       </div>
       <div class="mt-8 flex items-center gap-4 text-sm">
         <div class="flex -space-x-2.5">
-          {h.hero.avatars.map((src) => <img src={src} class="w-9 h-9 rounded-full border-2 border-paper object-cover" alt="" />)}
+          {h.hero.avatars.map((a) => <img src={img(a, 72)} class="w-9 h-9 rounded-full border-2 border-paper object-cover" alt="" />)}
           <span class="w-9 h-9 rounded-full border-2 border-paper bg-brand text-white text-[10px] font-bold grid place-items-center">+1.5K</span>
         </div>
         <div><span class="font-bold">{h.hero.socialProofCount}</span> <span class="text-ink/40">·</span> <span class="text-ink/60">{h.hero.socialProofText}</span></div>
@@ -240,7 +241,7 @@ const { h, preview = false } = Astro.props;
         {card.cornerTag && <span class="absolute top-3 right-3 z-10 bg-gold text-ink text-[10px] font-bold px-2.5 py-1 rounded-full rotate-3 shadow">{card.cornerTag}</span>}
         <div class="relative aspect-[4/3] bg-ink overflow-hidden">
           {card.type === 'image'
-            ? <img src={card.media} alt="" class="vid" />
+            ? <img src={img(card.image, 720) ?? card.media} alt="" class="vid" />
             : <video class="vid" src={card.media} autoplay muted loop playsinline preload="metadata"></video>}
           {card.badge && <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">{card.badge}</span>}
         </div>
@@ -373,7 +374,7 @@ const { h, preview = false } = Astro.props;
     <div class="reveal mt-12 -mx-5 px-5 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {h.testimonials.screenshots.map((s) => (
         <div class="snap-center shrink-0 w-[74vw] max-w-[300px] h-[400px] rounded-2xl border border-ink/10 bg-white shadow-sm overflow-hidden grid place-items-center">
-          <img src={s.src} alt={s.alt} class="max-h-full max-w-full object-contain" />
+          <img src={img(s.src, 640)} alt={s.alt} class="max-h-full max-w-full object-contain" />
         </div>
       ))}
     </div>
@@ -429,7 +430,7 @@ const { h, preview = false } = Astro.props;
   <div class="max-w-5xl mx-auto px-5 py-14 md:py-28">
     <div class="reveal grid md:grid-cols-[1fr_1.2fr] gap-8 md:gap-12 items-center bg-paper rounded-3xl p-6 md:p-10 card-glow">
       <div class="relative rounded-2xl overflow-hidden aspect-[4/5] bg-ink ring-1 ring-ink/5">
-        <img src={h.founder.image} alt={h.founder.imageAlt} class="vid" />
+        <img src={img(h.founder.image, 900)} alt={h.founder.imageAlt} class="vid" />
       </div>
       <div>
         <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">{h.founder.eyebrow}</span>
@@ -455,7 +456,7 @@ const { h, preview = false } = Astro.props;
       <div class="mesh absolute inset-0 opacity-30"></div>
       <div class="relative">
         <div class="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black mb-7">
-          <img src={h.pricing.boxImage} alt={h.pricing.boxImageAlt} class="w-full" />
+          <img src={img(h.pricing.boxImage, 900)} alt={h.pricing.boxImageAlt} class="w-full" />
         </div>
         <div class="flex items-center justify-between gap-4">
           <div class="text-sm font-semibold text-gold uppercase tracking-wider">{h.pricing.boxTitle}</div>

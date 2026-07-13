@@ -1,3 +1,7 @@
+// OBSOLETO — no volver a ejecutar. Fue el import inicial desde src/content/home.json.
+// Desde la migración a assets de Sanity, home.json guarda las imágenes como rutas
+// "/assets/*" y correrlo otra vez machacaría los assets subidos. La fuente de
+// verdad del contenido es ahora Sanity (/admin), no este JSON.
 import { createClient } from '@sanity/client'
 import { readFileSync } from 'node:fs'
 import { randomUUID } from 'node:crypto'

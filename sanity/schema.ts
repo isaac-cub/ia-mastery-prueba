@@ -11,9 +11,18 @@ const T = (name: string, title: string, extra: Record<string, any> = {}) =>
 const SL = (name: string, title: string) =>
   defineField({ name, title, type: 'array', of: [{ type: 'string' }] })
 
-// Imagen guardada como ruta a /assets (no asset de Sanity, para no romper el build)
+// Imagen: asset nativo de Sanity (se sube arrastrando; se sirve desde el CDN de Sanity)
 const IMG = (name: string, title: string) =>
-  defineField({ name, title, type: 'string', description: 'Ruta del archivo, ej. /assets/foto.jpg' })
+  defineField({ name, title, type: 'image', options: { hotspot: true } })
+
+// Vídeo: NO se sube a Sanity (se comería el ancho de banda del plan). Se sube a Bunny
+// Stream y aquí se pega la URL. También acepta una ruta local /assets/*.mp4.
+const VID = (name: string, title: string) =>
+  defineField({
+    name, title, type: 'url',
+    description: 'URL del .mp4 (Bunny Stream) o ruta local, ej. /assets/clip.mp4',
+    validation: (r: any) => r.uri({ allowRelative: true, scheme: ['http', 'https'] }),
+  })
 
 // Botón / enlace {label, href}
 const CTA = (name: string, title: string) =>
@@ -58,7 +67,11 @@ export const homeType = defineType({
       T('lead', 'Párrafo (HTML permitido)'),
       CTA('ctaPrimary', 'Botón principal'),
       CTA('ctaSecondary', 'Botón secundario'),
-      SL('avatars', 'Avatares (rutas de imagen)'),
+      defineField({
+        name: 'avatars', title: 'Avatares (prueba social)', type: 'array',
+        of: [defineArrayMember({ type: 'image', options: { hotspot: true } })],
+        options: { layout: 'grid' },
+      }),
       S('socialProofCount', 'Nº prueba social'),
       S('socialProofText', 'Texto prueba social'),
       S('videoEmbed', 'URL del vídeo (embed)'),
@@ -130,8 +143,9 @@ export const homeType = defineType({
         of: [defineArrayMember({
           type: 'object', name: 'formatCard',
           fields: [
-            IMG('media', 'Imagen o vídeo'),
             S('type', 'Tipo', { options: { list: ['video', 'image'] } }),
+            VID('media', 'Vídeo (si Tipo = video)'),
+            IMG('image', 'Imagen (si Tipo = image)'),
             S('badge', 'Etiqueta sobre media (opcional)'),
             S('cornerTag', 'Sello esquina (opcional, ej. NUEVO)'),
             S('title', 'Título'),
@@ -144,19 +158,19 @@ export const homeType = defineType({
         S('badge', 'Badge'),
         S('title', 'Título'),
         T('text', 'Texto'),
-        IMG('media', 'Vídeo'),
+        VID('media', 'Vídeo'),
       ]),
     ]),
 
     // Nuevas clases
     section('class01', 'Nueva clase 1', [
       S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
-      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), IMG('media', 'Vídeo/imagen'),
+      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
       SL('bullets', 'Bullets'),
     ]),
     section('class02', 'Nueva clase 2', [
       S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
-      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), IMG('media', 'Vídeo/imagen'),
+      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
       SL('bullets', 'Bullets'),
     ]),
 
@@ -212,7 +226,7 @@ export const homeType = defineType({
         of: [defineArrayMember({
           type: 'object', name: 'screenshot',
           fields: [IMG('src', 'Imagen'), S('alt', 'Alt (SEO)')],
-          preview: { select: { title: 'alt', subtitle: 'src' } },
+          preview: { select: { title: 'alt', media: 'src' } },
         })],
       }),
       S('sliderNote', 'Nota del slider'),
