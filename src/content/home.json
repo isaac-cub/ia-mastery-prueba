@@ -16,7 +16,7 @@
     "h1Line3": "por ti.",
     "lead": "Sin conocimientos técnicos. Sin pagar 5 suscripciones de IA cada mes. Aprende a crear vídeos e imágenes que <span class=\"text-ink font-semibold\">paran el scroll y venden</span> — en cuestión de minutos.",
     "ctaPrimary": { "label": "Acceder ahora · 47$ →", "href": "#precio" },
-    "ctaSecondary": { "label": "Ver qué incluye", "href": "#programa" },
+    "ctaSecondary": { "label": "Ver qué incluye", "href": "#incluye" },
     "avatars": ["/assets/t-jj.jpeg", "/assets/t-raul.jpeg", "/assets/person-1.webp"],
     "socialProofCount": "+1.500 creadores",
     "socialProofText": "ya crean sin suscripciones",
@@ -202,8 +202,8 @@
   },
   "pricing": {
     "eyebrow": "Tu acceso",
-    "heading": "Venga, ",
-    "headingHighlight": "empieza hoy.",
+    "heading": "Empieza ",
+    "headingHighlight": "hoy mismo.",
     "lead": "Un solo plan. Un solo pago. Todo lo que necesitas para crear con IA, tuyo para siempre.",
     "includesTitle": "Todo lo que te llevas",
     "includes": [
