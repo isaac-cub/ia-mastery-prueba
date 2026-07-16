@@ -397,12 +397,11 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
       </div>
     </div>
 
-    <div class="reveal mt-12 -mx-5 px-5 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div class="reveal mt-12 columns-1 sm:columns-2 lg:columns-3 gap-4">
       {h.testimonials.screenshots.map((s) => (
-        <img src={img(s.src, 900)} alt={s.alt} class="snap-center shrink-0 h-[62vw] max-h-[420px] w-auto rounded-2xl border border-ink/10 bg-white shadow-sm object-cover" />
+        <img src={img(s.src, 900)} alt={s.alt} class="mb-4 w-full h-auto rounded-2xl border border-ink/10 bg-white shadow-sm break-inside-avoid" />
       ))}
     </div>
-    <p class="text-center text-xs text-ink/40 mt-2 flex items-center justify-center gap-2"><span>←</span> {h.testimonials.sliderNote} <span>→</span></p>
 
     <div class="grid md:grid-cols-3 gap-5 mt-4">
       {h.testimonials.quotes.map((q) => (
@@ -597,6 +596,15 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
     cio.unobserve(el);
   }), { threshold: 0.6 });
   document.querySelectorAll('.count').forEach(el => cio.observe(el));
+
+  // Autoplay fiable en móvil: reproduce los vídeos al entrar en viewport y los
+  // pausa al salir (los navegadores móviles no autoplayean muchos vídeos a la vez).
+  const vio = new IntersectionObserver((es) => es.forEach(e => {
+    const v = e.target;
+    if (e.isIntersecting) { v.muted = true; const p = v.play(); if (p) p.catch(() => {}); }
+    else { v.pause(); }
+  }), { threshold: 0.25 });
+  document.querySelectorAll('video.vid').forEach(v => { v.muted = true; v.setAttribute('playsinline', ''); vio.observe(v); });
 </script>
 {preview && <VisualEditing enabled={true} zIndex={1000} />}
 </body>
