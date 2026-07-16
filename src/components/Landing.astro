@@ -40,7 +40,8 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
 <meta name="twitter:image" content={ogImage} />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" /></noscript>
 <style is:global>
   html { -webkit-text-size-adjust: 100%; }
   body { background: #F5F8FF; color: #0B1220; font-size: 17px; line-height: 1.6; text-rendering: optimizeLegibility; }
@@ -268,7 +269,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
         <div class="relative aspect-[4/3] bg-ink overflow-hidden">
           {card.type === 'image'
             ? <img src={img(card.image, 720) ?? card.media} alt="" class="vid" />
-            : <video class="vid" src={card.media} autoplay muted loop playsinline preload="metadata"></video>}
+            : <video class="vid" src={card.media} poster={card.media.replace('.mp4','-poster.jpg')} autoplay muted loop playsinline preload="none"></video>}
           {card.badge && <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">{card.badge}</span>}
         </div>
         <div class="p-5">
@@ -286,7 +287,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
       <p class="mt-3 text-white/70 leading-relaxed max-w-md">{h.programa.highlight.text}</p>
     </div>
     <div class="relative min-h-[220px] bg-black">
-      <video class="vid" src={h.programa.highlight.media} autoplay muted loop playsinline preload="metadata"></video>
+      <video class="vid" src={h.programa.highlight.media} poster={h.programa.highlight.media.replace('.mp4','-poster.jpg')} autoplay muted loop playsinline preload="none"></video>
     </div>
   </article>
 </section>
@@ -296,7 +297,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
   <div class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-12 items-center">
     <div class="relative order-2 md:order-1 reveal">
       <div class="rounded-3xl overflow-hidden aspect-[4/3] bg-ink card-glow ring-1 ring-ink/5">
-        <video class="vid" src={h.class01.media} autoplay muted loop playsinline preload="metadata"></video>
+        <video class="vid" src={h.class01.media} poster={h.class01.media.replace('.mp4','-poster.jpg')} autoplay muted loop playsinline preload="none"></video>
       </div>
       <span class="absolute -top-3 -left-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full -rotate-6 shadow">{h.class01.badge}</span>
     </div>
@@ -325,7 +326,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
   </div>
   <div class="relative reveal">
     <div class="rounded-3xl overflow-hidden aspect-[4/3] bg-ink card-glow ring-1 ring-ink/5">
-      <video class="vid" src={h.class02.media} autoplay muted loop playsinline preload="metadata"></video>
+      <video class="vid" src={h.class02.media} poster={h.class02.media.replace('.mp4','-poster.jpg')} autoplay muted loop playsinline preload="none"></video>
     </div>
     <span class="absolute -top-3 -right-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full rotate-6 shadow">{h.class02.badge}</span>
   </div>
