@@ -19,7 +19,8 @@ export default defineConfig({
   title: 'AI Mastery',
   projectId: 'qqzhyit9',
   dataset: 'production',
-  basePath: '/admin',
+  // Embebido en Astro va en /admin; el Studio alojado por Sanity va en la raíz.
+  basePath: process.env.SANITY_STUDIO_BASEPATH || '/admin',
   plugins: [
     presentationTool({
       previewUrl: { preview: '/preview' },

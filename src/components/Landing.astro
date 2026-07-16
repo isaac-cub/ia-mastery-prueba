@@ -3,6 +3,9 @@ import { VisualEditing } from '@sanity/astro/visual-editing';
 import { img } from '../lib/img';
 import '../styles/tailwind.css';
 const { h, preview = false } = Astro.props;
+const site = Astro.site?.href?.replace(/\/$/, '') ?? 'https://aimastery.creatorclub.store';
+const canonical = `${site}/`;
+const ogImage = `${site}/thumbnail-aimastery.png`;
 ---
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
@@ -12,6 +15,29 @@ const { h, preview = false } = Astro.props;
 <title>{h.seoTitle}</title>
 <meta name="description" content={h.seoDescription} />
 {preview && <meta name="robots" content="noindex, nofollow" />}
+<link rel="canonical" href={canonical} />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#0052CC" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="AI Mastery" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:title" content={h.seoTitle} />
+<meta property="og:description" content={h.seoDescription} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="2798" />
+<meta property="og:image:height" content="1300" />
+<meta property="og:image:alt" content="AI Mastery" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={h.seoTitle} />
+<meta name="twitter:description" content={h.seoDescription} />
+<meta name="twitter:image" content={ogImage} />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />

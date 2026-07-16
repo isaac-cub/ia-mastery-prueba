@@ -82,7 +82,7 @@
       { "media": "/assets/fmt-vfx.mp4", "type": "video", "badge": "Modo Hollywood", "title": "Efectos especiales", "text": "Explosiones, fuego realista y transiciones imposibles que hacen tu contenido adictivo." },
       { "media": "/assets/fmt-images.mp4", "type": "video", "badge": "", "title": "Imágenes para contenido", "text": "Listas para Instagram, banners o anuncios. Por céntimos." },
       { "media": "/assets/fmt-avatar.mp4", "type": "video", "badge": "", "title": "Avatares realistas", "text": "Conviértete en quien quieras y crea vídeos y anuncios que convierten, sin gastar en actores.", "cornerTag": "NUEVO" },
-      { "media": "/assets/thumb-1.png", "type": "image", "badge": "Thumbnails", "title": "Miniaturas con IA", "text": "Miniaturas tuyas con cualquier estilo, ropa o escenario que disparan las visitas. Sin diseñadores." },
+      { "media": "/assets/fmt-thumbs.mp4", "type": "video", "badge": "Thumbnails", "title": "Miniaturas con IA", "text": "Miniaturas tuyas con cualquier estilo, ropa o escenario que disparan las visitas. Sin diseñadores." },
       { "media": "/assets/fmt-product.mp4", "type": "video", "badge": "E-commerce", "title": "Foto y vídeo de producto", "text": "Calidad de catálogo en segundos. Tu producto en cualquier escenario, con luz perfecta." }
     ],
     "highlight": {

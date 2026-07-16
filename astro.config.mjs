@@ -6,7 +6,7 @@ import react from '@astrojs/react';
 // Landing estática. El contenido vive en Sanity (dataset público `production`),
 // se lee en build time vía `sanity:client`. El Studio se sirve embebido en /admin.
 export default defineConfig({
-  site: 'https://ia-mastery.netlify.app',
+  site: 'https://aimastery.creatorclub.store',
   integrations: [
     sanity({
       projectId: 'qqzhyit9',
