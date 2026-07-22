@@ -167,6 +167,7 @@
     "eyebrow": "DMs reales",
     "heading": "+1.500 personas ya crean sin depender de suscripciones.",
     "screenshots": [
+      { "src": "/assets/t-alumna-oro.jpeg", "alt": "Testimonio real de una alumna por WhatsApp" },
       { "src": "/assets/t-diego.jpeg", "alt": "Testimonio real de un alumno por WhatsApp" },
       { "src": "/assets/t-raul.jpeg", "alt": "Testimonio de Raúl (Papi Marketing)" },
       { "src": "/assets/t-metrics.jpg", "alt": "Métricas reales de un alumno: 231.151 visualizaciones" },
