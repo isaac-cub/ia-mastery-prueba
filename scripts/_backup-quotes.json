@@ -1,0 +1,26 @@
+[
+  {
+    "_key": "00bd982caa70",
+    "_type": "quote",
+    "initials": "MR",
+    "name": "Marta R.",
+    "quote": "En una semana ya tenía 3 anuncios listos. Cancelé Higgsfield. Esto se paga solo.",
+    "role": "E-commerce de moda"
+  },
+  {
+    "_key": "df575aba407c",
+    "_type": "quote",
+    "initials": "DG",
+    "name": "Dani G.",
+    "quote": "Cero conocimientos técnicos y monté mi primer reel para mi negocio el mismo día. El método es oro.",
+    "role": "Creador de contenido"
+  },
+  {
+    "_key": "4c9a7f983f5a",
+    "_type": "quote",
+    "initials": "LM",
+    "name": "Lucía M.",
+    "quote": "Llevaba meses pagando suscripciones que no usaba. Esto es pago único y vale x10 lo que cuesta. Además, lo van actualizando.",
+    "role": "Agencia de marketing"
+  }
+]

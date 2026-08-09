@@ -230,14 +230,6 @@ export const homeType = defineType({
         })],
       }),
       S('sliderNote', 'Nota del slider'),
-      defineField({
-        name: 'quotes', title: 'Testimonios de texto', type: 'array',
-        of: [defineArrayMember({
-          type: 'object', name: 'quote',
-          fields: [T('quote', 'Cita'), S('initials', 'Iniciales'), S('name', 'Nombre'), S('role', 'Rol')],
-          preview: { select: { title: 'name', subtitle: 'role' } },
-        })],
-      }),
       CTA('cta', 'Botón'),
     ]),
 
