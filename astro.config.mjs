@@ -16,7 +16,7 @@ export default defineConfig({
       studioBasePath: '/admin',
       stega: {
         // Absoluto: en build (Node) el relativo no codifica.
-        studioUrl: process.env.PUBLIC_SANITY_STUDIO_URL || 'https://ia-mastery.netlify.app/admin',
+        studioUrl: process.env.PUBLIC_SANITY_STUDIO_URL || 'https://iamastery.creatorclub.store/admin',
         // Codifica solo texto visible. Excluye rutas de imagen, enlaces,
         // embeds y campos SEO para no meter caracteres invisibles en URLs/atributos.
         filter: (props) => {
