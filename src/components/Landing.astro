@@ -53,11 +53,16 @@ const embed = (u?: string) => {
 <meta name="twitter:title" content={h.seoTitle} />
 <meta name="twitter:description" content={h.seoDescription} />
 <meta name="twitter:image" content={ogImage} />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" /></noscript>
+<!-- Fuentes en el propio dominio: quita dos handshakes (fonts.googleapis + fonts.gstatic)
+     y el salto encadenado CSS -> woff2. Mismo peso, pero en móvil manda la latencia.
+     Subset "latin" completo de Google (no por caracteres: el copy lo edita el cliente
+     desde Sanity y un carácter fuera del subset caería al fallback). -->
+<link rel="preload" as="font" type="font/woff2" href="/fonts/bricolage-grotesque.woff2" crossorigin />
 <style is:global>
+  @font-face{font-family:'Bricolage Grotesque';font-style:normal;font-weight:400 800;font-stretch:100%;font-display:swap;src:url('/fonts/bricolage-grotesque.woff2') format('woff2')}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:600 700;font-display:swap;src:url('/fonts/caveat.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2')}
+
   html { -webkit-text-size-adjust: 100%; }
   body { background: #F5F8FF; color: #0B1220; font-size: 17px; line-height: 1.6; text-rendering: optimizeLegibility; }
   ::selection { background: #0052CC; color: #fff; }
