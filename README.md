@@ -1,6 +1,6 @@
 # IA Mastery — landing
 
-Astro + Sanity. Producción: **https://iamastery.creatorclub.store** (Cloudflare Pages, proyecto `ia-mastery`, cuenta del **cliente** Creator Club).
+Astro + Sanity. Producción: **https://iamastery.store** (antes `iamastery.creatorclub.store`, ahora 301) (Cloudflare Pages, proyecto `ia-mastery`, cuenta del **cliente** Creator Club).
 
 Ojo con la grafía: `iamastery` es esta landing. `aimastery` (a-i) es otra cosa y hace 301 al sitio del cliente.
 
