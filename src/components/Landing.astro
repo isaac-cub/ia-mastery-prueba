@@ -8,6 +8,13 @@ const canonical = `${site}/`;
 const ogImage = `${site}/thumbnail-aimastery.png`;
 // Los embeds de Bunny vienen de Sanity con preload=true: eso descarga el vídeo entero
 // (~33 MB de segmentos .ts) en cuanto carga la página, sin que nadie le dé al play.
+// Pull zone de la libreria 569695 de Bunny: sirve el thumbnail del video.
+// Solo responde 200 con Referer del propio dominio, por eso no vale para <link preload>.
+const BUNNY_CDN = 'https://vz-3ecdf5cb-fe3.b-cdn.net';
+const bunnyThumb = (u?: string) => {
+  const m = u && u.match(/\/embed\/\d+\/([0-9a-f-]{36})/);
+  return m ? `${BUNNY_CDN}/${m[1]}/thumbnail.jpg` : undefined;
+};
 const embed = (u?: string) => {
   if (!u) return u;
   return /[?&]preload=/.test(u)
@@ -146,7 +153,14 @@ const embed = (u?: string) => {
     <div class="relative">
       <div class="relative w-full">
         <div class="relative rounded-[1.5rem] overflow-hidden card-glow ring-1 ring-ink/5 bg-ink aspect-video">
-          <iframe src={embed(h.hero.videoEmbed)} loading="lazy" class="absolute inset-0 w-full h-full" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen></iframe>
+          <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.hero.videoEmbed)} aria-label="Reproducir el vídeo">
+            {bunnyThumb(h.hero.videoEmbed) && <img src={bunnyThumb(h.hero.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" fetchpriority="low" decoding="async" onerror="this.remove()" />}
+            <span class="absolute inset-0 grid place-items-center">
+              <span class="w-16 h-16 rounded-full bg-white/95 grid place-items-center shadow-lg transition-transform duration-300 group-hover/vsl:scale-110">
+                <span class="ml-1 border-y-[11px] border-y-transparent border-l-[18px] border-l-ink"></span>
+              </span>
+            </span>
+          </button>
         </div>
         <div class="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
           <span class="inline-flex items-center gap-2 bg-white rounded-full card-glow px-4 py-2 text-sm whitespace-nowrap">
@@ -197,7 +211,7 @@ const embed = (u?: string) => {
         <div class="relative aspect-[4/3] bg-ink overflow-hidden">
           {card.type === 'image'
             ? <img src={img(card.image, 720) ?? card.media} alt="" class="vid" loading="lazy" decoding="async" />
-            : <video class="vid" src={card.media} poster={card.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
+            : <video class="vid" src={card.media} data-poster={card.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
           {card.badge && <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">{card.badge}</span>}
         </div>
         <div class="p-5">
@@ -215,7 +229,7 @@ const embed = (u?: string) => {
       <p class="mt-3 text-white/70 leading-relaxed max-w-md">{h.programa.highlight.text}</p>
     </div>
     <div class="relative min-h-[220px] bg-black">
-      <video class="vid" src={h.programa.highlight.media} poster={h.programa.highlight.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>
+      <video class="vid" src={h.programa.highlight.media} data-poster={h.programa.highlight.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>
     </div>
   </article>
 </section>
@@ -235,8 +249,15 @@ const embed = (u?: string) => {
     <div class="relative reveal w-full max-w-[440px] mx-auto md:ml-auto md:mr-0">
       <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class02.videoEmbed ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
         {h.class02.videoEmbed
-          ? <iframe src={embed(h.class02.videoEmbed)} loading="lazy" class="absolute inset-0 w-full h-full" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;" allowfullscreen></iframe>
-          : <video class="vid" src={h.class02.media} poster={h.class02.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
+          ? <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.class02.videoEmbed)} aria-label="Reproducir el vídeo">
+              {bunnyThumb(h.class02.videoEmbed) && <img src={bunnyThumb(h.class02.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
+              <span class="absolute inset-0 grid place-items-center">
+                <span class="w-16 h-16 rounded-full bg-white/95 grid place-items-center shadow-lg transition-transform duration-300 group-hover/vsl:scale-110">
+                  <span class="ml-1 border-y-[11px] border-y-transparent border-l-[18px] border-l-ink"></span>
+                </span>
+              </span>
+            </button>
+          : <video class="vid" src={h.class02.media} data-poster={h.class02.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
       </div>
       <span class="absolute -top-3 -right-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full rotate-6 shadow">{h.class02.badge}</span>
     </div>
@@ -247,7 +268,7 @@ const embed = (u?: string) => {
 <section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-12 items-center">
   <div class="relative order-2 md:order-1 reveal">
     <div class="rounded-3xl overflow-hidden aspect-[4/3] bg-ink card-glow ring-1 ring-ink/5">
-      <video class="vid" src={h.class01.media} poster={h.class01.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>
+      <video class="vid" src={h.class01.media} data-poster={h.class01.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>
     </div>
     <span class="absolute -top-3 -left-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full -rotate-6 shadow">{h.class01.badge}</span>
   </div>
@@ -665,6 +686,30 @@ const embed = (u?: string) => {
       track.scrollBy({ left: dir * step, behavior: 'smooth' });
     });
   });
+
+  // El player de Bunny son ~310 KB de JS de terceros que bloquean el pintado del
+  // hero. Se carga solo cuando el usuario le da al play: el embed ya iba con
+  // autoplay=false, asi que hacia falta un click igual y la UX no cambia.
+  document.querySelectorAll('button.vsl').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = btn.dataset.embed.replace('autoplay=false', 'autoplay=true');
+      f.className = 'absolute inset-0 w-full h-full';
+      f.allow = 'accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;';
+      f.allowFullscreen = true;
+      btn.replaceWith(f);
+    }, { once: true });
+  });
+
+  // Los 8 posters (~300 KB) estan todos bajo el pliegue: se cuelgan del <video>
+  // al acercarse, no en el HTML, para que no compitan con el hero.
+  const pio = new IntersectionObserver((es) => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const v = e.target;
+    if (v.dataset.poster) { v.poster = v.dataset.poster; delete v.dataset.poster; }
+    pio.unobserve(v);
+  }), { rootMargin: '300px' });
+  document.querySelectorAll('video[data-poster]').forEach(v => pio.observe(v));
 
   // Autoplay fiable en móvil: reproduce los vídeos al entrar en viewport y los
   // pausa al salir (los navegadores móviles no autoplayean muchos vídeos a la vez).
