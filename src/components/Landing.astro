@@ -93,6 +93,12 @@ const embed = (u?: string) => {
   details > summary::-webkit-details-marker { display: none; }
   details[open] .faq-ic { transform: rotate(45deg); }
 
+  /* El scroll-snap ajusta la posición del carrusel al montar y ESO dispara un
+     evento scroll a los ~300 ms. Chrome congela la detección de LCP con el primer
+     scroll, así que si gana la carrera al pintado del hero la página se queda SIN
+     candidato y PageSpeed devuelve no_lcp. Se activa tras el load (clase en <html>). */
+  .slider-track { scroll-snap-type: none; }
+  .snap-on .slider-track { scroll-snap-type: x mandatory; }
   .slider-track { scrollbar-width: none; }
   .slider-track::-webkit-scrollbar { display: none; }
   @media (prefers-reduced-motion: reduce){ .slider-track { scroll-behavior: auto; } }
@@ -686,6 +692,10 @@ const embed = (u?: string) => {
       track.scrollBy({ left: dir * step, behavior: 'smooth' });
     });
   });
+
+  // Ver la nota del CSS: el snap se activa cuando el LCP ya está registrado.
+  addEventListener('load', () => requestAnimationFrame(() =>
+    document.documentElement.classList.add('snap-on')));
 
   // El player de Bunny son ~310 KB de JS de terceros que bloquean el pintado del
   // hero. Se carga solo cuando el usuario le da al play: el embed ya iba con
