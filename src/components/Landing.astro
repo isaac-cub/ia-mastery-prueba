@@ -6,6 +6,14 @@ const { h, preview = false } = Astro.props;
 const site = Astro.site?.href?.replace(/\/$/, '') ?? 'https://aimastery.creatorclub.store';
 const canonical = `${site}/`;
 const ogImage = `${site}/thumbnail-aimastery.png`;
+// Los embeds de Bunny vienen de Sanity con preload=true: eso descarga el vídeo entero
+// (~33 MB de segmentos .ts) en cuanto carga la página, sin que nadie le dé al play.
+const embed = (u?: string) => {
+  if (!u) return u;
+  return /[?&]preload=/.test(u)
+    ? u.replace(/([?&])preload=[^&]*/, '$1preload=false')
+    : u + (u.includes('?') ? '&' : '?') + 'preload=false';
+};
 ---
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
@@ -111,7 +119,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
 <!-- 1 · HERO -->
 <section class="relative overflow-hidden mesh">
   <div class="max-w-6xl mx-auto px-5 pt-14 pb-16 md:pt-20 md:pb-24 grid md:grid-cols-[1.05fr_.95fr] gap-12 items-center">
-    <div class="reveal">
+    <div>
       <div class="inline-flex items-center gap-2 bg-white/80 border border-brand/15 rounded-full pl-1.5 pr-3.5 py-1.5 text-xs font-semibold text-brand mb-7 shadow-sm">
         <span class="bg-brand text-white rounded-full px-2 py-0.5 whitespace-nowrap">Actualizado Agosto 2026</span> {h.hero.badge}
       </div>
@@ -129,16 +137,16 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
       </div>
       <div class="mt-8 flex items-center gap-4 text-sm">
         <div class="flex -space-x-2.5">
-          {h.hero.avatars.map((a) => <img src={img(a, 72)} class="w-9 h-9 rounded-full border-2 border-paper object-cover" alt="" />)}
+          {h.hero.avatars.map((a) => <img src={img(a, 72)} class="w-9 h-9 rounded-full border-2 border-paper object-cover" alt="" width="36" height="36" decoding="async" />)}
         </div>
         <div><span class="font-bold">{h.hero.socialProofCount}</span> <span class="text-ink/40">·</span> <span class="text-ink/60">{h.hero.socialProofText}</span></div>
       </div>
     </div>
 
-    <div class="relative reveal">
+    <div class="relative">
       <div class="relative w-full">
         <div class="relative rounded-[1.5rem] overflow-hidden card-glow ring-1 ring-ink/5 bg-ink aspect-video">
-          <iframe src={h.hero.videoEmbed} loading="lazy" class="absolute inset-0 w-full h-full" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen></iframe>
+          <iframe src={embed(h.hero.videoEmbed)} loading="lazy" class="absolute inset-0 w-full h-full" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen></iframe>
         </div>
         <div class="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
           <span class="inline-flex items-center gap-2 bg-white rounded-full card-glow px-4 py-2 text-sm whitespace-nowrap">
@@ -188,8 +196,8 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
         {card.cornerTag && <span class="absolute top-3 right-3 z-10 bg-gold text-ink text-[10px] font-bold px-2.5 py-1 rounded-full rotate-3 shadow">{card.cornerTag}</span>}
         <div class="relative aspect-[4/3] bg-ink overflow-hidden">
           {card.type === 'image'
-            ? <img src={img(card.image, 720) ?? card.media} alt="" class="vid" />
-            : <video class="vid" src={card.media} poster={card.media.replace('.mp4','-poster.jpg')} autoplay muted loop playsinline preload="none"></video>}
+            ? <img src={img(card.image, 720) ?? card.media} alt="" class="vid" loading="lazy" decoding="async" />
+            : <video class="vid" src={card.media} poster={card.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
           {card.badge && <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">{card.badge}</span>}
         </div>
         <div class="p-5">
@@ -207,7 +215,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
       <p class="mt-3 text-white/70 leading-relaxed max-w-md">{h.programa.highlight.text}</p>
     </div>
     <div class="relative min-h-[220px] bg-black">
-      <video class="vid" src={h.programa.highlight.media} poster={h.programa.highlight.media.replace('.mp4','-poster.jpg')} autoplay muted loop playsinline preload="none"></video>
+      <video class="vid" src={h.programa.highlight.media} poster={h.programa.highlight.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>
     </div>
   </article>
 </section>
@@ -227,8 +235,8 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
     <div class="relative reveal w-full max-w-[440px] mx-auto md:ml-auto md:mr-0">
       <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class02.videoEmbed ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
         {h.class02.videoEmbed
-          ? <iframe src={h.class02.videoEmbed} loading="lazy" class="absolute inset-0 w-full h-full" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;" allowfullscreen></iframe>
-          : <video class="vid" src={h.class02.media} poster={h.class02.media.replace('.mp4','-poster.jpg')} autoplay muted loop playsinline preload="none"></video>}
+          ? <iframe src={embed(h.class02.videoEmbed)} loading="lazy" class="absolute inset-0 w-full h-full" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;" allowfullscreen></iframe>
+          : <video class="vid" src={h.class02.media} poster={h.class02.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
       </div>
       <span class="absolute -top-3 -right-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full rotate-6 shadow">{h.class02.badge}</span>
     </div>
@@ -239,7 +247,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
 <section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-12 items-center">
   <div class="relative order-2 md:order-1 reveal">
     <div class="rounded-3xl overflow-hidden aspect-[4/3] bg-ink card-glow ring-1 ring-ink/5">
-      <video class="vid" src={h.class01.media} poster={h.class01.media.replace('.mp4','-poster.jpg')} autoplay muted loop playsinline preload="none"></video>
+      <video class="vid" src={h.class01.media} poster={h.class01.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>
     </div>
     <span class="absolute -top-3 -left-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full -rotate-6 shadow">{h.class01.badge}</span>
   </div>
@@ -457,7 +465,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
 
     <div class="reveal mt-12 columns-1 sm:columns-2 lg:columns-3 gap-4">
       {h.testimonials.screenshots.map((s) => (
-        <img src={img(s.src, 900)} alt={s.alt} class="mb-4 w-full h-auto rounded-2xl border border-ink/10 bg-white shadow-sm break-inside-avoid" />
+        <img src={img(s.src, 900)} alt={s.alt} class="mb-4 w-full h-auto rounded-2xl border border-ink/10 bg-white shadow-sm break-inside-avoid" loading="lazy" decoding="async" />
       ))}
     </div>
 
@@ -502,7 +510,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
   <div class="max-w-5xl mx-auto px-5 py-14 md:py-28">
     <div class="reveal grid md:grid-cols-[1fr_1.2fr] gap-8 md:gap-12 items-center bg-paper rounded-3xl p-6 md:p-10 card-glow">
       <div class="relative rounded-2xl overflow-hidden aspect-[4/5] bg-ink ring-1 ring-ink/5">
-        <img src={img(h.founder.image, 900)} alt={h.founder.imageAlt} class="vid" />
+        <img src={img(h.founder.image, 900)} alt={h.founder.imageAlt} class="vid" loading="lazy" decoding="async" />
       </div>
       <div>
         <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">{h.founder.eyebrow}</span>
@@ -528,7 +536,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
       <div class="mesh absolute inset-0 opacity-30"></div>
       <div class="relative">
         <div class="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black mb-7">
-          <img src={img(h.pricing.boxImage, 900)} alt={h.pricing.boxImageAlt} class="w-full" />
+          <img src={img(h.pricing.boxImage, 900)} alt={h.pricing.boxImageAlt} class="w-full" loading="lazy" decoding="async" />
         </div>
         <div class="flex items-center justify-between gap-4">
           <div class="text-sm font-semibold text-gold uppercase tracking-wider">{h.pricing.boxTitle}</div>
