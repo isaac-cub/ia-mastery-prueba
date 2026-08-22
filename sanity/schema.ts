@@ -171,7 +171,30 @@ export const homeType = defineType({
     section('class02', 'Nueva clase 2', [
       S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
       S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
+      S('videoEmbed', 'URL del reproductor (embed con sonido y botón de play)', {
+        description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny.',
+      }),
       SL('bullets', 'Bullets'),
+    ]),
+
+    // Por dentro (capturas reales de la plataforma)
+    section('inside', 'Por dentro (capturas reales)', [
+      S('eyebrow', 'Eyebrow'),
+      S('heading', 'Título'),
+      S('headingHighlight', 'Título · resaltado'),
+      T('lead', 'Intro'),
+      S('note', 'Pastilla de actualización'),
+      S('swipeNote', 'Nota manuscrita del slider'),
+      defineField({
+        name: 'slides', title: 'Capturas', type: 'array',
+        of: [defineArrayMember({
+          type: 'object', name: 'insideSlide',
+          fields: [IMG('image', 'Captura'), S('title', 'Título'), T('text', 'Texto')],
+          preview: { select: { title: 'title', subtitle: 'text', media: 'image' } },
+        })],
+      }),
+      SL('bullets', 'Pastillas de resumen'),
+      CTA('cta', 'Botón'),
     ]),
 
     // Métricas
