@@ -218,6 +218,34 @@ export const homeType = defineType({
       S('ctaNote', 'Nota bajo botón'),
     ]),
 
+    // Temario (módulos)
+    section('curriculum', 'Temario (módulos)', [
+      S('eyebrow', 'Eyebrow'),
+      S('heading', 'Título'),
+      S('headingHighlight', 'Título · resaltado'),
+      T('lead', 'Intro'),
+      T('sub', 'Segundo párrafo'),
+      S('badge', 'Pastilla de cifras'),
+      defineField({
+        name: 'items', title: 'Módulos', type: 'array',
+        of: [defineArrayMember({
+          type: 'object', name: 'module',
+          fields: [
+            S('tag', 'Etiqueta (MÓDULO 1, NUEVO, BONUS…)'),
+            S('title', 'Título'),
+            T('text', 'Descripción'),
+            SL('bullets', 'Viñetas (opcional)'),
+            S('meta', 'Lecciones y duración'),
+            defineField({ name: 'hot', title: 'Destacado', type: 'boolean', initialValue: false }),
+          ],
+          preview: { select: { title: 'title', subtitle: 'meta' } },
+        })],
+      }),
+      S('total', 'Línea de totales'),
+      S('close', 'Cierre'),
+      CTA('cta', 'Botón'),
+    ]),
+
     // Filosofía
     section('philosophy', 'Filosofía', [
       S('headingA', 'Título · línea 1'),
