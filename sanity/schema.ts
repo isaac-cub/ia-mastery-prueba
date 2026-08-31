@@ -47,6 +47,17 @@ export const homeType = defineType({
     T('seoDescription', 'SEO · Descripción'),
     S('announcement', 'Barra superior (aviso)'),
 
+    // Barra de escasez: el aviso de arriba + cuenta atrás. Vuelve a asomar al bajar.
+    section('scarcity', 'Barra superior · escasez', [
+      S('claim', 'Mensaje'),
+      S('badge', 'Etiqueta (texto de reserva si no hay fecha)'),
+      defineField({
+        name: 'deadline', title: 'Fecha límite', type: 'datetime',
+        description: 'Con fecha, la etiqueta se reescribe sola a "Quedan N días". Sin fecha (o pasada), no se muestra.',
+      }),
+      CTA('cta', 'Botón (solo en escritorio)'),
+    ]),
+
     // Header
     defineField({
       name: 'nav', title: 'Menú (header)', type: 'array',
