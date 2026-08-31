@@ -15,6 +15,13 @@ const bunnyThumb = (u?: string) => {
   const m = u && u.match(/\/embed\/\d+\/([0-9a-f-]{36})/);
   return m ? `${BUNNY_CDN}/${m[1]}/thumbnail.jpg` : undefined;
 };
+// Barra superior: si no hay bloque de escasez en Sanity, cae al aviso de siempre.
+const sc = {
+  claim: h.scarcity?.claim || h.announcement,
+  badge: h.scarcity?.badge,
+  deadline: h.scarcity?.deadline,
+  cta: h.scarcity?.cta,
+};
 const embed = (u?: string) => {
   if (!u) return u;
   return /[?&]preload=/.test(u)
@@ -118,9 +125,15 @@ const embed = (u?: string) => {
   <div id="progress" class="h-full w-0 bg-gradient-to-r from-brand via-brand-bright to-gold transition-[width] duration-100 ease-out"></div>
 </div>
 
-<!-- 0 · ANNOUNCEMENT -->
-<div class="bg-ink text-white text-center text-[13px] sm:text-sm py-2.5 px-4 font-medium tracking-tight">
-  <span class="text-gold">✦</span> {h.announcement}
+<!-- 0 · ANNOUNCEMENT + ESCASEZ -->
+<div id="anuncio-slot">
+  <div id="anuncio" class="bg-ink text-white text-[13px] sm:text-sm font-medium tracking-tight z-[55] transition-transform duration-300 ease-out">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-center gap-2.5 sm:gap-4">
+      <p class="text-center leading-tight"><span class="text-gold">✦</span> {sc.claim}</p>
+      {sc.badge && <span class="cuenta-atras shrink-0 rounded-md bg-gold text-ink px-2 py-1.5 text-[10px] sm:text-[11px] font-bold uppercase leading-none tracking-[0.08em]" data-deadline={sc.deadline}>{sc.badge}</span>}
+      {sc.cta?.href && <a href={sc.cta.href} class="hidden sm:inline-block shrink-0 rounded-full border border-white/25 px-3.5 py-1.5 text-[11px] font-bold uppercase leading-none tracking-[0.08em] hover:bg-white hover:text-ink transition-colors">{sc.cta.label} <span aria-hidden="true">→</span></a>}
+    </div>
+  </div>
 </div>
 
 <!-- HEADER -->
@@ -486,7 +499,7 @@ const embed = (u?: string) => {
 </section>
 
 <!-- 13 · TESTIMONIOS -->
-<section id="resultados" class="bg-white border-y border-ink/10">
+<section id="resultados" class="bg-white border-y border-ink/10 overflow-hidden">
   <div class="max-w-6xl mx-auto px-5 py-14 md:py-28">
     <div class="flex flex-wrap items-end justify-between gap-4 reveal">
       <div class="max-w-lg">
@@ -495,9 +508,17 @@ const embed = (u?: string) => {
       </div>
     </div>
 
-    <div class="reveal mt-12 columns-1 sm:columns-2 lg:columns-3 gap-4">
+    <div class="mt-10 flex items-end justify-between gap-4 reveal">
+      {h.testimonials.sliderNote && <p class="font-hand text-brand text-[1.35rem] sm:text-[1.6rem] leading-none">{h.testimonials.sliderNote}</p>}
+      <div class="flex gap-2 shrink-0 ml-auto">
+        <button type="button" data-slider-prev="testimonios" aria-label="Anterior" class="w-11 h-11 grid place-items-center rounded-full border border-ink/15 bg-white text-ink/70 hover:bg-ink hover:text-white hover:border-ink transition-colors">←</button>
+        <button type="button" data-slider-next="testimonios" aria-label="Siguiente" class="w-11 h-11 grid place-items-center rounded-full border border-ink/15 bg-white text-ink/70 hover:bg-ink hover:text-white hover:border-ink transition-colors">→</button>
+      </div>
+    </div>
+
+    <div id="testimonios-track" class="slider-track mt-5 flex items-center gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth -mx-5 px-5 pb-4">
       {h.testimonials.screenshots.map((s) => (
-        <img src={img(s.src, 900)} alt={s.alt} class="mb-4 w-full h-auto rounded-2xl border border-ink/10 bg-white shadow-sm break-inside-avoid" loading="lazy" decoding="async" />
+        <img src={img(s.src, 900)} alt={s.alt} class="snap-start shrink-0 w-[80%] sm:w-[52%] lg:w-[38%] h-auto rounded-2xl border border-ink/10 bg-white shadow-sm" loading="lazy" decoding="async" />
       ))}
     </div>
 
@@ -715,6 +736,51 @@ const embed = (u?: string) => {
     const hh = document.documentElement.scrollHeight - innerHeight;
     bar.style.width = (hh > 0 ? (scrollY / hh) * 100 : 0) + '%';
   }, { passive: true });
+
+  // La etiqueta de la barra se reescribe con los días que quedan de verdad, para que
+  // el copy no envejezca solo. Sin fecha (o pasada) desaparece en vez de mentir.
+  document.querySelectorAll('.cuenta-atras').forEach(el => {
+    const end = el.dataset.deadline ? new Date(el.dataset.deadline).getTime() : NaN;
+    if (!end) return;
+    const d = Math.ceil((end - Date.now()) / 86400000);
+    if (d > 1) el.textContent = 'Quedan ' + d + ' días';
+    else if (d === 1) el.textContent = 'Último día';
+    else el.remove();
+  });
+
+  // Barra de escasez: va en el flujo arriba del todo y, una vez pasada, vuelve a
+  // asomar fija cuando el usuario baja (se recoge al subir). El header se aparta.
+  const slot = document.getElementById('anuncio-slot');
+  const anuncio = document.getElementById('anuncio');
+  if (slot && anuncio) {
+    let alto = 0, fija = false, visible = false, ultimaY = scrollY, pendiente = false;
+    const medir = () => { alto = anuncio.offsetHeight; slot.style.height = alto + 'px'; };
+    const pintar = () => {
+      pendiente = false;
+      const y = scrollY, d = y - ultimaY;
+      const debeFijarse = y > alto + 80;
+      if (debeFijarse !== fija) {
+        fija = debeFijarse;
+        anuncio.classList.toggle('fixed', fija);
+        anuncio.classList.toggle('inset-x-0', fija);
+        anuncio.classList.toggle('top-0', fija);
+        if (!fija) { visible = false; anuncio.style.transform = ''; hdr.style.transform = ''; }
+        else { anuncio.style.transform = 'translateY(-100%)'; }
+      }
+      if (fija && Math.abs(d) > 4) {
+        const mostrar = d > 0;
+        if (mostrar !== visible) {
+          visible = mostrar;
+          anuncio.style.transform = mostrar ? 'none' : 'translateY(-100%)';
+          hdr.style.transform = mostrar ? 'translateY(' + alto + 'px)' : '';
+        }
+      }
+      if (Math.abs(d) > 4) ultimaY = y;
+    };
+    medir();
+    addEventListener('resize', () => { if (!fija) medir(); }, { passive: true });
+    addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(pintar); } }, { passive: true });
+  }
 
   const cio = new IntersectionObserver((es) => es.forEach(e => {
     if (!e.isIntersecting) return;
