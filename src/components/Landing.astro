@@ -12,7 +12,7 @@ const ogImage = `${site}/thumbnail-aimastery.png`;
 // Solo responde 200 con Referer del propio dominio, por eso no vale para <link preload>.
 const BUNNY_CDN = 'https://vz-3ecdf5cb-fe3.b-cdn.net';
 const bunnyThumb = (u?: string) => {
-  const m = u && u.match(/\/embed\/\d+\/([0-9a-f-]{36})/);
+  const m = u && u.match(/\/(?:embed|play)\/\d+\/([0-9a-f-]{36})/);
   return m ? `${BUNNY_CDN}/${m[1]}/thumbnail.jpg` : undefined;
 };
 // Barra superior: si no hay bloque de escasez en Sanity, cae al aviso de siempre.
@@ -22,11 +22,19 @@ const sc = {
   deadline: h.scarcity?.deadline,
   cta: h.scarcity?.cta,
 };
+// El cliente a veces pega el enlace "Play" de Bunny (/play/...) en vez del de embed:
+// dentro de un iframe esa página anida el player y no autoplayea. Se normaliza aquí.
 const embed = (u?: string) => {
   if (!u) return u;
-  return /[?&]preload=/.test(u)
-    ? u.replace(/([?&])preload=[^&]*/, '$1preload=false')
-    : u + (u.includes('?') ? '&' : '?') + 'preload=false';
+  u = u.replace(/\/play\/(\d+)\/([0-9a-f-]{36})[^?]*/, '/embed/$1/$2');
+  const set = (url: string, k: string, v: string) =>
+    new RegExp(`[?&]${k}=`).test(url)
+      ? url.replace(new RegExp(`([?&])${k}=[^&]*`), `$1${k}=${v}`)
+      : url + (url.includes('?') ? '&' : '?') + `${k}=${v}`;
+  u = set(u, 'preload', 'false');
+  u = set(u, 'autoplay', 'false');
+  if (!/[?&]playsinline=/.test(u)) u = set(u, 'playsinline', 'true');
+  return u;
 };
 ---
 <!DOCTYPE html>
