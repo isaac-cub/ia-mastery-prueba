@@ -298,9 +298,18 @@ const embed = (u?: string) => {
 
 <!-- 5 · CLASE · ESPACIO DE GRABACIÓN -->
 <section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-12 items-center">
-  <div class="relative order-2 md:order-1 reveal">
-    <div class="rounded-3xl overflow-hidden aspect-[4/3] bg-ink card-glow ring-1 ring-ink/5">
-      <video class="vid" src={h.class01.media} data-poster={h.class01.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>
+  <div class={`relative order-2 md:order-1 reveal ${h.class01.videoEmbed ? 'w-full max-w-[440px] mx-auto md:ml-0' : ''}`}>
+    <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class01.videoEmbed ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+      {h.class01.videoEmbed
+        ? <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.class01.videoEmbed)} aria-label="Reproducir el vídeo">
+            {bunnyThumb(h.class01.videoEmbed) && <img src={bunnyThumb(h.class01.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
+            <span class="absolute inset-0 grid place-items-center">
+              <span class="w-16 h-16 rounded-full bg-white/95 grid place-items-center shadow-lg transition-transform duration-300 group-hover/vsl:scale-110">
+                <span class="ml-1 border-y-[11px] border-y-transparent border-l-[18px] border-l-ink"></span>
+              </span>
+            </span>
+          </button>
+        : <video class="vid" src={h.class01.media} data-poster={h.class01.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
     </div>
     <span class="absolute -top-3 -left-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full -rotate-6 shadow">{h.class01.badge}</span>
   </div>

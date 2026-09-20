@@ -177,6 +177,9 @@ export const homeType = defineType({
     section('class01', 'Nueva clase 1', [
       S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
       S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
+      S('videoEmbed', 'URL del reproductor (embed con sonido y botón de play)', {
+        description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny.',
+      }),
       SL('bullets', 'Bullets'),
     ]),
     section('class02', 'Nueva clase 2', [
