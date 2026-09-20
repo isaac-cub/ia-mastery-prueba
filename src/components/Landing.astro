@@ -16,10 +16,22 @@ const bunnyThumb = (u?: string) => {
   return m ? `${BUNNY_CDN}/${m[1]}/thumbnail.jpg` : undefined;
 };
 // Barra superior: si no hay bloque de escasez en Sanity, cae al aviso de siempre.
+// Fecha límite rodante: con `deadlineEvery`, al vencer se suman periodos enteros desde la
+// fecha del Studio. Se calcula aquí para el HTML y otra vez en el navegador (la página es
+// estática y solo se reconstruye al publicar), con la misma lógica.
+const rollDeadline = (iso?: string, every = 0, now = Date.now()) => {
+  if (!iso) return NaN;
+  let end = new Date(iso).getTime();
+  if (every > 0) { const step = every * 86400000; while (end <= now) end += step; }
+  return end;
+};
+const fechaLarga = (ms: number) => new Intl.DateTimeFormat('es', { day: 'numeric', month: 'long', timeZone: 'Europe/Madrid' }).format(ms);
+const deadlineAt = rollDeadline(h.scarcity?.deadline, h.scarcity?.deadlineEvery ?? 0);
 const sc = {
   claim: h.scarcity?.claim || h.announcement,
-  badge: h.scarcity?.badge,
+  badge: h.scarcity?.badge && deadlineAt ? h.scarcity.badge.replace(/\{fecha\}/g, fechaLarga(deadlineAt)) : h.scarcity?.badge,
   deadline: h.scarcity?.deadline,
+  every: h.scarcity?.deadlineEvery || undefined,
   cta: h.scarcity?.cta,
 };
 // El cliente a veces pega el enlace "Play" de Bunny (/play/...) en vez del de embed:
@@ -138,7 +150,7 @@ const embed = (u?: string) => {
   <div id="anuncio" class="bg-ink text-white text-[13px] sm:text-sm font-medium tracking-tight z-[55] transition-transform duration-300 ease-out">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-center gap-2.5 sm:gap-4">
       <p class="text-center leading-tight"><span class="text-gold">✦</span> {sc.claim}</p>
-      {sc.badge && <span class="cuenta-atras shrink-0 rounded-md bg-gold text-ink px-2 py-1.5 text-[10px] sm:text-[11px] font-bold uppercase leading-none tracking-[0.08em]" data-deadline={sc.deadline}>{sc.badge}</span>}
+      {sc.badge && <span class="cuenta-atras shrink-0 rounded-md bg-gold text-ink px-2 py-1.5 text-[10px] sm:text-[11px] font-bold uppercase leading-none tracking-[0.08em]" data-deadline={sc.deadline} data-every={sc.every}>{sc.badge}</span>}
       {sc.cta?.href && <a href={sc.cta.href} class="hidden sm:inline-block shrink-0 rounded-full border border-white/25 px-3.5 py-1.5 text-[11px] font-bold uppercase leading-none tracking-[0.08em] hover:bg-white hover:text-ink transition-colors">{sc.cta.label} <span aria-hidden="true">→</span></a>}
     </div>
   </div>
@@ -787,8 +799,11 @@ const embed = (u?: string) => {
   // La etiqueta de la barra se reescribe con los días que quedan de verdad, para que
   // el copy no envejezca solo. Sin fecha (o pasada) desaparece en vez de mentir.
   document.querySelectorAll('.cuenta-atras').forEach(el => {
-    const end = el.dataset.deadline ? new Date(el.dataset.deadline).getTime() : NaN;
+    let end = el.dataset.deadline ? new Date(el.dataset.deadline).getTime() : NaN;
     if (!end) return;
+    // Renovación automática (misma regla que en el build): periodos enteros desde la fecha.
+    const every = Number(el.dataset.every) || 0;
+    if (every > 0) { const step = every * 86400000; while (end <= Date.now()) end += step; }
     const d = Math.ceil((end - Date.now()) / 86400000);
     if (d > 1) el.textContent = 'Quedan ' + d + ' días';
     else if (d === 1) el.textContent = 'Último día';

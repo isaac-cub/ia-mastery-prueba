@@ -53,7 +53,12 @@ export const homeType = defineType({
       S('badge', 'Etiqueta (texto de reserva si no hay fecha)'),
       defineField({
         name: 'deadline', title: 'Fecha límite', type: 'datetime',
-        description: 'Con fecha, la etiqueta se reescribe sola a "Quedan N días". Sin fecha (o pasada), no se muestra.',
+        description: 'Con fecha, la etiqueta se reescribe sola a "Quedan N días". Sin fecha (o pasada y sin renovación), no se muestra. En la etiqueta puedes escribir {fecha} para que salga el día.',
+      }),
+      defineField({
+        name: 'deadlineEvery', title: 'Renovar la fecha límite cada (días)', type: 'number',
+        description: 'Si lo rellenas, al vencer la fecha límite se renueva sola sumando este número de días, tantas veces como haga falta. Vacío = caduca de verdad.',
+        validation: (r: any) => r.integer().positive(),
       }),
       CTA('cta', 'Botón (solo en escritorio)'),
     ]),
