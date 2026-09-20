@@ -191,6 +191,15 @@ export const homeType = defineType({
       SL('bullets', 'Bullets'),
     ]),
 
+    section('class03', 'Nueva clase 3', [
+      S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
+      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
+      S('videoEmbed', 'URL del reproductor (embed con sonido y botón de play)', {
+        description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny.',
+      }),
+      SL('bullets', 'Bullets'),
+    ]),
+
     // Por dentro (capturas reales de la plataforma)
     section('inside', 'Por dentro (capturas reales)', [
       S('eyebrow', 'Eyebrow'),

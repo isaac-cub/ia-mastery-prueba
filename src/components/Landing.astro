@@ -324,6 +324,36 @@ const embed = (u?: string) => {
   </div>
 </section>
 
+<!-- 5.2 · CLASE · MOTION GRAPHICS CON IA (el clip es vertical, 3:4 siempre) -->
+{h.class03 && (
+<section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
+    <div class="reveal">
+      <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">{h.class03.eyebrow}</span>
+      <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,2.8rem)] leading-[1.05] mt-3">{h.class03.heading}</h2>
+      <p class="mt-3 text-lg text-ink/70">{h.class03.lead}</p>
+      <p class="mt-4 text-ink/65 leading-relaxed">{h.class03.body}</p>
+      <ul class="mt-6 space-y-2.5 text-[15px]">
+        {h.class03.bullets.map((b) => <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> {b}</li>)}
+      </ul>
+    </div>
+    <div class="relative reveal w-full max-w-[440px] mx-auto md:ml-auto md:mr-0">
+      <div class="relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 aspect-[3/4]">
+        {h.class03.videoEmbed
+          ? <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.class03.videoEmbed)} aria-label="Reproducir el vídeo">
+              {bunnyThumb(h.class03.videoEmbed) && <img src={bunnyThumb(h.class03.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
+              <span class="absolute inset-0 grid place-items-center">
+                <span class="w-16 h-16 rounded-full bg-white/95 grid place-items-center shadow-lg transition-transform duration-300 group-hover/vsl:scale-110">
+                  <span class="ml-1 border-y-[11px] border-y-transparent border-l-[18px] border-l-ink"></span>
+                </span>
+              </span>
+            </button>
+          : <video class="vid" src={h.class03.media} data-poster={h.class03.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
+      </div>
+      <span class="absolute -top-3 -right-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full rotate-6 shadow">{h.class03.badge}</span>
+    </div>
+</section>
+)}
+
 <!-- 5.5 · POR DENTRO -->
 <section id="por-dentro" class="bg-white border-y border-ink/10 overflow-hidden">
   <div class="max-w-6xl mx-auto px-5 py-14 md:py-28">
