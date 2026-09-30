@@ -76,6 +76,7 @@ export const homeType = defineType({
 
     // Hero
     section('hero', 'Hero (portada)', [
+      S('badgeTag', 'Etiqueta azul (ej. Actualizado Agosto 2026)', { description: 'Vacío = "Actualizado Agosto 2026".' }),
       S('badge', 'Etiqueta (badge)'),
       S('h1Line1', 'Título · línea 1'),
       S('h1Highlight', 'Título · palabra resaltada'),
@@ -95,6 +96,24 @@ export const homeType = defineType({
       S('chipPriceUnit', 'Chip · unidad'),
       S('chipNote', 'Chip · nota'),
       S('handNote', 'Nota manuscrita'),
+    ]),
+
+    // Novedades: tarjetas de ofertas de las plataformas (FOMO), justo debajo del hero.
+    section('novedades', 'Novedades · ofertas (debajo del vídeo)', [
+      S('eyebrow', 'Eyebrow'),
+      S('heading', 'Título'),
+      S('highlight', 'Título · parte resaltada'),
+      T('lead', 'Párrafo'),
+      defineField({
+        name: 'cards', title: 'Tarjetas (3 o 4)', type: 'array',
+        description: 'Si lo dejas vacío salen las tarjetas por defecto.',
+        of: [defineArrayMember({
+          type: 'object', name: 'oferta',
+          fields: [S('tag', 'Cifra grande (ej. GRATIS, -50%)'), S('title', 'Modelo / plataforma'), S('text', 'Frase corta')],
+          preview: { select: { title: 'title', subtitle: 'tag' } },
+        })],
+      }),
+      CTA('cta', 'Botón'),
     ]),
 
     // Marquee

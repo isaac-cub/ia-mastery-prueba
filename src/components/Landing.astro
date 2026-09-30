@@ -34,6 +34,21 @@ const sc = {
   every: h.scarcity?.deadlineEvery || undefined,
   cta: h.scarcity?.cta,
 };
+// Novedades: lo que no esté rellenado en Sanity cae a este texto.
+const nv = h.novedades ?? {};
+const nov = {
+  eyebrow: nv.eyebrow || 'Novedades de esta semana',
+  heading: nv.heading || 'Lo que te estás perdiendo por',
+  highlight: nv.highlight || 'no estar dentro',
+  lead: nv.lead || 'Las plataformas de IA sueltan créditos gratis y descuentos cada pocos días, y duran poco. Dentro te avisamos el mismo día. Fuera, te enteras cuando ya se han acabado.',
+  cards: nv.cards?.length ? nv.cards : [
+    { tag: 'GRATIS', title: 'Imágenes con Nano Banana', text: 'Genera sin gastar ni un crédito.' },
+    { tag: '-50%', title: 'Seedance 2.0 y 2.5', text: 'Vídeo con IA a mitad de precio.' },
+    { tag: '-60%', title: 'Otros modelos', text: 'Vídeo e imagen hasta un 60% más baratos.' },
+    { tag: '+ más', title: 'Lo que salga esta semana', text: 'Cada oferta nueva se avisa dentro antes de que caduque.' },
+  ],
+  cta: nv.cta?.label ? nv.cta : { label: 'Quiero entrar y aprovecharlas', href: h.hero.ctaPrimary.href },
+};
 // El cliente a veces pega el enlace "Play" de Bunny (/play/...) en vez del de embed:
 // dentro de un iframe esa página anida el player y no autoplayea. Se normaliza aquí.
 const embed = (u?: string) => {
@@ -172,7 +187,7 @@ const embed = (u?: string) => {
   <div class="max-w-6xl mx-auto px-5 pt-14 pb-16 md:pt-20 md:pb-24 grid md:grid-cols-[1.05fr_.95fr] gap-12 items-center">
     <div>
       <div class="inline-flex items-center gap-2 bg-white/80 border border-brand/15 rounded-full pl-1.5 pr-3.5 py-1.5 text-xs font-semibold text-brand mb-7 shadow-sm">
-        <span class="bg-brand text-white rounded-full px-2 py-0.5 whitespace-nowrap">Actualizado Agosto 2026</span> {h.hero.badge}
+        <span class="bg-brand text-white rounded-full px-2 py-0.5 whitespace-nowrap">{h.hero.badgeTag || 'Actualizado Agosto 2026'}</span> {h.hero.badge}
       </div>
       <h1 class="relative z-0 font-display font-extrabold tracking-tight leading-[0.96] text-[clamp(2.5rem,6vw,4.3rem)]">
         {h.hero.h1Line1}<br>
@@ -215,6 +230,34 @@ const embed = (u?: string) => {
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- 1b · NOVEDADES (FOMO) -->
+<section class="relative -mt-4 md:-mt-10">
+  <div class="max-w-6xl mx-auto px-5 pb-14 md:pb-20">
+    <div class="reveal max-w-2xl">
+      <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">{nov.eyebrow}</span>
+      <h2 class="font-display font-extrabold text-[clamp(1.6rem,3.2vw,2.2rem)] leading-[1.1] mt-3">
+        {nov.heading} <span class="scribble text-brand">{nov.highlight}<svg viewBox="0 0 200 16" fill="none" preserveAspectRatio="none"><path d="M4 10C46 4 146 4 196 9" stroke="#FFC83D" stroke-width="6" stroke-linecap="round"/></svg></span>
+      </h2>
+      <p class="mt-6 text-ink/60 leading-relaxed max-w-xl">{nov.lead}</p>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-8">
+      {nov.cards.map((c, i) => (
+        <div class="reveal" style={`transition-delay:${i * 70}ms`}>
+          <article class="h-full bg-white rounded-2xl p-4 sm:p-5 ring-1 ring-ink/5 card-glow">
+            <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-ink/45"><span class="w-1.5 h-1.5 rounded-full bg-gold"></span>Nuevo</span>
+            <p class="font-display font-extrabold text-brand text-[clamp(1.6rem,3.2vw,2.1rem)] leading-none tracking-tight mt-3">{c.tag}</p>
+            <h3 class="font-display font-bold text-[15px] sm:text-base leading-snug mt-2">{c.title}</h3>
+            <p class="text-ink/55 text-[13px] sm:text-sm leading-snug mt-1">{c.text}</p>
+          </article>
+        </div>
+      ))}
+    </div>
+
+    <p class="reveal mt-6 text-sm text-ink/55">Las ofertas cambian cada semana. <a href={nov.cta.href} class="font-semibold text-brand hover:text-brand-deep underline decoration-gold decoration-2 underline-offset-4">{nov.cta.label} →</a></p>
   </div>
 </section>
 
