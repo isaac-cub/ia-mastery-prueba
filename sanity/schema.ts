@@ -76,7 +76,7 @@ export const homeType = defineType({
 
     // Hero
     section('hero', 'Hero (portada)', [
-      S('badgeTag', 'Etiqueta azul (ej. Actualizado Agosto 2026)', { description: 'Vacío = "Actualizado Agosto 2026".' }),
+      S('badgeTag', 'Etiqueta azul (ej. Actualizado Septiembre 2026)', { description: 'Vacío = "Actualizado Septiembre 2026".' }),
       S('badge', 'Etiqueta (badge)'),
       S('h1Line1', 'Título · línea 1'),
       S('h1Highlight', 'Título · palabra resaltada'),
