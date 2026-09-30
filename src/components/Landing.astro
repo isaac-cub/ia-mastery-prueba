@@ -34,6 +34,9 @@ const sc = {
   every: h.scarcity?.deadlineEvery || undefined,
   cta: h.scarcity?.cta,
 };
+// Etiqueta del hero: mes de la build (el workflow reconstruye el día 1 de cada mes).
+const mesActual = new Intl.DateTimeFormat('es', { month: 'long', year: 'numeric', timeZone: 'Europe/Madrid' }).format(Date.now()).replace(/ de /, ' ').replace(/^./, (c) => c.toUpperCase());
+const badgeTag = (h.hero.badgeTag || 'Actualizado {mes}').replace(/\{mes\}/g, mesActual);
 // Novedades: lo que no esté rellenado en Sanity cae a este texto.
 const nv = h.novedades ?? {};
 const nov = {
@@ -187,7 +190,7 @@ const embed = (u?: string) => {
   <div class="max-w-6xl mx-auto px-5 pt-14 pb-16 md:pt-20 md:pb-24 grid md:grid-cols-[1.05fr_.95fr] gap-12 items-center">
     <div>
       <div class="inline-flex items-center gap-2 bg-white/80 border border-brand/15 rounded-full pl-1.5 pr-3.5 py-1.5 text-xs font-semibold text-brand mb-7 shadow-sm">
-        <span class="bg-brand text-white rounded-full px-2 py-0.5 whitespace-nowrap">{h.hero.badgeTag || 'Actualizado Septiembre 2026'}</span> {h.hero.badge}
+        <span class="bg-brand text-white rounded-full px-2 py-0.5 whitespace-nowrap">{badgeTag}</span> {h.hero.badge}
       </div>
       <h1 class="relative z-0 font-display font-extrabold tracking-tight leading-[0.96] text-[clamp(2.5rem,6vw,4.3rem)]">
         {h.hero.h1Line1}<br>
