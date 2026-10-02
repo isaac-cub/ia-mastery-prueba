@@ -92,6 +92,7 @@ export const homeType = defineType({
       S('socialProofCount', 'Nº prueba social'),
       S('socialProofText', 'Texto prueba social'),
       S('videoEmbed', 'URL del vídeo (embed)'),
+      S('chipBefore', 'Chip · precio de antes (tachado)', { description: 'Vacío = la cifra «Antes» de la sección de los números + $.' }),
       S('chipPrice', 'Chip · precio'),
       S('chipPriceUnit', 'Chip · unidad'),
       S('chipNote', 'Chip · nota'),

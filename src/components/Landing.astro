@@ -37,6 +37,15 @@ const sc = {
 // Etiqueta del hero: mes de la build (el workflow reconstruye el día 1 de cada mes).
 const mesActual = new Intl.DateTimeFormat('es', { month: 'long', year: 'numeric', timeZone: 'Europe/Madrid' }).format(Date.now()).replace(/ de /, ' ').replace(/^./, (c) => c.toUpperCase());
 const badgeTag = (h.hero.badgeTag || 'Actualizado {mes}').replace(/\{mes\}/g, mesActual);
+// Titular largo (más de ~60 caracteres): letra más pequeña para no empujar el botón fuera de pantalla.
+const h1Long = `${h.hero.h1Line1} ${h.hero.h1Highlight} ${h.hero.h1Line3 ?? ''}`.trim().length > 60;
+// Con titular largo el resaltado parte en dos líneas y el subrayado ocuparía toda la columna:
+// entonces solo se subraya la última palabra.
+const hlWords = (h.hero.h1Highlight ?? '').split(' ');
+const hlScribble = h1Long && hlWords.length > 1 ? hlWords.pop() : h.hero.h1Highlight;
+const hlLead = h1Long && hlWords.length ? hlWords.join(' ') : '';
+// Franja de precio bajo el vídeo: el «antes» sale de la sección de los números si no se rellena.
+const chipBefore = h.hero.chipBefore || `${h.entry03.beforeValue}$`;
 // Novedades: lo que no esté rellenado en Sanity cae a este texto.
 const nv = h.novedades ?? {};
 const nov = {
@@ -118,6 +127,11 @@ const embed = (u?: string) => {
       radial-gradient(50% 45% at 88% 4%, rgba(45,127,249,.16), transparent 60%),
       radial-gradient(45% 45% at 72% 88%, rgba(255,200,61,.14), transparent 60%);
   }
+  .mesh-hero {
+    background:
+      radial-gradient(55% 50% at 12% 8%, rgba(0,82,204,.16), transparent 60%),
+      radial-gradient(50% 45% at 88% 4%, rgba(45,127,249,.16), transparent 60%);
+  }
   .grain:before { content:""; position:absolute; inset:0; opacity:.5; pointer-events:none;
     background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 4px 4px; }
 
@@ -186,18 +200,17 @@ const embed = (u?: string) => {
 </header>
 
 <!-- 1 · HERO -->
-<section class="relative overflow-hidden mesh">
+<section class="relative overflow-hidden mesh-hero">
   <div class="max-w-6xl mx-auto px-5 pt-14 pb-16 md:pt-20 md:pb-24 grid md:grid-cols-[1.05fr_.95fr] gap-12 items-center">
     <div>
       <div class="inline-flex items-center gap-2 bg-white/80 border border-brand/15 rounded-full pl-1.5 pr-3.5 py-1.5 text-xs font-semibold text-brand mb-7 shadow-sm">
         <span class="bg-brand text-white rounded-full px-2 py-0.5 whitespace-nowrap">{badgeTag}</span> {h.hero.badge}
       </div>
-      <h1 class="relative z-0 font-display font-extrabold tracking-tight leading-[0.96] text-[clamp(2.5rem,6vw,4.3rem)]">
+      <h1 class={`relative z-0 font-display font-extrabold tracking-tight leading-[0.98] ${h1Long ? 'text-[clamp(2.1rem,4.2vw,3.2rem)]' : 'text-[clamp(2.5rem,6vw,4.3rem)]'}`}>
         {h.hero.h1Line1}<br>
-        <span class="scribble scribble-hero text-brand">{h.hero.h1Highlight}
+        {hlLead && <span class="text-brand">{hlLead} </span>}<span class="scribble scribble-hero text-brand">{hlScribble}
           <svg viewBox="0 0 320 16" fill="none" preserveAspectRatio="none"><path d="M4 11C70 4 232 3 316 8" stroke="#FFC83D" stroke-width="6" stroke-linecap="round"/></svg>
-        </span><br>
-        {h.hero.h1Line3}
+        </span>{h.hero.h1Line3 && <><br>{h.hero.h1Line3}</>}
       </h1>
       <p class="mt-7 text-lg sm:text-xl text-ink/70 max-w-md leading-relaxed" set:html={h.hero.lead}></p>
       <div class="mt-8 flex flex-wrap items-center gap-3.5">
@@ -224,12 +237,15 @@ const embed = (u?: string) => {
             </span>
           </button>
         </div>
-        <div class="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
-          <span class="inline-flex items-center gap-2 bg-white rounded-full card-glow px-4 py-2 text-sm whitespace-nowrap">
-            <span class="font-display font-extrabold text-brand text-base">{h.hero.chipPrice}<span class="text-ink/45 font-sans text-[13px] font-semibold">{h.hero.chipPriceUnit}</span></span>
-            <span class="text-ink/55 font-medium">{h.hero.chipNote}</span>
-          </span>
-          <p class="font-hand text-brand text-[1.5rem] leading-none -rotate-3 hidden md:block">{h.hero.handNote}</p>
+        <div class="mt-4 bg-white rounded-2xl card-glow ring-1 ring-ink/5 px-5 py-4 sm:px-6 flex items-center justify-between gap-4">
+          <div>
+            <p class="flex items-baseline gap-2.5 whitespace-nowrap">
+              <span class="font-display font-extrabold text-brand text-[2.1rem] leading-none tracking-tight">{h.hero.chipPrice}<span class="text-ink/45 font-sans text-sm font-semibold">{h.hero.chipPriceUnit}</span></span>
+              <s class="font-display font-bold text-ink/35 text-base decoration-2">{chipBefore}{h.hero.chipPriceUnit}</s>
+            </p>
+            <p class="mt-1.5 text-sm font-medium text-ink/55">{h.hero.chipNote}</p>
+          </div>
+          {h.hero.handNote && <p class="font-hand text-brand text-[1.5rem] leading-none -rotate-3 text-right">{h.hero.handNote}</p>}
         </div>
       </div>
     </div>
