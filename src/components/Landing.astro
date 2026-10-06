@@ -963,17 +963,29 @@ const embed = (u?: string) => {
     document.documentElement.classList.add('snap-on')));
 
   // El player de Bunny son ~310 KB de JS de terceros que bloquean el pintado del
-  // hero. Se carga solo cuando el usuario le da al play: el embed ya iba con
-  // autoplay=false, asi que hacia falta un click igual y la UX no cambia.
-  document.querySelectorAll('button.vsl').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const f = document.createElement('iframe');
-      f.src = btn.dataset.embed.replace('autoplay=false', 'autoplay=true');
-      f.className = 'absolute inset-0 w-full h-full';
-      f.allow = 'accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;';
-      f.allowFullscreen = true;
-      btn.replaceWith(f);
-    }, { once: true });
+  // hero, asi que no va en el HTML. Pero tampoco puede esperar al click: un iframe
+  // creado en el click no hereda el gesto (Safari/movil) y no arranca con sonido,
+  // y habia que darle dos veces. Se monta tras el load (LCP ya registrado) cuando
+  // el reproductor se acerca al viewport, y el unico toque cae en el play de Bunny.
+  // Si alguien pulsa la fachada antes de que se monte, se monta con autoplay.
+  const mountVsl = (btn, autoplay) => {
+    if (!btn.isConnected) return;
+    const f = document.createElement('iframe');
+    f.src = autoplay ? btn.dataset.embed.replace('autoplay=false', 'autoplay=true') : btn.dataset.embed;
+    f.className = 'absolute inset-0 w-full h-full';
+    f.allow = 'accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;';
+    f.allowFullscreen = true;
+    btn.replaceWith(f);
+  };
+  const vsls = document.querySelectorAll('button.vsl');
+  vsls.forEach(btn => btn.addEventListener('click', () => mountVsl(btn, true), { once: true }));
+  addEventListener('load', () => {
+    const vio = new IntersectionObserver((es) => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      vio.unobserve(e.target);
+      mountVsl(e.target, false);
+    }), { rootMargin: '800px 0px' });
+    vsls.forEach(btn => vio.observe(btn));
   });
 
   // Los 8 posters (~300 KB) estan todos bajo el pliegue: se cuelgan del <video>
