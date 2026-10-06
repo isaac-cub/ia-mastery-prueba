@@ -195,6 +195,9 @@ export const homeType = defineType({
         S('title', 'Título'),
         T('text', 'Texto'),
         VID('media', 'Vídeo'),
+        S('videoEmbed', 'URL del reproductor de Bunny (embed)', {
+          description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny (16:9).',
+        }),
       ]),
     ]),
 
