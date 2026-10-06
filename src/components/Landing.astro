@@ -439,7 +439,7 @@ const embed = (u?: string) => {
 </section>
 )}
 
-<!-- 5.2 · CLASE · MOTION GRAPHICS CON IA (el clip es vertical, 3:4 siempre) -->
+<!-- 5.2 · CLASE · MOTION GRAPHICS CON IA (el clip es cuadrado, 1:1 siempre) -->
 {h.class03 && (
 <section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
     <div class="reveal">
@@ -452,7 +452,7 @@ const embed = (u?: string) => {
       </ul>
     </div>
     <div class="relative reveal w-full max-w-[440px] mx-auto md:ml-auto md:mr-0">
-      <div class="relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 aspect-[3/4]">
+      <div class="relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 aspect-square">
         {h.class03.videoEmbed
           ? <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.class03.videoEmbed)} aria-label="Reproducir el vídeo">
               {bunnyThumb(h.class03.videoEmbed) && <img src={bunnyThumb(h.class03.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
