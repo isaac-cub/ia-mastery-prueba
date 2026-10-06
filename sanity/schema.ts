@@ -225,6 +225,13 @@ export const homeType = defineType({
       SL('bullets', 'Bullets'),
     ]),
 
+    section('premiumEdit', 'Edición premium (sección destacada)', [
+      S('eyebrow', 'Eyebrow'), S('heading', 'Título'),
+      S('headingHighlight', 'Título · palabra en dorado'),
+      T('body', 'Texto (separa párrafos con una línea en blanco)'),
+      S('videoEmbed', 'URL del reproductor de Bunny (embed)'),
+    ]),
+
     // Por dentro (capturas reales de la plataforma)
     section('inside', 'Por dentro (capturas reales)', [
       S('eyebrow', 'Eyebrow'),
