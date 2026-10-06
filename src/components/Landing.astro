@@ -15,6 +15,31 @@ const bunnyThumb = (u?: string) => {
   const m = u && u.match(/\/(?:embed|play)\/\d+\/([0-9a-f-]{36})/);
   return m ? `${BUNNY_CDN}/${m[1]}/thumbnail.jpg` : undefined;
 };
+// Formato real de cada vídeo de Bunny (sale de su thumbnail, que tiene las proporciones del
+// vídeo): el marco se adapta solo y un vídeo vertical no se recorta ni sale con bandas.
+// El CDN de Bunny exige Referer del dominio. Si falla, 16:9.
+const jpegRatio = (b: Uint8Array) => {
+  for (let i = 2; i < b.length - 9; ) {
+    if (b[i] !== 0xff) { i++; continue; }
+    const m = b[i + 1], len = (b[i + 2] << 8) | b[i + 3];
+    if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc)
+      return ((b[i + 7] << 8) | b[i + 8]) / ((b[i + 5] << 8) | b[i + 6]);
+    i += 2 + len;
+  }
+};
+const vratio: Record<string, number> = Object.fromEntries(await Promise.all(
+  [h.hero?.videoEmbed, h.programa?.highlight?.videoEmbed, h.class01?.videoEmbed, h.class02?.videoEmbed,
+   h.class03?.videoEmbed, h.class04?.videoEmbed, h.premiumEdit?.videoEmbed]
+    .filter(Boolean).map(async (u: string) => {
+      try {
+        const r = await fetch(bunnyThumb(u)!, { headers: { Referer: 'https://iamastery.store/' } });
+        return [u, r.ok ? jpegRatio(new Uint8Array(await r.arrayBuffer())) ?? 16 / 9 : 16 / 9];
+      } catch { return [u, 16 / 9]; }
+    })));
+const ar = (u?: string) => (u && vratio[u]) || 16 / 9;
+// Ancho máximo de la tarjeta de las clases: cuanto más vertical, más estrecha (si no, no cabe en pantalla).
+const clipW = (u?: string) => u ? `max-width:${ar(u) < 0.7 ? 340 : 440}px` : undefined;
+
 // Barra superior: si no hay bloque de escasez en Sanity, cae al aviso de siempre.
 // Fecha límite rodante: con `deadlineEvery`, al vencer se suman periodos enteros desde la
 // fecha del Studio. Se calcula aquí para el HTML y otra vez en el navegador (la página es
@@ -61,6 +86,14 @@ const nov = {
   ],
   cta: nv.cta?.label ? nv.cta : { label: 'Quiero entrar y aprovecharlas', href: h.hero.ctaPrimary.href },
 };
+// Vídeo: si se subió un mp4 al Studio (`mediaFile`) manda ese; si no, la URL/ruta de `media`.
+// Los subidos no tienen poster generado: se pinta el primer fotograma (#t=0.1) al reproducir.
+const fileUrl = (f?: any) => {
+  const m = f?.asset?._ref?.match(/^file-([a-f0-9]+)-(\w+)$/);
+  return m ? `https://cdn.sanity.io/files/qqzhyit9/production/${m[1]}.${m[2]}` : undefined;
+};
+const vsrc = (o: any) => fileUrl(o?.mediaFile) ?? o?.media;
+const vposter = (o: any) => (!fileUrl(o?.mediaFile) && o?.media?.startsWith('/assets/')) ? o.media.replace('.mp4', '-poster.jpg') : undefined;
 // El cliente a veces pega el enlace "Play" de Bunny (/play/...) en vez del de embed:
 // dentro de un iframe esa página anida el player y no autoplayea. Se normaliza aquí.
 const embed = (u?: string) => {
@@ -317,7 +350,7 @@ const embed = (u?: string) => {
         <div class="relative aspect-[4/3] bg-ink overflow-hidden">
           {card.type === 'image'
             ? <img src={img(card.image, 720) ?? card.media} alt="" class="vid" loading="lazy" decoding="async" />
-            : <video class="vid" src={card.media} data-poster={card.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
+            : <video class="vid" src={vsrc(card)} data-poster={vposter(card)} muted loop playsinline preload="none"></video>}
           {card.badge && <span class="absolute bottom-3 left-3 text-white text-[11px] font-semibold bg-black/45 rounded-full px-2.5 py-1 backdrop-blur">{card.badge}</span>}
         </div>
         <div class="p-5">
@@ -328,14 +361,14 @@ const embed = (u?: string) => {
     ))}
   </div>
 
-  <article class={`reveal mt-5 grid ${h.programa.highlight.videoEmbed ? 'md:grid-cols-[1fr_1.35fr]' : 'md:grid-cols-[1.2fr_1fr]'} gap-0 bg-ink text-white rounded-3xl overflow-hidden card-glow`}>
+  <article class={`reveal mt-5 grid ${h.programa.highlight.videoEmbed ? (ar(h.programa.highlight.videoEmbed) < 1 ? 'md:grid-cols-[1fr_auto]' : 'md:grid-cols-[1fr_1.35fr]') : 'md:grid-cols-[1.2fr_1fr]'} gap-0 bg-ink text-white rounded-3xl overflow-hidden card-glow`}>
     <div class="p-8 md:p-10 flex flex-col justify-center">
       <span class="inline-flex w-max items-center gap-1.5 bg-gold text-ink text-[11px] font-bold px-2.5 py-1 rounded-full mb-4">{h.programa.highlight.badge}</span>
       <h3 class="font-display font-extrabold text-2xl md:text-3xl leading-tight">{h.programa.highlight.title}</h3>
       <p class="mt-3 text-white/70 leading-relaxed max-w-md">{h.programa.highlight.text}</p>
     </div>
     {h.programa.highlight.videoEmbed
-      ? <div class="relative aspect-video bg-black md:self-center">
+      ? <div class={`relative bg-black ${ar(h.programa.highlight.videoEmbed) < 1 ? 'md:w-[380px]' : 'md:self-center'}`} style={`aspect-ratio:${ar(h.programa.highlight.videoEmbed)}`}>
           <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.programa.highlight.videoEmbed)} aria-label="Reproducir el vídeo">
             {bunnyThumb(h.programa.highlight.videoEmbed) && <img src={bunnyThumb(h.programa.highlight.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
             <span class="absolute inset-0 grid place-items-center">
@@ -346,7 +379,7 @@ const embed = (u?: string) => {
           </button>
         </div>
       : <div class="relative min-h-[220px] bg-black">
-          <video class="vid" src={h.programa.highlight.media} data-poster={h.programa.highlight.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>
+          <video class="vid" src={vsrc(h.programa.highlight)} data-poster={vposter(h.programa.highlight)} muted loop playsinline preload="none"></video>
         </div>}
   </article>
 </section>
@@ -363,8 +396,8 @@ const embed = (u?: string) => {
         {h.class02.bullets.map((b) => <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> {b}</li>)}
       </ul>
     </div>
-    <div class="relative reveal w-full max-w-[440px] mx-auto md:ml-auto md:mr-0">
-      <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class02.videoEmbed ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+    <div class="relative reveal w-full max-w-[440px] mx-auto md:ml-auto md:mr-0" style={clipW(h.class02.videoEmbed)}>
+      <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class02.videoEmbed ? '' : 'aspect-[4/3]'}`} style={h.class02.videoEmbed ? `aspect-ratio:${ar(h.class02.videoEmbed)}` : undefined}>
         {h.class02.videoEmbed
           ? <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.class02.videoEmbed)} aria-label="Reproducir el vídeo">
               {bunnyThumb(h.class02.videoEmbed) && <img src={bunnyThumb(h.class02.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
@@ -374,7 +407,7 @@ const embed = (u?: string) => {
                 </span>
               </span>
             </button>
-          : <video class="vid" src={h.class02.media} data-poster={h.class02.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
+          : <video class="vid" src={vsrc(h.class02)} data-poster={vposter(h.class02)} muted loop playsinline preload="none"></video>}
       </div>
       <span class="absolute -top-3 -right-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full rotate-6 shadow">{h.class02.badge}</span>
     </div>
@@ -383,8 +416,8 @@ const embed = (u?: string) => {
 
 <!-- 5 · CLASE · ESPACIO DE GRABACIÓN -->
 <section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-12 items-center">
-  <div class={`relative order-2 md:order-1 reveal ${h.class01.videoEmbed ? 'w-full max-w-[440px] mx-auto md:ml-0' : ''}`}>
-    <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class01.videoEmbed ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+  <div class={`relative order-2 md:order-1 reveal ${h.class01.videoEmbed ? 'w-full max-w-[440px] mx-auto md:ml-0' : ''}`} style={clipW(h.class01.videoEmbed)}>
+    <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class01.videoEmbed ? '' : 'aspect-[4/3]'}`} style={h.class01.videoEmbed ? `aspect-ratio:${ar(h.class01.videoEmbed)}` : undefined}>
       {h.class01.videoEmbed
         ? <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.class01.videoEmbed)} aria-label="Reproducir el vídeo">
             {bunnyThumb(h.class01.videoEmbed) && <img src={bunnyThumb(h.class01.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
@@ -394,7 +427,7 @@ const embed = (u?: string) => {
               </span>
             </span>
           </button>
-        : <video class="vid" src={h.class01.media} data-poster={h.class01.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
+        : <video class="vid" src={vsrc(h.class01)} data-poster={vposter(h.class01)} muted loop playsinline preload="none"></video>}
     </div>
     <span class="absolute -top-3 -left-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full -rotate-6 shadow">{h.class01.badge}</span>
   </div>
@@ -424,7 +457,7 @@ const embed = (u?: string) => {
       {h.premiumEdit.body?.split(/\n\s*\n/).map((para, i) => <p class={`${i === 0 ? 'mt-6 text-lg md:text-xl text-white/85' : 'mt-4 text-white/60'} leading-relaxed`}>{para}</p>)}
     </div>
     {h.premiumEdit.videoEmbed && (
-      <div class="reveal mt-12 md:mt-14 relative rounded-[1.75rem] overflow-hidden bg-black aspect-video ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,82,204,.55)]">
+      <div class={`reveal mt-12 md:mt-14 relative rounded-[1.75rem] overflow-hidden bg-black ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,82,204,.55)] mx-auto ${ar(h.premiumEdit.videoEmbed) < 1.2 ? 'max-w-[640px]' : ''}`} style={`aspect-ratio:${ar(h.premiumEdit.videoEmbed)}`}>
         <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.premiumEdit.videoEmbed)} aria-label="Reproducir el vídeo">
           {bunnyThumb(h.premiumEdit.videoEmbed) && <img src={bunnyThumb(h.premiumEdit.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
           <span class="absolute inset-0 grid place-items-center">
@@ -443,7 +476,7 @@ const embed = (u?: string) => {
 {h.class03 && (
 <section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
     <div class="reveal">
-      <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">{h.class03.eyebrow}</span>
+      <span class="inline-flex w-max items-center bg-gold text-ink text-[11px] font-bold tracking-[0.15em] uppercase px-2.5 py-1 rounded-full">{h.class03.eyebrow}</span>
       <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,2.8rem)] leading-[1.05] mt-3">{h.class03.heading}</h2>
       <p class="mt-3 text-lg text-ink/70">{h.class03.lead}</p>
       {h.class03.body && <p class="mt-4 text-ink/65 leading-relaxed">{h.class03.body}</p>}
@@ -451,8 +484,8 @@ const embed = (u?: string) => {
         {h.class03.bullets.map((b) => <li class="flex gap-2.5"><span class="text-brand font-bold">→</span> {b}</li>)}
       </ul>
     </div>
-    <div class="relative reveal w-full max-w-[440px] mx-auto md:ml-auto md:mr-0">
-      <div class="relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 aspect-square">
+    <div class="relative reveal w-full max-w-[440px] mx-auto md:ml-auto md:mr-0" style={clipW(h.class03.videoEmbed)}>
+      <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class03.videoEmbed ? '' : 'aspect-square'}`} style={h.class03.videoEmbed ? `aspect-ratio:${ar(h.class03.videoEmbed)}` : undefined}>
         {h.class03.videoEmbed
           ? <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.class03.videoEmbed)} aria-label="Reproducir el vídeo">
               {bunnyThumb(h.class03.videoEmbed) && <img src={bunnyThumb(h.class03.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
@@ -462,7 +495,7 @@ const embed = (u?: string) => {
                 </span>
               </span>
             </button>
-          : <video class="vid" src={h.class03.media} data-poster={h.class03.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
+          : <video class="vid" src={vsrc(h.class03)} data-poster={vposter(h.class03)} muted loop playsinline preload="none"></video>}
       </div>
       <span class="absolute -top-3 -right-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full rotate-6 shadow">{h.class03.badge}</span>
     </div>
@@ -473,8 +506,8 @@ const embed = (u?: string) => {
 {h.class04?.heading && (
 <section>
   <div class="max-w-6xl mx-auto px-5 pb-14 md:pb-28 grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
-    <div class="relative order-2 md:order-1 reveal w-full max-w-[440px] mx-auto md:ml-0">
-      <div class="relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 aspect-[3/4]">
+    <div class="relative order-2 md:order-1 reveal w-full max-w-[440px] mx-auto md:ml-0" style={clipW(h.class04.videoEmbed)}>
+      <div class={`relative rounded-3xl overflow-hidden bg-ink card-glow ring-1 ring-ink/5 ${h.class04.videoEmbed ? '' : 'aspect-[3/4]'}`} style={h.class04.videoEmbed ? `aspect-ratio:${ar(h.class04.videoEmbed)}` : undefined}>
         {h.class04.videoEmbed
           ? <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.class04.videoEmbed)} aria-label="Reproducir el vídeo">
               {bunnyThumb(h.class04.videoEmbed) && <img src={bunnyThumb(h.class04.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
@@ -484,12 +517,12 @@ const embed = (u?: string) => {
                 </span>
               </span>
             </button>
-          : h.class04.media && <video class="vid" src={h.class04.media} data-poster={h.class04.media.replace('.mp4','-poster.jpg')} muted loop playsinline preload="none"></video>}
+          : vsrc(h.class04) && <video class="vid" src={vsrc(h.class04)} data-poster={vposter(h.class04)} muted loop playsinline preload="none"></video>}
       </div>
       {h.class04.badge && <span class="absolute -top-3 -left-3 bg-gold text-ink font-display font-bold text-sm px-3 py-1.5 rounded-full -rotate-6 shadow">{h.class04.badge}</span>}
     </div>
     <div class="order-1 md:order-2 reveal">
-      {h.class04.eyebrow && <span class="text-xs font-bold tracking-[0.2em] text-brand uppercase">{h.class04.eyebrow}</span>}
+      {h.class04.eyebrow && <span class="inline-flex w-max items-center bg-gold text-ink text-[11px] font-bold tracking-[0.15em] uppercase px-2.5 py-1 rounded-full">{h.class04.eyebrow}</span>}
       <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,2.8rem)] leading-[1.05] mt-3">{h.class04.heading}</h2>
       {h.class04.lead && <p class="mt-3 text-lg text-ink/70">{h.class04.lead}</p>}
       {h.class04.body && <p class="mt-4 text-ink/65 leading-relaxed">{h.class04.body}</p>}

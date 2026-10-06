@@ -24,6 +24,24 @@ const VID = (name: string, title: string) =>
     validation: (r: any) => r.uri({ allowRelative: true, scheme: ['http', 'https'] }),
   })
 
+// Vídeo subido al Studio (mp4). Si existe, manda sobre la URL/ruta de `media`.
+// Límite de peso: un clip decorativo pesado hunde la carga en móvil.
+const MAX_MB = 4
+const VFILE = (name: string, title: string) =>
+  defineField({
+    name, title, type: 'file',
+    options: { accept: 'video/mp4' },
+    description: `Sube aquí el .mp4 (máx. ${MAX_MB} MB, sin audio, ~720 px de ancho). Si lo subes, sustituye al vídeo de abajo.`,
+    validation: (r: any) => r.custom(async (v: any, ctx: any) => {
+      const ref = v?.asset?._ref
+      if (!ref) return true
+      const size = await ctx.getClient({ apiVersion: '2024-01-01' }).fetch('*[_id == $id][0].size', { id: ref })
+      return size > MAX_MB * 1e6
+        ? `Este vídeo pesa ${(size / 1e6).toFixed(1)} MB y el máximo es ${MAX_MB} MB: comprímelo (o pásaselo a Isaac) antes de publicarlo.`
+        : true
+    }),
+  })
+
 // Botón / enlace {label, href}
 const CTA = (name: string, title: string) =>
   defineField({
@@ -180,7 +198,8 @@ export const homeType = defineType({
           type: 'object', name: 'formatCard',
           fields: [
             S('type', 'Tipo', { options: { list: ['video', 'image'] } }),
-            VID('media', 'Vídeo (si Tipo = video)'),
+            VFILE('mediaFile', 'Vídeo · subir archivo (si Tipo = video)'),
+            VID('media', 'Vídeo · URL o ruta (si no subes archivo)'),
             IMG('image', 'Imagen (si Tipo = image)'),
             S('badge', 'Etiqueta sobre media (opcional)'),
             S('cornerTag', 'Sello esquina (opcional, ej. NUEVO)'),
@@ -194,7 +213,7 @@ export const homeType = defineType({
         S('badge', 'Badge'),
         S('title', 'Título'),
         T('text', 'Texto'),
-        VID('media', 'Vídeo'),
+        VFILE('mediaFile', 'Vídeo · subir archivo'), VID('media', 'Vídeo · URL o ruta (si no subes archivo)'),
         S('videoEmbed', 'URL del reproductor de Bunny (embed)', {
           description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny (16:9).',
         }),
@@ -204,7 +223,7 @@ export const homeType = defineType({
     // Nuevas clases
     section('class01', 'Nueva clase 1', [
       S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
-      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
+      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VFILE('mediaFile', 'Vídeo · subir archivo'), VID('media', 'Vídeo · URL o ruta (si no subes archivo)'),
       S('videoEmbed', 'URL del reproductor (embed con sonido y botón de play)', {
         description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny.',
       }),
@@ -212,7 +231,7 @@ export const homeType = defineType({
     ]),
     section('class02', 'Nueva clase 2', [
       S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
-      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
+      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VFILE('mediaFile', 'Vídeo · subir archivo'), VID('media', 'Vídeo · URL o ruta (si no subes archivo)'),
       S('videoEmbed', 'URL del reproductor (embed con sonido y botón de play)', {
         description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny.',
       }),
@@ -221,7 +240,7 @@ export const homeType = defineType({
 
     section('class03', 'Nueva clase 3', [
       S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
-      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
+      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VFILE('mediaFile', 'Vídeo · subir archivo'), VID('media', 'Vídeo · URL o ruta (si no subes archivo)'),
       S('videoEmbed', 'URL del reproductor (embed con sonido y botón de play)', {
         description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny.',
       }),
@@ -230,7 +249,7 @@ export const homeType = defineType({
 
     section('class04', 'Nueva clase 4 (Conviértete en cualquier persona)', [
       S('eyebrow', 'Eyebrow'), S('badge', 'Sello'), S('heading', 'Título'),
-      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VID('media', 'Vídeo'),
+      S('lead', 'Subtítulo'), T('body', 'Cuerpo'), VFILE('mediaFile', 'Vídeo · subir archivo'), VID('media', 'Vídeo · URL o ruta (si no subes archivo)'),
       S('videoEmbed', 'URL del reproductor (embed con sonido y botón de play)', {
         description: 'Si se rellena, sustituye al vídeo en bucle por el reproductor de Bunny.',
       }),
