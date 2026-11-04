@@ -24,6 +24,8 @@ export default defineConfig({
             'href', 'src', 'image', 'imageAlt', 'alt', 'media',
             'boxImage', 'boxImageAlt', 'avatars', 'videoEmbed',
             'seoTitle', 'seoDescription', 'type',
+            // /llamada/: enlaces, IDs de vídeo, refs de imagen y la aguja del split del título.
+            'calendly', 'url', 'video', 'asset', 'titleHighlight',
           ])
           return !props.sourcePath.some((seg) => typeof seg === 'string' && skip.has(seg))
         },

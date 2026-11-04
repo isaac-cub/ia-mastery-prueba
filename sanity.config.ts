@@ -1,7 +1,8 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
-import { presentationTool, defineLocations } from 'sanity/presentation'
+import { presentationTool, defineLocations, defineDocuments } from 'sanity/presentation'
 import { schemaTypes } from './sanity/schema'
+import { PreviewNavigator } from './sanity/PreviewNavigator'
 
 // Documento único: el cliente edita SIEMPRE el mismo doc `home`.
 const singleton = (S: any) =>
@@ -28,11 +29,21 @@ export default defineConfig({
   plugins: [
     presentationTool({
       previewUrl: { preview: '/preview' },
+      components: { unstable_navigator: { component: PreviewNavigator, minWidth: 220, maxWidth: 300 } },
       resolve: {
+        // Al navegar en el panel, el editor abre solo el documento de esa página.
+        mainDocuments: defineDocuments([
+          { route: ['/preview', '/preview/'], filter: `_id == "home"` },
+          { route: ['/preview/llamada', '/preview/llamada/'], filter: `_id == "llamada"` },
+        ]),
         locations: {
           home: defineLocations({
             locations: [{ title: 'Landing AI Mastery', href: '/preview' }],
             resolve: () => ({ locations: [{ title: 'Landing AI Mastery', href: '/preview' }] }),
+          }),
+          llamada: defineLocations({
+            locations: [{ title: 'Página de llamada', href: '/preview/llamada' }],
+            resolve: () => ({ locations: [{ title: 'Página de llamada', href: '/preview/llamada' }] }),
           }),
         },
       },

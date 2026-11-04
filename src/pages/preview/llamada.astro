@@ -1,0 +1,7 @@
+---
+import { sanityClient } from 'sanity:client';
+import Llamada from '../../components/Llamada.astro';
+// Ruta SOLO para el Studio (Presentation): stega + overlays de clic-en-texto.
+const d = await sanityClient.fetch(`*[_id == "llamada"][0]`, {}, { stega: true });
+---
+<Llamada d={d} preview />
