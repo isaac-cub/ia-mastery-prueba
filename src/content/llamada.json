@@ -1,0 +1,122 @@
+{
+  "_id": "llamada",
+  "_type": "llamada",
+  "seoTitle": "Content Accelerator | Llamada de orientación",
+  "seoDescription": "Content Accelerator: monta tu agencia de contenido y consigue clientes. Solicita tu llamada de orientación.",
+  "calendly": "https://calendly.com/d/cybp-ds6-hr5/sesion-de-orientacion-lt",
+  "cta": "Solicita tu plaza",
+  "ctaMicro": "30 min · Plazas limitadas cada semana",
+  "confirm": {
+    "text": "Gracias por tu compra. Revisa tu email: tienes el acceso a AI Mastery ahí.",
+    "small": "Si en 10 minutos no te ha llegado, mira en spam o promociones. Y si tampoco, escribe a soporte@diegonxt.com."
+  },
+  "hero": {
+    "eyebrow": "EXCLUSIVO PARA ALUMNOS DE AI MASTERY",
+    "h1": "¿Quieres conseguir tus primeros",
+    "h1Highlight": "2.000 USD/mes con tu propia agencia de contenido?",
+    "sub": [
+      "La parte de la IA ya la tienes con AI Mastery. Ahora falta lo que de verdad genera ingresos: montar tu agencia y conseguir clientes.",
+      "Reserva una sesión con nuestro equipo: vemos tu punto de partida, qué servicios puedes vender (edición, anuncios, avatares) y si **Content Accelerator** encaja contigo."
+    ],
+    "steps": ["Pulsa el botón", "Elige día y hora", "Hablamos 30 minutos"]
+  },
+  "vsl": {
+    "show": false,
+    "url": ""
+  },
+  "testimonials": {
+    "h2": "Alumnos que hoy viven de crear contenido",
+    "items": [
+      { "_key": "4e2793907a74", "name": "Doris", "role": "alumna", "result": "De 0 a 2.500+ USD al mes con su agencia de contenido", "video": "gKYLQX9FbkM" },
+      { "_key": "cd6f400c9a7c", "name": "Emilio", "result": "De burnout laboral a agencia de contenido de $3K al mes", "video": "vDvzM98ffIg" },
+      { "_key": "04906cd58a58", "name": "Luciano", "result": "Agencia de contenido con clientes que se quedan mes a mes", "video": "jz1Dzzxog9w" },
+      { "_key": "2e0f37903394", "name": "Eloy", "result": "De 0 clientes a vivir de su agencia de contenido con 18 años", "video": "FEL33oy1o2Y" },
+      { "_key": "2ba870091522", "name": "Santiago", "result": "De cero a 500K visitas y varios clientes con su agencia de contenido", "video": "fBUhIHtIaxI" },
+      { "_key": "400070bf00cf", "name": "David", "result": "100M de visitas en un reel para su primer cliente", "video": "ERNdqosi3TA" }
+    ],
+    "wallH3": "Lo que escriben los alumnos que han cerrado clientes",
+    "wall": [
+      { "_key": "ce342762d649", "_type": "image", "alt": "«Ya llevo más de 2k asegurados y no llevo ni un mes. Estaba sin trabajo.»", "asset": { "_type": "reference", "_ref": "image-d840bcf5ba3313677d64ff0ccd960cab87183cb7-900x1348-webp" } },
+      { "_key": "0fef27a60008", "_type": "image", "alt": "«He logrado trabajar para 3 clientes de la bolsa de trabajo, 2 en España y 1 en México.»", "asset": { "_type": "reference", "_ref": "image-cca1ddc61349720115491dd199123f3570102d6e-900x628-webp" } },
+      { "_key": "7e9f024ebe64", "_type": "image", "alt": "«Cerré un proyecto de 900 € mensuales. Desde entonces, dos más: 1.400 € mensuales.»", "asset": { "_type": "reference", "_ref": "image-79d4cf3326487403e88a6036430c5ab21b3c3bf6-900x493-webp" } },
+      { "_key": "041b1d3f9178", "_type": "image", "alt": "«Ni siquiera acabé tu curso y estoy haciendo 2.200 USD al mes en remoto.»", "asset": { "_type": "reference", "_ref": "image-2f0d79981056c83e9d758a2f825d3d5a351024b6-900x757-webp" } },
+      { "_key": "d13ca4b1e2af", "_type": "image", "alt": "Total contratos: $4.200. «Gracias por todo, este mes ha sido genial.» «Pero esto qué es, vaya locura.»", "asset": { "_type": "reference", "_ref": "image-c10cc94d45b9f444f148b2e32f682125ad5ac529-900x608-webp" } },
+      { "_key": "9884602c0038", "_type": "image", "alt": "Pago de 700 € de un cliente gracias a la metodología NXT", "asset": { "_type": "reference", "_ref": "image-6eb81bd17ed57a1cd89d55c679c32110318f1181-770x426-webp" } }
+    ]
+  },
+  "problem": {
+    "eyebrow": "Diego",
+    "h2": "Voy a ser honesto contigo",
+    "paras": [
+      "Editar bien sigue siendo la base. Pero hoy ya no basta con editar como hace unos años.",
+      "Si te apoyas en la IA, puedes mejorar mucho lo que creas y reducir los tiempos. **Las marcas y las empresas ya piden edición y creación de contenido asistidas con IA**, porque es mucho más rápido.",
+      "Y ahí está la parte buena: marcas personales, ecommerce y negocios físicos necesitan contenido cada semana y no tienen a quién pedírselo."
+    ],
+    "punch": "Saber usar la IA no es lo mismo que tener una agencia. La diferencia es el sistema."
+  },
+  "services": {
+    "eyebrow": "Lo que vas a vender",
+    "h2": "Una agencia de contenido completa",
+    "items": [
+      { "_key": "s1", "title": "Edición de vídeo", "body": "Reels, vídeos largos y clips para tus clientes. La IA te quita lo repetitivo: más volumen, mismo tiempo." },
+      { "_key": "s3", "title": "Anuncios", "body": "Creatividades y vídeos para ads que se testean rápido y se renuevan cada semana." },
+      { "_key": "s2", "title": "Avatares con IA", "body": "Clones y presentadores virtuales para marcas que necesitan publicar sin grabar cada día." },
+      { "_key": "s4", "title": "Contenido para negocios", "body": "Marcas personales, ecommerce y negocios físicos: los clientes que más pagan por estar al día." }
+    ]
+  },
+  "mechanism": {
+    "eyebrow": "El mecanismo",
+    "h2": "Tu inversión la recuperas con tu primer cliente",
+    "intro": "En **Content Accelerator** te enseñamos a editar y crear contenido apoyándote en la IA, a montar tu agencia, a ponerle precio a tus servicios y a venderlos. Y te damos lo que a casi todos les falta al empezar: **a quién vendérselo.**",
+    "steps": [
+      { "_key": "a05738f163f9", "title": "Aprendes", "body": "Edición asistida con IA, portfolio, nicho, precios, marca personal y una oferta que se entienda en 10 segundos. Si ya tienes clientes, aquí revisas qué cobras y montas la oferta con la que vas a subir." },
+      { "_key": "1eb4f8fb0e76", "title": "Accedes a la bolsa", "body": "Nuestra **bolsa privada de clientes**: marcas, creadores y agencias que publican sus ofertas ahí antes que en ningún otro sitio. Solo la ven los alumnos del programa." },
+      { "_key": "41d8e38a9405", "title": "Cierras y cobras", "body": "Te enseñamos a crear tus primeras propuestas y a cerrarlas: tu primer cliente pagando, o el paso a mensualidad con los que ya tienes. Acceso a la formación de por vida." }
+    ],
+    "offersH3": "Ofertas que han aparecido en nuestra bolsa de trabajo",
+    "offers": [
+      { "_key": "4cc428fabca3", "_type": "image", "alt": "Andoni · 3 millones de seguidores", "asset": { "_type": "reference", "_ref": "image-a4c8161171c34bb1f17f1c3cec0ceb274d15c8f0-900x265-webp" } },
+      { "_key": "c6c28f9f22d2", "_type": "image", "alt": "Celia Rubio · 1,4 millones de seguidores", "asset": { "_type": "reference", "_ref": "image-e9682ac1c06c25afd0c2d98fa95f92ce05bb5611-900x265-webp" } },
+      { "_key": "602319c843ce", "_type": "image", "alt": "Álvaro Guzmán · 527 mil seguidores", "asset": { "_type": "reference", "_ref": "image-f587184ec82a478055c5b839cb09668e146d3405-900x229-webp" } },
+      { "_key": "480669805556", "_type": "image", "alt": "Conquer Languages · 146 mil seguidores", "asset": { "_type": "reference", "_ref": "image-47dff2c1a2c8c6a4e3783d7da9446637837a3fbc-900x254-webp" } }
+    ]
+  },
+  "fit": {
+    "yesH2": "Esta llamada es para ti si…",
+    "yes": [
+      "Quieres vivir de crear contenido (o convertirlo en tu segunda fuente de ingresos) y estás dispuesto a trabajar para ello.",
+      "Nunca has cobrado por esto, o **ya cobras** y quieres ingresos estables cada mes.",
+      "Puedes dedicarle al menos 7 horas a la semana durante los próximos 3 meses."
+    ],
+    "noH2": "No es para ti si…",
+    "no": [
+      "Solo quieres crear contenido para ti. Para eso ya tienes AI Mastery.",
+      "Buscas dinero rápido sin hacer nada.",
+      "Tienes una duda sobre tu acceso: eso es soporte → soporte@diegonxt.com."
+    ]
+  },
+  "founder": {
+    "eyebrow": "Quién te va a enseñar a vender",
+    "title": "Diego Arroyo, fundador de NXTGEN Agency",
+    "titleHighlight": "NXTGEN Agency",
+    "body": [
+      "He generado decenas de millones de visitas trabajando con referentes como Powerexplosive, HSN Store, Subleasing Dubai o Cultura de Gym. Tengo más de 100.000 seguidores y llevo años contratando creadores para mi agencia y para mis clientes: sé qué se busca, cuánto se paga y por qué a la mayoría no los contratan.",
+      "Eso es lo que te enseño en el programa. Y por eso existe la bolsa de clientes: son las mismas empresas y creadores con los que trabajo."
+    ],
+    "photo": { "_type": "image", "asset": { "_type": "reference", "_ref": "image-3c0107b9ca9d79fe1c6487b2a359fcea6e66ddf3-541x775-webp" } }
+  },
+  "faqTitle": "Preguntas frecuentes",
+  "faq": [
+    { "_key": "f1", "q": "¿Qué vemos en la llamada?", "a": "Es una llamada de orientación de 30 minutos conmigo o con mi mano derecha. Vemos dónde estás, si el programa encaja contigo y en qué plazo podrías tener tu primer cliente. Si no es tu momento, te lo digo y ya está." },
+    { "_key": "f2", "q": "¿Necesito saber editar con programas tradicionales?", "a": "No. En el programa te enseñamos a editar apoyándote en la IA, y a convertirlo en un servicio por el que te paguen." },
+    { "_key": "1fc0c01a0d38", "q": "¿Y si no consigo clientes?", "a": "Tenemos nuestra garantía de resultados: si no encuentras clientes en 3 meses, se te devuelve el dinero." },
+    { "_key": "25b2f4ea881f", "q": "¿La llamada me compromete a algo?", "a": "No. Es gratis y sirve para ver si encaja. Lo único que te pido es que si reservas, aparezcas: no se puede reagendar y esa plaza se la quitas a otro." },
+    { "_key": "40d0c6200648", "q": "Tengo un problema con mi acceso a AI Mastery.", "a": "Eso no es esta llamada: escribe a soporte@diegonxt.com y te lo resuelven." }
+  ],
+  "close": {
+    "h2": "Solo hay 10 plazas de orientación a la semana",
+    "body": "Las llamadas las hacemos nosotros, no un bot, y la agenda se llena cada semana muy rápido. Si te ves en la lista de «es para ti», reserva ahora y elige una hora a la que sepas que vas a estar.",
+    "warning": "⚠️ Aviso importante: esta llamada no se puede reagendar. Asegúrate de elegir un día y una hora a la que puedas asistir."
+  },
+  "sticky": { "title": "Llamada de orientación", "cta": "Solicitar llamada" }
+}

@@ -459,4 +459,74 @@ export const homeType = defineType({
   preview: { select: { title: 'seoTitle' } },
 })
 
-export const schemaTypes = [homeType]
+// Página «reservar llamada» de Content Accelerator (/llamada/). **negrita** en los textos.
+const IMGALT = (name: string, title: string) =>
+  defineField({
+    name, title, type: 'array',
+    of: [defineArrayMember({ type: 'image', options: { hotspot: true }, fields: [S('alt', 'Texto alternativo')] })],
+  })
+const ITEMS = (name: string, title: string, fields: any[]) =>
+  defineField({
+    name, title, type: 'array',
+    of: [defineArrayMember({ type: 'object', fields, preview: { select: { title: fields[0].name, subtitle: fields[1]?.name } } })],
+  })
+
+export const llamadaType = defineType({
+  name: 'llamada',
+  title: 'Página de llamada (Content Accelerator)',
+  type: 'document',
+  fields: [
+    S('seoTitle', 'SEO: título'), S('seoDescription', 'SEO: descripción'),
+    S('calendly', 'Enlace de Calendly (todos los botones)'),
+    S('cta', 'Texto de los botones'), S('ctaMicro', 'Texto bajo los botones'),
+    section('confirm', 'Franja de compra confirmada (vacía = no sale)', [S('text', 'Texto'), S('small', 'Texto pequeño')]),
+    section('hero', 'Cabecera', [
+      S('eyebrow', 'Etiqueta'), S('h1', 'Titular'), S('h1Highlight', 'Titular: parte resaltada'),
+      defineField({ name: 'sub', title: 'Párrafos', type: 'array', of: [{ type: 'text', rows: 2 }] }),
+      SL('steps', 'Pasos (3)'),
+    ]),
+    defineField({
+      name: 'vsl', title: 'VSL', type: 'object',
+      description: 'Pega el enlace de Bunny o YouTube y activa el interruptor para que aparezca bajo el titular.',
+      fields: [
+        defineField({ name: 'show', title: 'Mostrar el vídeo', type: 'boolean', initialValue: false }),
+        defineField({ name: 'url', title: 'Enlace del vídeo (Bunny o YouTube)', type: 'url' }),
+      ],
+    }),
+    section('testimonials', 'Testimonios', [
+      S('h2', 'Título'),
+      ITEMS('items', 'Vídeos de YouTube', [S('result', 'Resultado'), S('name', 'Nombre'), S('role', 'Rol (alumno/alumna)'), S('video', 'ID del vídeo de YouTube')]),
+      S('wallH3', 'Título de las capturas'),
+      IMGALT('wall', 'Capturas'),
+    ]),
+    section('problem', 'Voy a ser honesto', [
+      S('eyebrow', 'Etiqueta'), S('h2', 'Título'),
+      defineField({ name: 'paras', title: 'Párrafos', type: 'array', of: [{ type: 'text', rows: 3 }] }),
+      S('punch', 'Frase final'),
+    ]),
+    section('services', 'Servicios', [
+      S('eyebrow', 'Etiqueta'), S('h2', 'Título'),
+      ITEMS('items', 'Servicios', [S('title', 'Título'), T('body', 'Texto')]),
+    ]),
+    section('mechanism', 'Mecanismo y bolsa de clientes', [
+      S('eyebrow', 'Etiqueta'), S('h2', 'Título'), T('intro', 'Intro'),
+      ITEMS('steps', 'Pasos', [S('title', 'Título'), T('body', 'Texto')]),
+      S('offersH3', 'Título de las ofertas'), IMGALT('offers', 'Ofertas (capturas)'),
+    ]),
+    section('fit', 'Para quién es', [
+      S('yesH2', 'Título «sí»'), SL('yes', 'Es para ti si'), S('noH2', 'Título «no»'), SL('no', 'No es para ti si'),
+    ]),
+    section('founder', 'Diego', [
+      S('eyebrow', 'Etiqueta'), S('title', 'Título'), S('titleHighlight', 'Título: parte resaltada'),
+      defineField({ name: 'body', title: 'Párrafos', type: 'array', of: [{ type: 'text', rows: 3 }] }),
+      IMG('photo', 'Foto'),
+    ]),
+    S('faqTitle', 'FAQ: título'),
+    ITEMS('faq', 'FAQ', [S('q', 'Pregunta'), T('a', 'Respuesta')]),
+    section('close', 'Cierre', [S('h2', 'Título'), T('body', 'Texto'), T('warning', 'Aviso')]),
+    section('sticky', 'Barra fija', [S('title', 'Título'), S('cta', 'Botón')]),
+  ],
+  preview: { prepare: () => ({ title: 'Página de llamada (Content Accelerator)' }) },
+})
+
+export const schemaTypes = [homeType, llamadaType]

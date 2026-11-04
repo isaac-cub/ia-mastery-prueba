@@ -12,6 +12,10 @@ const singleton = (S: any) =>
         .title('Landing AI Mastery')
         .id('home')
         .child(S.document().schemaType('home').documentId('home')),
+      S.listItem()
+        .title('Página de llamada (Content Accelerator)')
+        .id('llamada')
+        .child(S.document().schemaType('llamada').documentId('llamada')),
     ])
 
 export default defineConfig({
@@ -38,12 +42,12 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     // Sin plantillas de "crear nuevo" para el singleton.
-    templates: (prev) => prev.filter((t) => t.schemaType !== 'home'),
+    templates: (prev) => prev.filter((t) => !['home', 'llamada'].includes(t.schemaType)),
   },
   document: {
     // Oculta duplicar / borrar / despublicar en el singleton.
     actions: (prev, { schemaType }) =>
-      schemaType === 'home'
+      ['home', 'llamada'].includes(schemaType)
         ? prev.filter(({ action }) =>
             ['publish', 'discardChanges', 'restore'].includes(action as string),
           )

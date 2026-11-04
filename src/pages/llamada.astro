@@ -1,0 +1,354 @@
+---
+// Landing «reservar llamada» de Content Accelerator para alumnos de AI Mastery.
+// Contenido: doc `llamada` de Sanity; si aún no existe, la semilla de src/content/llamada.json.
+import { sanityClient } from 'sanity:client';
+import { img } from '../lib/img';
+import seed from '../content/llamada.json';
+import '../styles/tailwind.css';
+
+const d: any = (await sanityClient.fetch(`*[_id == "llamada"][0]`)) ?? seed;
+const CAL = d.calendly;
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const rich = (s = '') => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-ink">$1</strong>');
+
+// VSL: se pega la URL de Bunny (embed o play) o de YouTube y se enciende el interruptor.
+const vslUrl: string | undefined = d.vsl?.show && d.vsl?.url ? d.vsl.url.trim() : undefined;
+const yt = vslUrl?.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/)?.[1];
+const bunny = vslUrl?.match(/\/(?:embed|play)\/(\d+)\/([0-9a-f-]{36})/);
+const vslSrc = yt
+  ? `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&playsinline=1`
+  : bunny ? `https://player.mediadelivery.net/embed/${bunny[1]}/${bunny[2]}?autoplay=true&preload=false&playsinline=true&responsive=true` : undefined;
+const vslThumb = yt ? `https://i.ytimg.com/vi/${yt}/maxresdefault.jpg` : bunny ? `https://vz-3ecdf5cb-fe3.b-cdn.net/${bunny[2]}/thumbnail.jpg` : undefined;
+
+const [fPre, fPost] = d.founder.title.split(d.founder.titleHighlight);
+const site = Astro.site?.href?.replace(/\/$/, '') ?? 'https://iamastery.store';
+---
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{d.seoTitle}</title>
+<meta name="description" content={d.seoDescription} />
+<meta name="robots" content="noindex, follow" />
+<link rel="canonical" href={`${site}/llamada/`} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#0052CC" />
+<meta property="og:title" content={d.seoTitle} />
+<meta property="og:description" content={d.seoDescription} />
+<meta property="og:image" content={`${site}/thumbnail-aimastery.png`} />
+<link rel="preload" as="font" type="font/woff2" href="/fonts/bricolage-grotesque.woff2" crossorigin />
+<style is:global>
+  @font-face{font-family:'Bricolage Grotesque';font-style:normal;font-weight:400 800;font-stretch:100%;font-display:swap;src:url('/fonts/bricolage-grotesque.woff2') format('woff2')}
+  @font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url('/fonts/inter.woff2') format('woff2')}
+  html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
+  body { background: #F5F8FF; color: #0B1220; font-size: 17px; line-height: 1.6; overflow-x: clip; }
+  ::selection { background: #0052CC; color: #fff; }
+  .mesh-hero {
+    background:
+      radial-gradient(55% 50% at 12% 8%, rgba(0,82,204,.16), transparent 60%),
+      radial-gradient(50% 45% at 88% 4%, rgba(45,127,249,.16), transparent 60%),
+      radial-gradient(40% 40% at 50% 100%, rgba(255,200,61,.12), transparent 65%);
+  }
+  .card-glow { box-shadow: 0 1px 2px rgba(11,18,32,.04), 0 18px 40px -18px rgba(0,82,204,.28); }
+  .cta-glow  { box-shadow: 0 12px 30px -8px rgba(224,161,0,.55); }
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .hl { background: linear-gradient(transparent 62%, rgba(255,200,61,.55) 62%, rgba(255,200,61,.55) 92%, transparent 92%); }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .faq-ic { transform: rotate(45deg); }
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none} }
+</style>
+</head>
+<body class="font-sans antialiased pb-24 md:pb-0">
+
+{d.confirm?.text && (
+  <div class="bg-brand text-white">
+    <div class="max-w-5xl mx-auto px-5 py-3 text-center">
+      <p class="font-display font-semibold text-[15px]">✓ {d.confirm.text}</p>
+      {d.confirm.small && <p class="mt-0.5 text-[12.5px] text-white/80">{d.confirm.small}</p>}
+    </div>
+  </div>
+)}
+
+<header class="pt-7">
+  <div class="flex justify-center">
+    <span class="font-display font-extrabold text-[19px] tracking-[-0.03em]">CONTENT <span class="text-brand">ACCELERATOR</span></span>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="mesh-hero relative">
+    <div class="max-w-4xl mx-auto px-5 pt-9 pb-12 md:pt-14 md:pb-16 text-center">
+      <p class="inline-block rounded-full bg-white/80 border border-brand/15 px-3.5 py-1.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-brand shadow-sm">{d.hero.eyebrow}</p>
+      <h1 class="mt-6 font-display font-extrabold tracking-tight leading-[1.04] text-[clamp(1.95rem,5vw,3.5rem)] text-balance">
+        {d.hero.h1} <span class="hl text-brand">{d.hero.h1Highlight}</span>
+      </h1>
+      <div class="mx-auto mt-6 max-w-[58ch] space-y-3 text-lg text-ink/70 leading-relaxed">
+        {d.hero.sub.map((p: string) => <p set:html={rich(p)}></p>)}
+      </div>
+
+      {vslSrc && (
+        <div class="mx-auto mt-9 max-w-3xl">
+          <div class="relative aspect-video overflow-hidden rounded-[1.5rem] bg-ink ring-1 ring-ink/5 card-glow">
+            <button type="button" class="vsl absolute inset-0 w-full h-full group" data-src={vslSrc} aria-label="Reproducir el vídeo">
+              {vslThumb && <img src={vslThumb} alt="" class="absolute inset-0 w-full h-full object-cover" decoding="async" onerror="this.remove()" />}
+              <span class="absolute inset-0 grid place-items-center">
+                <span class="w-16 h-16 rounded-full bg-gold grid place-items-center shadow-lg transition-transform duration-300 group-hover:scale-110">
+                  <span class="ml-1 border-y-[11px] border-y-transparent border-l-[18px] border-l-ink"></span>
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div class="mt-8">
+        <a href={CAL} target="_blank" rel="noopener" data-cta="hero" class="cta-glow inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-gold text-ink font-display font-bold text-lg px-9 py-4 rounded-full hover:bg-gold-deep transition-colors">
+          {d.cta} <span aria-hidden="true">→</span>
+        </a>
+        <p class="mt-3 text-[13px] text-ink/50">{d.ctaMicro}</p>
+      </div>
+
+      <ol class="mx-auto mt-8 flex max-w-2xl flex-col gap-2 sm:flex-row sm:justify-center sm:gap-3">
+        {d.hero.steps.map((s: string, i: number) => (
+          <li class="flex items-center gap-3 rounded-xl bg-white border border-ink/8 px-4 py-3 text-left">
+            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-soft font-display text-[12px] font-bold text-brand">{i + 1}º</span>
+            <span class="text-[14px] font-medium">{s}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <div id="hero-end" class="h-px"></div>
+  </section>
+
+  <!-- TESTIMONIOS (arriba a propósito: casi nadie llega al final) -->
+  <section class="py-12 md:py-16">
+    <div class="max-w-6xl mx-auto px-5">
+      <h2 class="reveal text-center font-display font-extrabold tracking-tight text-[clamp(1.6rem,3.4vw,2.5rem)] text-balance">{d.testimonials.h2}</h2>
+      <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {d.testimonials.items.map((t: any) => (
+          <figure class="reveal bg-white rounded-2xl p-2 card-glow">
+            <button type="button" data-yt={t.video} class="group relative block aspect-video w-full overflow-hidden rounded-xl bg-ink" aria-label={`Ver el testimonio de ${t.name}`}>
+              <img src={`https://i.ytimg.com/vi/${t.video}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
+              <span class="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-gold shadow-lg transition-transform duration-300 group-hover:scale-110">
+                <span class="ml-1 border-y-[9px] border-y-transparent border-l-[15px] border-l-ink"></span>
+              </span>
+            </button>
+            <figcaption class="px-3 pb-3 pt-4">
+              <p class="font-display font-bold text-[16px] leading-snug">{t.result}</p>
+              <p class="mt-1 text-[13px] text-ink/55">{t.name}, {t.role || 'alumno'} de Diego</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <h3 class="reveal mt-12 text-center font-display font-bold text-[clamp(1.25rem,2.2vw,1.6rem)]">{d.testimonials.wallH3}</h3>
+      <div class="mt-6 columns-2 lg:columns-3 gap-4 [&>*]:mb-4">
+        {d.testimonials.wall.map((w: any) => (
+          <figure class="reveal break-inside-avoid bg-white rounded-2xl p-1.5 card-glow">
+            <img src={img(w, 700)} alt={w.alt} loading="lazy" class="w-full rounded-xl" />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- VOY A SER HONESTO -->
+  <section class="bg-ink text-white py-14 md:py-20">
+    <div class="max-w-3xl mx-auto px-5">
+      <p class="reveal font-display text-[13px] font-bold uppercase tracking-[0.14em] text-gold">{d.problem.eyebrow}</p>
+      <h2 class="reveal mt-4 font-display font-extrabold tracking-tight text-[clamp(1.7rem,3.6vw,2.6rem)]">{d.problem.h2}</h2>
+      <div class="mt-6 space-y-4 text-[clamp(1.05rem,1.5vw,1.2rem)] leading-relaxed text-white/70 [&_strong]:text-white">
+        {d.problem.paras.map((p: string) => <p class="reveal" set:html={rich(p)}></p>)}
+      </div>
+      <p class="reveal mt-8 font-display font-bold text-[clamp(1.35rem,2.5vw,1.9rem)] leading-tight text-gold">{d.problem.punch}</p>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="py-14 md:py-20">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="max-w-2xl mx-auto text-center">
+        <p class="reveal font-display text-[13px] font-bold uppercase tracking-[0.14em] text-brand">{d.services.eyebrow}</p>
+        <h2 class="reveal mt-4 font-display font-extrabold tracking-tight text-[clamp(1.6rem,3.4vw,2.5rem)] text-balance">{d.services.h2}</h2>
+      </div>
+      <div class="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {d.services.items.map((s: any, i: number) => (
+          <article class="reveal bg-white rounded-2xl p-6 border border-ink/8 card-glow" style={`transition-delay:${i * 70}ms`}>
+            <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand text-white font-display font-bold">{i + 1}</span>
+            <h3 class="mt-4 font-display font-bold text-[18px]">{s.title}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink/65">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- MECANISMO + BOLSA -->
+  <section class="bg-white py-14 md:py-20">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="max-w-3xl mx-auto text-center">
+        <p class="reveal font-display text-[13px] font-bold uppercase tracking-[0.14em] text-brand">{d.mechanism.eyebrow}</p>
+        <h2 class="reveal mt-4 font-display font-extrabold tracking-tight text-[clamp(1.6rem,3.4vw,2.5rem)] text-balance">{d.mechanism.h2}</h2>
+        <p class="reveal mt-5 text-lg leading-relaxed text-ink/70" set:html={rich(d.mechanism.intro)}></p>
+      </div>
+      <div class="mt-9 grid gap-4 md:grid-cols-3">
+        {d.mechanism.steps.map((s: any, i: number) => (
+          <div class="reveal rounded-2xl bg-paper p-7" style={`transition-delay:${i * 90}ms`}>
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-gold font-display text-[16px] font-bold text-ink">{i + 1}</span>
+            <h3 class="mt-5 font-display font-bold text-[19px]">{s.title}</h3>
+            <p class="mt-2.5 text-[15px] leading-relaxed text-ink/65" set:html={rich(s.body)}></p>
+          </div>
+        ))}
+      </div>
+
+      <h3 class="reveal mt-12 text-center font-display font-bold text-[clamp(1.2rem,2.2vw,1.55rem)]">{d.mechanism.offersH3}</h3>
+      <div class="mx-auto mt-6 grid max-w-4xl gap-3 sm:grid-cols-2">
+        {d.mechanism.offers.map((o: any) => (
+          <figure class="reveal rounded-2xl border border-ink/8 bg-white p-1.5">
+            <img src={img(o, 900)} alt={o.alt} loading="lazy" width="900" height="265" class="w-full rounded-xl" />
+          </figure>
+        ))}
+      </div>
+      <div class="reveal mt-9 text-center">
+        <a href={CAL} target="_blank" rel="noopener" data-cta="mechanism" class="cta-glow inline-flex w-full sm:w-auto justify-center bg-gold text-ink font-display font-bold px-8 py-4 rounded-full hover:bg-gold-deep transition-colors">{d.cta}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARA QUIÉN -->
+  <section class="py-14 md:py-20">
+    <div class="max-w-5xl mx-auto px-5 grid gap-4 md:grid-cols-2">
+      <div class="reveal bg-white rounded-2xl p-7 sm:p-8 card-glow">
+        <h2 class="font-display font-bold text-[21px]">{d.fit.yesH2}</h2>
+        <ul class="mt-5 space-y-3.5">
+          {d.fit.yes.map((t: string) => (
+            <li class="flex gap-3 text-[15px] leading-relaxed text-ink/70"><span class="mt-0.5 font-bold text-brand">✓</span><span set:html={rich(t)}></span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="reveal bg-white rounded-2xl p-7 sm:p-8 border border-ink/8">
+        <h2 class="font-display font-bold text-[21px]">{d.fit.noH2}</h2>
+        <ul class="mt-5 space-y-3.5">
+          {d.fit.no.map((t: string) => (
+            <li class="flex gap-3 text-[15px] leading-relaxed text-ink/70"><span class="mt-0.5 font-bold text-red-500">✖</span><span set:html={rich(t)}></span></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIEGO -->
+  <section class="pb-14 md:pb-20">
+    <div class="max-w-5xl mx-auto px-5">
+      <div class="reveal grid items-center gap-8 rounded-3xl bg-white p-6 md:grid-cols-[220px_1fr] md:gap-10 md:p-10 card-glow">
+        <img src={img(d.founder.photo, 480)} alt={d.founder.title} loading="lazy" class="mx-auto w-full max-w-[220px] rounded-2xl object-cover" />
+        <div>
+          <p class="font-display text-[13px] font-bold uppercase tracking-[0.14em] text-brand">{d.founder.eyebrow}</p>
+          <h2 class="mt-3 font-display font-extrabold tracking-tight text-[clamp(1.4rem,2.6vw,1.9rem)] leading-tight">{fPre}<span class="text-brand">{d.founder.titleHighlight}</span>{fPost}</h2>
+          {d.founder.body.map((t: string) => <p class="mt-3.5 text-[15px] leading-relaxed text-ink/65">{t}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="pb-14 md:pb-20">
+    <div class="max-w-3xl mx-auto px-5">
+      <h2 class="reveal text-center font-display font-extrabold tracking-tight text-[clamp(1.5rem,3vw,2.2rem)]">{d.faqTitle}</h2>
+      <div class="mt-7 space-y-3">
+        {d.faq.map((f: any) => (
+          <details class="reveal group bg-white rounded-2xl border border-ink/8 px-6">
+            <summary class="flex cursor-pointer items-center justify-between gap-5 py-5 font-display font-semibold text-[17px]">
+              {f.q}<span class="faq-ic shrink-0 text-2xl leading-none text-brand transition-transform">+</span>
+            </summary>
+            <p class="pb-5 text-[15px] leading-relaxed text-ink/65" set:html={rich(f.a)}></p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CIERRE -->
+  <section id="oferta" class="bg-ink text-white py-14 md:py-20">
+    <div class="max-w-3xl mx-auto px-5 text-center">
+      <h2 class="reveal font-display font-extrabold tracking-tight text-[clamp(1.7rem,3.6vw,2.6rem)] text-balance">{d.close.h2}</h2>
+      <p class="reveal mx-auto mt-5 max-w-[56ch] text-lg leading-relaxed text-white/70">{d.close.body}</p>
+      <div class="reveal mt-8">
+        <a href={CAL} target="_blank" rel="noopener" data-cta="close" class="cta-glow inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-gold text-ink font-display font-bold text-lg px-9 py-4 rounded-full hover:bg-white transition-colors">{d.cta} <span aria-hidden="true">→</span></a>
+        <p class="mt-3 text-[13px] text-white/50">{d.ctaMicro}</p>
+      </div>
+      <p class="reveal mx-auto mt-8 max-w-[52ch] rounded-2xl border border-gold/30 bg-gold/10 px-5 py-4 text-[13.5px] leading-relaxed text-white/80">{d.close.warning}</p>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-ink border-t border-white/10 text-white/40 text-xs">
+  <div class="max-w-5xl mx-auto px-5 py-6 flex flex-wrap justify-center gap-x-5 gap-y-2">
+    <a href="https://www.creatorclub.store/politica-de-privacidad/" class="hover:text-white">Privacidad</a>
+    <a href="https://www.creatorclub.store/terminos-y-condiciones/" class="hover:text-white">Términos</a>
+    <a href="https://www.creatorclub.store/aviso-legal/" class="hover:text-white">Aviso legal</a>
+    <a href="https://www.creatorclub.store/politica-de-cookies/" class="hover:text-white">Política de cookies</a>
+  </div>
+</footer>
+
+<!-- CTA pegajoso: aparece al pasar el hero, se esconde en el cierre -->
+<div id="sticky-bar" class="pointer-events-none fixed inset-x-0 bottom-0 z-50 translate-y-full opacity-0 transition-all duration-500">
+  <div class="px-3 pb-3">
+    <div class="pointer-events-auto mx-auto flex max-w-xl items-center gap-3 rounded-2xl bg-white/95 p-2 pl-4 backdrop-blur border border-ink/10 shadow-[0_-10px_50px_-20px_rgba(11,18,32,.45)]">
+      <p class="min-w-0 flex-1 leading-tight">
+        <span class="block truncate font-display font-bold text-[14px]">{d.sticky.title}</span>
+        <span class="mt-0.5 block truncate text-[11.5px] text-ink/50">{d.ctaMicro}</span>
+      </p>
+      <a href={CAL} target="_blank" rel="noopener" data-cta="sticky" class="shrink-0 bg-gold text-ink font-display font-bold text-[13.5px] px-4 py-3 rounded-full">{d.sticky.cta}</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const track = (event: string, data: Record<string, unknown> = {}) =>
+    ((window as any).dataLayer ||= []).push({ event, ...data });
+
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  const bar = document.getElementById('sticky-bar')!;
+  let pastHero = false, atClose = false;
+  const show = () => {
+    const on = pastHero && !atClose;
+    bar.classList.toggle('translate-y-full', !on);
+    bar.classList.toggle('opacity-0', !on);
+  };
+  new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; show(); })
+    .observe(document.getElementById('hero-end')!);
+  new IntersectionObserver(([e]) => { atClose = e.isIntersecting; show(); })
+    .observe(document.getElementById('oferta')!);
+
+  const iframe = (src: string, title: string) => {
+    const f = document.createElement('iframe');
+    f.src = src;
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    f.className = 'absolute inset-0 h-full w-full';
+    f.title = title;
+    return f;
+  };
+  document.querySelectorAll<HTMLButtonElement>('button.vsl').forEach((btn) =>
+    btn.addEventListener('click', () => { btn.replaceWith(iframe(btn.dataset.src!, 'Vídeo')); track('vsl_play'); }, { once: true }));
+  document.querySelectorAll<HTMLButtonElement>('[data-yt]').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      btn.replaceChildren(iframe(`https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`, btn.getAttribute('aria-label') || ''));
+      track('testimonial_play', { video: btn.dataset.yt });
+    }, { once: true }));
+  document.querySelectorAll<HTMLAnchorElement>('[data-cta]').forEach((a) =>
+    a.addEventListener('click', () => track('cta_click', { place: a.dataset.cta })));
+</script>
+</body>
+</html>
