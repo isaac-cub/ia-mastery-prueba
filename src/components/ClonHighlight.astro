@@ -1,7 +1,7 @@
 ---
-const { d, ratio, embedUrl, thumb, src, poster, class: cls = '' } = Astro.props;
+const { d, ratio, embedUrl, thumb, src, poster } = Astro.props;
 ---
-<article class={`reveal ${cls} grid ${d.videoEmbed ? (ratio < 1 ? 'md:grid-cols-[1fr_auto]' : 'md:grid-cols-[1fr_1.35fr]') : 'md:grid-cols-[1.2fr_1fr]'} gap-0 bg-ink text-white rounded-3xl overflow-hidden card-glow`}>
+<article class={`reveal grid ${d.videoEmbed ? (ratio < 1 ? 'md:grid-cols-[1fr_auto]' : 'md:grid-cols-[1fr_1.35fr]') : 'md:grid-cols-[1.2fr_1fr]'} gap-0 bg-ink text-white rounded-3xl overflow-hidden card-glow`}>
   <div class="p-8 md:p-10 flex flex-col justify-center">
     <span class="inline-flex w-max items-center gap-1.5 bg-gold text-ink text-[11px] font-bold px-2.5 py-1 rounded-full mb-4">{d.badge}</span>
     <h3 class="font-display font-extrabold text-2xl md:text-3xl leading-tight">{d.title}</h3>
