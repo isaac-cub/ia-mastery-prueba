@@ -1,8 +1,11 @@
 ---
 import { VisualEditing } from '@sanity/astro/visual-editing';
 import { img } from '../lib/img';
+import PremiumEdit from './PremiumEdit.astro';
+import ClonHighlight from './ClonHighlight.astro';
 import '../styles/tailwind.css';
-const { h, preview = false } = Astro.props;
+const { h, preview = false, variant } = Astro.props;
+const isB = variant === 'b';
 const site = Astro.site?.href?.replace(/\/$/, '') ?? 'https://aimastery.creatorclub.store';
 const canonical = `${site}/`;
 const ogImage = `${site}/thumbnail-aimastery.png`;
@@ -108,6 +111,7 @@ const embed = (u?: string) => {
   if (!/[?&]playsinline=/.test(u)) u = set(u, 'playsinline', 'true');
   return u;
 };
+const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbed), embedUrl: embed(h.programa.highlight.videoEmbed), thumb: bunnyThumb(h.programa.highlight.videoEmbed), src: vsrc(h.programa.highlight), poster: vposter(h.programa.highlight) };
 ---
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
@@ -116,7 +120,7 @@ const embed = (u?: string) => {
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{h.seoTitle}</title>
 <meta name="description" content={h.seoDescription} />
-{preview && <meta name="robots" content="noindex, nofollow" />}
+{(preview || isB) && <meta name="robots" content="noindex, nofollow" />}
 <link rel="canonical" href={canonical} />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -181,6 +185,14 @@ const embed = (u?: string) => {
   .scribble svg { position: absolute; left: -2%; bottom: -.42em; width: 104%; height: .5em; overflow: visible; }
   .scribble-hero svg { bottom: -.28em; z-index: -1; }
 
+  .ai-tiles { --s: clamp(2.75rem, 5.8vw, 5.25rem); position: absolute; z-index: 1; right: 0; top: calc(var(--s) * -.35); width: calc(var(--s) * 1.25); height: calc(var(--s) * 1.75); }
+  .ai-tile { position: absolute; width: var(--s); aspect-ratio: 1; display: grid; place-items: center; border-radius: 26%; animation: tile-float 6s ease-in-out infinite; }
+  .ai-tile svg { width: 60%; height: 60%; }
+  .ai-tile--gpt { --r: -7deg; left: 0; top: 0; background: linear-gradient(145deg, #2a2a2a, #0d0d0d); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 14px 28px -10px rgba(11,18,32,.55); animation-delay: -3s; }
+  .ai-tile--claude { --r: 7deg; right: 0; bottom: 0; background: linear-gradient(145deg, #e58a6c, #d97757 55%, #c8623f); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 18px 34px -10px rgba(217,119,87,.7); }
+  @keyframes tile-float { 0%,100% { transform: rotate(var(--r)); } 50% { transform: rotate(var(--r)) translateY(-5px); } }
+  @media (prefers-reduced-motion: reduce){ .ai-tile { animation: none; transform: rotate(var(--r)); } }
+  @media (max-width: 340px){ .ai-tiles { display: none; } }
   .marquee { display: flex; gap: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
   .marquee__track { display: flex; flex-shrink: 0; align-items: center; gap: 2.5rem; padding-right: 2.5rem; animation: scroll 34s linear infinite; }
   @keyframes scroll { to { transform: translateX(-100%); } }
@@ -222,35 +234,42 @@ const embed = (u?: string) => {
 </div>
 
 <!-- HEADER -->
-<header id="hdr" class="sticky top-0 z-50 transition-all duration-300 bg-paper/80 backdrop-blur-md border-b border-transparent">
+<header id="hdr" class="hidden md:block sticky top-0 z-50 transition-all duration-300 bg-paper/80 backdrop-blur-md border-b border-transparent">
   <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
     <a href="#" class="font-display font-extrabold text-xl tracking-tight">AI<span class="text-brand">Mastery</span></a>
     <div class="hidden md:flex items-center gap-8 text-sm font-medium text-ink/65">
       {h.nav.map((n) => <a href={n.href} class="hover:text-ink transition">{n.label}</a>)}
     </div>
-    <a href={h.headerCta.href} class="bg-ink text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-brand transition-colors">{h.headerCta.label}</a>
+    <a href={h.headerCta.href} class="hidden md:inline-block bg-ink text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-brand transition-colors">{h.headerCta.label}</a>
   </nav>
 </header>
 
 <!-- 1 · HERO -->
 <section class="relative overflow-hidden mesh-hero">
-  <div class="max-w-6xl mx-auto px-5 pt-14 pb-16 md:pt-20 md:pb-24 grid md:grid-cols-[1.05fr_.95fr] gap-12 items-center">
+  <div class="max-w-6xl mx-auto px-5 pt-5 pb-16 md:pt-20 md:pb-24 grid md:grid-cols-[1.05fr_.95fr] gap-12 items-center">
     <div>
       <div class="inline-flex items-center gap-2 bg-white/80 border border-brand/15 rounded-full pl-1.5 pr-3.5 py-1.5 text-xs font-semibold text-brand mb-7 shadow-sm">
         <span class="bg-brand text-white rounded-full px-2 py-0.5 whitespace-nowrap">{badgeTag}</span> {h.hero.badge}
       </div>
-      <h1 class={`relative z-0 font-display font-extrabold tracking-tight leading-[0.98] ${h1Long ? 'text-[clamp(2.1rem,4.2vw,3.2rem)]' : 'text-[clamp(2.5rem,6vw,4.3rem)]'}`}>
+      <div class="relative">
+      {isB && (
+      <span class="ai-tiles" aria-hidden="true">
+        <span class="ai-tile ai-tile--gpt"><svg viewBox="0 0 24 24" fill="#fff"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span>
+        <span class="ai-tile ai-tile--claude"><svg viewBox="0 0 24 24" fill="#fff"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></span>
+      </span>
+      )}
+      <h1 class={`relative z-0 font-display font-extrabold tracking-tight leading-[0.98] ${isB ? 'text-[clamp(2.3rem,5vw,3.9rem)]' : h1Long ? 'text-[clamp(2.1rem,4.2vw,3.2rem)]' : 'text-[clamp(2.5rem,6vw,4.3rem)]'}`}>
         {h.hero.h1Line1}<br>
         {hlLead && <span class="text-brand">{hlLead} </span>}<span class="scribble scribble-hero text-brand">{hlScribble}
           <svg viewBox="0 0 320 16" fill="none" preserveAspectRatio="none"><path d="M4 11C70 4 232 3 316 8" stroke="#FFC83D" stroke-width="6" stroke-linecap="round"/></svg>
-        </span>{h.hero.h1Line3 && <><br>{h.hero.h1Line3}</>}
+        </span>{h.hero.h1Line3 && <>{isB ? ' ' : <br>}{h.hero.h1Line3}</>}
       </h1>
+      </div>
       <p class="mt-7 text-lg sm:text-xl text-ink/70 max-w-md leading-relaxed" set:html={h.hero.lead}></p>
       <div class="mt-8 flex flex-wrap items-center gap-3.5">
         <a href={h.hero.ctaPrimary.href} class="cta-glow bg-gold text-ink font-semibold px-7 py-4 rounded-full hover:bg-white transition-colors">{h.hero.ctaPrimary.label}</a>
-        <a href={h.hero.ctaSecondary.href} class="font-semibold px-6 py-4 rounded-full border border-ink/15 hover:border-ink/40 transition">{h.hero.ctaSecondary.label}</a>
       </div>
-      <div class="mt-8 flex items-center gap-4 text-sm">
+      <div class={`${isB ? 'mt-3.5' : 'mt-8'} flex items-center gap-4 text-sm`}>
         <div class="flex -space-x-2.5">
           {h.hero.avatars.map((a) => <img src={img(a, 72)} class="w-9 h-9 rounded-full border-2 border-paper object-cover" alt="" width="36" height="36" decoding="async" />)}
         </div>
@@ -361,28 +380,37 @@ const embed = (u?: string) => {
     ))}
   </div>
 
-  <article class={`reveal mt-5 grid ${h.programa.highlight.videoEmbed ? (ar(h.programa.highlight.videoEmbed) < 1 ? 'md:grid-cols-[1fr_auto]' : 'md:grid-cols-[1fr_1.35fr]') : 'md:grid-cols-[1.2fr_1fr]'} gap-0 bg-ink text-white rounded-3xl overflow-hidden card-glow`}>
-    <div class="p-8 md:p-10 flex flex-col justify-center">
-      <span class="inline-flex w-max items-center gap-1.5 bg-gold text-ink text-[11px] font-bold px-2.5 py-1 rounded-full mb-4">{h.programa.highlight.badge}</span>
-      <h3 class="font-display font-extrabold text-2xl md:text-3xl leading-tight">{h.programa.highlight.title}</h3>
-      <p class="mt-3 text-white/70 leading-relaxed max-w-md">{h.programa.highlight.text}</p>
-    </div>
-    {h.programa.highlight.videoEmbed
-      ? <div class={`relative bg-black ${ar(h.programa.highlight.videoEmbed) < 1 ? 'md:w-[380px]' : 'md:self-center'}`} style={`aspect-ratio:${ar(h.programa.highlight.videoEmbed)}`}>
-          <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.programa.highlight.videoEmbed)} aria-label="Reproducir el vídeo">
-            {bunnyThumb(h.programa.highlight.videoEmbed) && <img src={bunnyThumb(h.programa.highlight.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
-            <span class="absolute inset-0 grid place-items-center">
-              <span class="w-16 h-16 rounded-full bg-gold grid place-items-center shadow-lg transition-transform duration-300 group-hover/vsl:scale-110">
-                <span class="ml-1 border-y-[11px] border-y-transparent border-l-[18px] border-l-ink"></span>
-              </span>
-            </span>
-          </button>
-        </div>
-      : <div class="relative min-h-[220px] bg-black">
-          <video class="vid" src={vsrc(h.programa.highlight)} data-poster={vposter(h.programa.highlight)} muted loop playsinline preload="none"></video>
-        </div>}
-  </article>
+  {!isB && <ClonHighlight {...clon} class="mt-5" />}
 </section>
+
+{/* 3b · VARIANTE B: edición con IA y estilos pre-creados, justo tras las tarjetas */}
+{isB && h.premiumEdit?.heading && <PremiumEdit d={h.premiumEdit} ratio={ar(h.premiumEdit.videoEmbed)} embedUrl={embed(h.premiumEdit.videoEmbed)} thumb={bunnyThumb(h.premiumEdit.videoEmbed)}  >
+  {h.comparativa && (
+    <div class="reveal mt-12 md:mt-14 max-w-[340px] mx-auto">
+      <div id="cmp" class="relative rounded-[1.75rem] overflow-hidden bg-black ring-1 ring-white/10 aspect-[9/16] cursor-ew-resize select-none" style="--p:50%;touch-action:pan-y">
+        <video class="absolute inset-0 w-full h-full object-cover" src={h.comparativa.after} data-poster={h.comparativa.after.replace('.mp4', '-poster.jpg')} muted loop playsinline preload="none"></video>
+        <video class="absolute inset-0 w-full h-full object-cover" style="clip-path:inset(0 calc(100% - var(--p)) 0 0)" src={h.comparativa.before} data-poster={h.comparativa.before.replace('.mp4', '-poster.jpg')} muted loop playsinline preload="none"></video>
+        <span class="absolute top-3 left-3 bg-black/60 text-white text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur pointer-events-none">{h.comparativa.beforeLabel}</span>
+        <span class="absolute top-3 right-3 bg-gold text-ink text-xs font-bold px-2.5 py-1 rounded-full pointer-events-none">{h.comparativa.afterLabel}</span>
+        <div class="absolute inset-y-0 w-0.5 -ml-px bg-white pointer-events-none" style="left:var(--p)"></div>
+        <div id="cmp-tirador" role="slider" tabindex="0" aria-label={h.comparativa.hint} aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" class="absolute top-1/2 w-12 h-12 -ml-6 -mt-6 rounded-full bg-gold text-ink grid place-items-center shadow-lg font-bold text-lg leading-none" style="left:var(--p)">‹›</div>
+      </div>
+      <p class="mt-4 text-center font-hand text-gold text-2xl leading-none">{h.comparativa.hint}</p>
+    </div>
+  )}
+</PremiumEdit>}
+
+{isB && h.estilos && (
+<section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
+  <div class="reveal">
+    <h2 class="font-display font-extrabold text-[clamp(1.9rem,4vw,2.8rem)] leading-[1.05]">{h.estilos.heading}</h2>
+    <p class="mt-3 text-lg text-ink/70">{h.estilos.text}</p>
+  </div>
+  <div class="reveal rounded-3xl overflow-hidden bg-white aspect-[4/3] card-glow">
+    <video class="vid w-full h-full object-cover" src={h.estilos.video} data-poster={h.estilos.video.replace('.mp4', '-poster.jpg')} muted loop playsinline preload="none"></video>
+  </div>
+</section>
+)}
 
 <!-- 4 · CLASE · AVATARES REALISTAS -->
 <section class="bg-white border-y border-ink/10">
@@ -443,34 +471,7 @@ const embed = (u?: string) => {
 </section>
 
 <!-- 5.1 · EDICIÓN PREMIUM CON IA (destacada, vídeo 16:9 grande) -->
-{h.premiumEdit?.heading && (
-<section class="bg-ink text-white grain relative overflow-hidden">
-  <div class="mesh absolute inset-0 opacity-30"></div>
-  <div class="max-w-5xl mx-auto px-5 py-16 md:py-28 relative">
-    <div class="reveal max-w-3xl mx-auto text-center">
-      {h.premiumEdit.eyebrow && <span class="inline-block bg-gold text-ink text-xs font-bold tracking-[0.15em] uppercase px-3 py-1.5 rounded-full">{h.premiumEdit.eyebrow}</span>}
-      <h2 class="font-display font-extrabold text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.02] mt-5">
-        {h.premiumEdit.headingHighlight && h.premiumEdit.heading.includes(h.premiumEdit.headingHighlight)
-          ? <>{h.premiumEdit.heading.split(h.premiumEdit.headingHighlight)[0]}<span class="text-gold">{h.premiumEdit.headingHighlight}</span>{h.premiumEdit.heading.split(h.premiumEdit.headingHighlight).slice(1).join(h.premiumEdit.headingHighlight)}</>
-          : h.premiumEdit.heading}
-      </h2>
-      {h.premiumEdit.body?.split(/\n\s*\n/).map((para, i) => <p class={`${i === 0 ? 'mt-6 text-lg md:text-xl text-white/85' : 'mt-4 text-white/60'} leading-relaxed`}>{para}</p>)}
-    </div>
-    {h.premiumEdit.videoEmbed && (
-      <div class={`reveal mt-12 md:mt-14 relative rounded-[1.75rem] overflow-hidden bg-black ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,82,204,.55)] mx-auto ${ar(h.premiumEdit.videoEmbed) < 1.2 ? 'max-w-[640px]' : ''}`} style={`aspect-ratio:${ar(h.premiumEdit.videoEmbed)}`}>
-        <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.premiumEdit.videoEmbed)} aria-label="Reproducir el vídeo">
-          {bunnyThumb(h.premiumEdit.videoEmbed) && <img src={bunnyThumb(h.premiumEdit.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
-          <span class="absolute inset-0 grid place-items-center">
-            <span class="w-20 h-20 rounded-full bg-gold grid place-items-center shadow-lg transition-transform duration-300 group-hover/vsl:scale-110">
-              <span class="ml-1.5 border-y-[13px] border-y-transparent border-l-[21px] border-l-ink"></span>
-            </span>
-          </span>
-        </button>
-      </div>
-    )}
-  </div>
-</section>
-)}
+{!isB && h.premiumEdit?.heading && <PremiumEdit d={h.premiumEdit} ratio={ar(h.premiumEdit.videoEmbed)} embedUrl={embed(h.premiumEdit.videoEmbed)} thumb={bunnyThumb(h.premiumEdit.videoEmbed)} />}
 
 <!-- 5.2 · CLASE · MOTION GRAPHICS CON IA (el clip es cuadrado, 1:1 siempre) -->
 {h.class03 && (
@@ -533,6 +534,9 @@ const embed = (u?: string) => {
   </div>
 </section>
 )}
+
+{/* VARIANTE B: «Clónate a ti mismo» cierra los beneficios */}
+{isB && <section class="max-w-6xl mx-auto px-5 pb-14 md:pb-28"><ClonHighlight {...clon} /></section>}
 
 <!-- 5.5 · POR DENTRO -->
 <section id="por-dentro" class="bg-white border-y border-ink/10 overflow-hidden">
@@ -943,6 +947,7 @@ const embed = (u?: string) => {
     <div class="font-display font-extrabold text-white text-lg">AI<span class="text-brand-bright">Mastery</span> <span class="text-white/30 font-sans font-normal text-xs">{h.footer.brandSuffix}</span></div>
     <div class="flex gap-5">{h.footer.links.map((l) => <a href={l.href} class="hover:text-white">{l.label}</a>)}</div>
     <div class="text-xs w-full sm:w-auto text-center sm:text-right">{h.footer.copyright}</div>
+    {h.brandNote && <p class="text-xs text-white/40 w-full text-center sm:text-left">{h.brandNote}</p>}
   </div>
 </footer>
 
@@ -1008,6 +1013,7 @@ const embed = (u?: string) => {
       if (Math.abs(d) > 4) ultimaY = y;
     };
     medir();
+    document.fonts?.ready.then(() => { if (!fija) medir(); });
     addEventListener('resize', () => { if (!fija) medir(); }, { passive: true });
     addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(pintar); } }, { passive: true });
   }
@@ -1033,6 +1039,42 @@ const embed = (u?: string) => {
       track.scrollBy({ left: dir * step, behavior: 'smooth' });
     });
   });
+
+  // Variante B: deslizador sin/con edición.
+  const cmp = document.getElementById('cmp');
+  if (cmp) {
+    const [con, sin] = cmp.querySelectorAll('video');
+    const tirador = document.getElementById('cmp-tirador');
+    const mover = (p) => {
+      p = Math.min(100, Math.max(0, p));
+      cmp.style.setProperty('--p', p + '%');
+      tirador.setAttribute('aria-valuenow', String(Math.round(p)));
+    };
+    const desdeX = (x) => { const r = cmp.getBoundingClientRect(); mover((x - r.left) / r.width * 100); };
+    let arrastrando = false;
+    cmp.addEventListener('pointerdown', (e) => { arrastrando = true; cmp.setPointerCapture(e.pointerId); desdeX(e.clientX); });
+    cmp.addEventListener('pointermove', (e) => { if (arrastrando) desdeX(e.clientX); });
+    ['pointerup', 'pointercancel'].forEach(t => cmp.addEventListener(t, () => { arrastrando = false; }));
+    tirador.addEventListener('keydown', (e) => {
+      const d = { ArrowLeft: -5, ArrowRight: 5 }[e.key];
+      if (d) { e.preventDefault(); mover(Number(tirador.getAttribute('aria-valuenow')) + d); }
+    });
+    // Los dos clips tienen que ir al mismo fotograma: `con` manda. Un desfase pequeño se corrige
+    // con la velocidad, porque saltar fuera de lo descargado devuelve el clip a 0 si el CDN
+    // responde sin Range. Solo se salta dentro de lo ya cargado.
+    con.addEventListener('timeupdate', () => {
+      const t = con.currentTime, dur = con.duration;
+      let d = sin.currentTime - t;
+      if (dur && Math.abs(d) > dur / 2) d -= Math.sign(d) * dur; // uno ya ha dado la vuelta y el otro no
+      if (Math.abs(d) < 0.04) { sin.playbackRate = 1; return; }
+      const cargado = [...Array(sin.buffered.length).keys()].some(i => sin.buffered.start(i) <= t && t < sin.buffered.end(i));
+      if (Math.abs(d) > 0.4 && cargado) { sin.currentTime = t; sin.playbackRate = 1; }
+      else sin.playbackRate = d > 0 ? 0.92 : 1.08;
+    });
+    new IntersectionObserver((es) => es.forEach(e => {
+      [con, sin].forEach(v => { if (e.isIntersecting) { const p = v.play(); if (p) p.catch(() => {}); } else v.pause(); });
+    }), { threshold: 0.25 }).observe(cmp);
+  }
 
   // Ver la nota del CSS: el snap se activa cuando el LCP ya está registrado.
   addEventListener('load', () => requestAnimationFrame(() =>

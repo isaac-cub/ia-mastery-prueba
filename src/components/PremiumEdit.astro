@@ -1,0 +1,30 @@
+---
+const { d, ratio, embedUrl, thumb } = Astro.props;
+---
+<section class="bg-ink text-white grain relative overflow-hidden">
+  <div class="mesh absolute inset-0 opacity-30"></div>
+  <div class="max-w-5xl mx-auto px-5 py-16 md:py-28 relative">
+    <div class="reveal max-w-3xl mx-auto text-center">
+      {d.eyebrow && <span class="inline-block bg-gold text-ink text-xs font-bold tracking-[0.15em] uppercase px-3 py-1.5 rounded-full">{d.eyebrow}</span>}
+      <h2 class="font-display font-extrabold text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.02] mt-5">
+        {d.headingHighlight && d.heading.includes(d.headingHighlight)
+          ? <>{d.heading.split(d.headingHighlight)[0]}<span class="text-gold">{d.headingHighlight}</span>{d.heading.split(d.headingHighlight).slice(1).join(d.headingHighlight)}</>
+          : d.heading}
+      </h2>
+      {d.body?.split(/\n\s*\n/).map((para, i) => <p class={`${i === 0 ? 'mt-6 text-lg md:text-xl text-white/85' : 'mt-4 text-white/60'} leading-relaxed`}>{para}</p>)}
+    </div>
+    <slot />
+    {d.videoEmbed && (
+      <div class={`reveal mt-12 md:mt-14 relative rounded-[1.75rem] overflow-hidden bg-black ring-1 ring-white/10 shadow-[0_30px_80px_-20px_rgba(0,82,204,.55)] mx-auto ${ratio < 1.2 ? 'max-w-[640px]' : ''}`} style={`aspect-ratio:${ratio}`}>
+        <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embedUrl} aria-label="Reproducir el vídeo">
+          {thumb && <img src={thumb} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
+          <span class="absolute inset-0 grid place-items-center">
+            <span class="w-20 h-20 rounded-full bg-gold grid place-items-center shadow-lg transition-transform duration-300 group-hover/vsl:scale-110">
+              <span class="ml-1.5 border-y-[13px] border-y-transparent border-l-[21px] border-l-ink"></span>
+            </span>
+          </span>
+        </button>
+      </div>
+    )}
+  </div>
+</section>

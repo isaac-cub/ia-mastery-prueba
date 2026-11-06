@@ -1,0 +1,15 @@
+---
+import { sanityClient } from 'sanity:client';
+import Landing from '../components/Landing.astro';
+import b from '../content/landing-b.json';
+// Variante B (centrada en edición): todo sale del doc `home` salvo lo que pisa landing-b.json.
+const home = await sanityClient.fetch(`*[_type == "home"][0]`);
+const h = {
+  ...home,
+  ...b,
+  hero: { ...home.hero, ...b.hero },
+  premiumEdit: { ...home.premiumEdit, videoEmbed: null },
+  faq: { ...home.faq, items: home.faq.items.map((i) => ({ ...i, a: b.faqAnswers[i.q] ?? i.a })) },
+};
+---
+<Landing h={h} variant="b" />

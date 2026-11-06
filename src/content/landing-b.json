@@ -1,0 +1,29 @@
+{
+  "seoTitle": "AI Mastery — Crea vídeos profesionales en minutos con IA",
+  "seoDescription": "Todo tu contenido del mes, editado con look profesional en un día con IA. Aplica nuestros estilos pre-creados y domina la IA con nuestro método paso a paso.",
+  "brandNote": "AI Mastery no está afiliado a Anthropic ni a OpenAI. Claude es una marca de Anthropic y ChatGPT, de OpenAI. Requiere una suscripción propia a uno de los dos, que se paga aparte.",
+  "hero": {
+    "badge": "Edita con tu Claude o ChatGPT",
+    "h1Line1": "Crea vídeos profesionales",
+    "h1Highlight": "en minutos",
+    "h1Line3": "con IA",
+    "lead": "Todo tu contenido del mes, editado con look profesional en un día con IA. Aplica nuestros estilos pre-creados y domina la IA con nuestro método paso a paso.",
+    "chipNote": "en suscripciones de vídeo e imagen",
+    "socialProofText": "ya editan con IA"
+  },
+  "comparativa": {
+    "before": "/assets/cmp-sin.mp4",
+    "after": "/assets/cmp-con.mp4",
+    "beforeLabel": "Sin edición",
+    "afterLabel": "Con edición",
+    "hint": "Desliza la barra y compara"
+  },
+  "estilos": {
+    "video": "/assets/estilos-ai.mp4",
+    "heading": "Estilos pre-creados",
+    "text": "Aplica nuestros estilos pre-creados y domina la IA con nuestro método paso a paso."
+  },
+  "faqAnswers": {
+    "¿Debo pagar suscripciones de IA?": "Para crear vídeo e imagen, no: enseñamos a usar los mejores modelos directamente, de pago por uso (céntimos) e incluso 100% gratis. Para la edición premium sí necesitas tu propia suscripción a Claude o ChatGPT, que se paga aparte."
+  }
+}
