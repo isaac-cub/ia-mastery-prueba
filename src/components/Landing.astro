@@ -1073,12 +1073,14 @@ const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbe
     const audio = document.getElementById('cmp-audio');
     audio.addEventListener('pointerdown', (e) => e.stopPropagation());
     audio.addEventListener('click', () => {
+      // Safari en iPhone pausa el vídeo si se le quita el mute mientras suena; pausarlo y relanzarlo dentro del mismo toque lo evita.
+      if (con.muted) con.pause();
       con.muted = !con.muted;
       audio.setAttribute('aria-pressed', String(!con.muted));
       audio.querySelector('span').textContent = con.muted ? 'Activar audio' : 'Silenciar';
       audio.querySelector('.on').classList.toggle('hidden', con.muted);
       audio.querySelector('.off').classList.toggle('hidden', !con.muted);
-      if (!con.muted && con.paused) { const p = con.play(); if (p) p.catch(() => {}); }
+      if (!con.muted) { const p = con.play(); if (p) p.catch(() => {}); }
     });
     cmp.addEventListener('pointerdown', (e) => { arrastrando = true; cmp.setPointerCapture(e.pointerId); desdeX(e.clientX); });
     cmp.addEventListener('pointermove', (e) => { if (arrastrando) desdeX(e.clientX); });
