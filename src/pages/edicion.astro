@@ -8,7 +8,7 @@ const h = {
   ...home,
   ...b,
   hero: { ...home.hero, ...b.hero },
-  premiumEdit: { ...home.premiumEdit, videoEmbed: null },
+  closing: { ...home.closing, ...b.closing },
   faq: { ...home.faq, items: home.faq.items.map((i) => ({ ...i, a: b.faqAnswers[i.q] ?? i.a })) },
 };
 ---

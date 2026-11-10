@@ -279,6 +279,23 @@ const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbe
 
     <div class="relative">
       <div class="relative w-full">
+        {isB && h.comparativa ? (
+        <div class="max-w-[300px] mx-auto">
+          <div id="cmp" class="relative rounded-[1.75rem] overflow-hidden bg-black card-glow ring-1 ring-ink/10 aspect-[9/16] cursor-ew-resize select-none" style="--p:50%;touch-action:pan-y">
+            <video class="absolute top-0 left-0 h-full w-[200%] max-w-none object-fill" src={h.comparativa.video} poster={h.comparativa.video.replace('.mp4', '-poster.jpg')} muted loop playsinline preload="none"></video>
+            <canvas class="absolute inset-0 w-full h-full bg-no-repeat bg-[length:200%_100%] bg-right-top" style={`clip-path:inset(0 calc(100% - var(--p)) 0 0);background-image:url(${h.comparativa.video.replace('.mp4', '-poster.jpg')})`}></canvas>
+            <span class="absolute top-3 left-3 bg-black/60 text-white text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur pointer-events-none">{h.comparativa.beforeLabel}</span>
+            <span class="absolute top-3 right-3 bg-gold text-ink text-xs font-bold px-2.5 py-1 rounded-full pointer-events-none">{h.comparativa.afterLabel}</span>
+            <div class="absolute inset-y-0 w-0.5 -ml-px bg-white pointer-events-none" style="left:var(--p)"></div>
+            <button type="button" id="cmp-audio" aria-pressed="false" class="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 bg-black/65 text-white text-xs font-semibold px-3 py-2 rounded-full backdrop-blur cursor-pointer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z" fill="currentColor"/><path class="on hidden" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/><path class="off" d="m22 9-6 6M16 9l6 6"/></svg>
+              <span>Activar audio</span>
+            </button>
+            <div id="cmp-tirador" role="slider" tabindex="0" aria-label={h.comparativa.hint} aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" class="absolute top-1/2 w-12 h-12 -ml-6 -mt-6 rounded-full bg-gold text-ink grid place-items-center shadow-lg font-bold text-lg leading-none" style="left:var(--p)">‹›</div>
+          </div>
+          <p class="mt-3 text-center font-hand text-brand text-2xl leading-none">{h.comparativa.hint}</p>
+        </div>
+        ) : (
         <div class="relative rounded-[1.5rem] overflow-hidden card-glow ring-1 ring-ink/5 bg-ink aspect-video">
           <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.hero.videoEmbed)} aria-label="Reproducir el vídeo">
             {bunnyThumb(h.hero.videoEmbed) && <img src={bunnyThumb(h.hero.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" fetchpriority="low" decoding="async" onerror="this.remove()" />}
@@ -289,6 +306,8 @@ const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbe
             </span>
           </button>
         </div>
+        )}
+        {!isB && (
         <div class="mt-4 bg-white rounded-2xl card-glow ring-1 ring-ink/5 px-5 py-4 sm:px-6 flex items-center justify-between gap-4">
           <div>
             <p class="flex items-baseline gap-2.5 whitespace-nowrap">
@@ -299,6 +318,7 @@ const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbe
           </div>
           {h.hero.handNote && <p class="font-hand text-brand text-[1.5rem] leading-none -rotate-3 text-right">{h.hero.handNote}</p>}
         </div>
+        )}
       </div>
     </div>
   </div>
@@ -380,24 +400,23 @@ const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbe
     ))}
   </div>
 
+  {isB && (
+  <div class="reveal mt-14 max-w-4xl mx-auto relative rounded-[1.5rem] overflow-hidden card-glow ring-1 ring-ink/5 bg-ink aspect-video">
+    <button type="button" class="vsl absolute inset-0 w-full h-full group/vsl" data-embed={embed(h.hero.videoEmbed)} aria-label="Reproducir el vídeo">
+      {bunnyThumb(h.hero.videoEmbed) && <img src={bunnyThumb(h.hero.videoEmbed)} alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.remove()" />}
+      <span class="absolute inset-0 grid place-items-center">
+        <span class="w-16 h-16 rounded-full bg-white/95 grid place-items-center shadow-lg transition-transform duration-300 group-hover/vsl:scale-110">
+          <span class="ml-1 border-y-[11px] border-y-transparent border-l-[18px] border-l-ink"></span>
+        </span>
+      </span>
+    </button>
+  </div>
+  )}
+
 </section>
 
 {/* 3b · VARIANTE B: edición con IA y estilos pre-creados, justo tras las tarjetas */}
-{isB && h.premiumEdit?.heading && <PremiumEdit d={h.premiumEdit} ratio={ar(h.premiumEdit.videoEmbed)} embedUrl={embed(h.premiumEdit.videoEmbed)} thumb={bunnyThumb(h.premiumEdit.videoEmbed)}  >
-  {h.comparativa && (
-    <div class="reveal mt-12 md:mt-14 max-w-[340px] mx-auto">
-      <div id="cmp" class="relative rounded-[1.75rem] overflow-hidden bg-black ring-1 ring-white/10 aspect-[9/16] cursor-ew-resize select-none" style="--p:50%;touch-action:pan-y">
-        <video class="absolute inset-0 w-full h-full object-cover" src={h.comparativa.after} data-poster={h.comparativa.after.replace('.mp4', '-poster.jpg')} muted loop playsinline preload="none"></video>
-        <video class="absolute inset-0 w-full h-full object-cover" style="clip-path:inset(0 calc(100% - var(--p)) 0 0)" src={h.comparativa.before} data-poster={h.comparativa.before.replace('.mp4', '-poster.jpg')} muted loop playsinline preload="none"></video>
-        <span class="absolute top-3 left-3 bg-black/60 text-white text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur pointer-events-none">{h.comparativa.beforeLabel}</span>
-        <span class="absolute top-3 right-3 bg-gold text-ink text-xs font-bold px-2.5 py-1 rounded-full pointer-events-none">{h.comparativa.afterLabel}</span>
-        <div class="absolute inset-y-0 w-0.5 -ml-px bg-white pointer-events-none" style="left:var(--p)"></div>
-        <div id="cmp-tirador" role="slider" tabindex="0" aria-label={h.comparativa.hint} aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" class="absolute top-1/2 w-12 h-12 -ml-6 -mt-6 rounded-full bg-gold text-ink grid place-items-center shadow-lg font-bold text-lg leading-none" style="left:var(--p)">‹›</div>
-      </div>
-      <p class="mt-4 text-center font-hand text-gold text-2xl leading-none">{h.comparativa.hint}</p>
-    </div>
-  )}
-</PremiumEdit>}
+{isB && h.premiumEdit?.heading && <PremiumEdit d={h.premiumEdit} ratio={ar(h.premiumEdit.videoEmbed)} embedUrl={embed(h.premiumEdit.videoEmbed)} thumb={bunnyThumb(h.premiumEdit.videoEmbed)} />}
 
 {isB && h.estilos && (
 <section class="max-w-6xl mx-auto px-5 py-14 md:py-28 grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
@@ -1042,7 +1061,7 @@ const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbe
   // Variante B: deslizador sin/con edición.
   const cmp = document.getElementById('cmp');
   if (cmp) {
-    const [con, sin] = cmp.querySelectorAll('video');
+    const con = cmp.querySelector('video');
     const tirador = document.getElementById('cmp-tirador');
     const mover = (p) => {
       p = Math.min(100, Math.max(0, p));
@@ -1051,6 +1070,16 @@ const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbe
     };
     const desdeX = (x) => { const r = cmp.getBoundingClientRect(); mover((x - r.left) / r.width * 100); };
     let arrastrando = false;
+    const audio = document.getElementById('cmp-audio');
+    audio.addEventListener('pointerdown', (e) => e.stopPropagation());
+    audio.addEventListener('click', () => {
+      con.muted = !con.muted;
+      audio.setAttribute('aria-pressed', String(!con.muted));
+      audio.querySelector('span').textContent = con.muted ? 'Activar audio' : 'Silenciar';
+      audio.querySelector('.on').classList.toggle('hidden', con.muted);
+      audio.querySelector('.off').classList.toggle('hidden', !con.muted);
+      if (!con.muted && con.paused) { const p = con.play(); if (p) p.catch(() => {}); }
+    });
     cmp.addEventListener('pointerdown', (e) => { arrastrando = true; cmp.setPointerCapture(e.pointerId); desdeX(e.clientX); });
     cmp.addEventListener('pointermove', (e) => { if (arrastrando) desdeX(e.clientX); });
     ['pointerup', 'pointercancel'].forEach(t => cmp.addEventListener(t, () => { arrastrando = false; }));
@@ -1058,20 +1087,22 @@ const clon = { d: h.programa.highlight, ratio: ar(h.programa.highlight.videoEmbe
       const d = { ArrowLeft: -5, ArrowRight: 5 }[e.key];
       if (d) { e.preventDefault(); mover(Number(tirador.getAttribute('aria-valuenow')) + d); }
     });
-    // Los dos clips tienen que ir al mismo fotograma: `con` manda. Un desfase pequeño se corrige
-    // con la velocidad, porque saltar fuera de lo descargado devuelve el clip a 0 si el CDN
-    // responde sin Range. Solo se salta dentro de lo ya cargado.
-    con.addEventListener('timeupdate', () => {
-      const t = con.currentTime, dur = con.duration;
-      let d = sin.currentTime - t;
-      if (dur && Math.abs(d) > dur / 2) d -= Math.sign(d) * dur; // uno ya ha dado la vuelta y el otro no
-      if (Math.abs(d) < 0.04) { sin.playbackRate = 1; return; }
-      const cargado = [...Array(sin.buffered.length).keys()].some(i => sin.buffered.start(i) <= t && t < sin.buffered.end(i));
-      if (Math.abs(d) > 0.4 && cargado) { sin.currentTime = t; sin.playbackRate = 1; }
-      else sin.playbackRate = d > 0 ? 0.92 : 1.08;
-    });
+    // Un solo vídeo con los dos clips lado a lado (con | sin): el <video> enseña la mitad izquierda
+    // y el canvas pinta la derecha en cada fotograma, así no pueden desincronizarse.
+    const lienzo = cmp.querySelector('canvas');
+    const ctx = lienzo.getContext('2d');
+    const pintar = () => {
+      if (con.readyState < 2) return;
+      const mw = con.videoWidth / 2, h = con.videoHeight;
+      if (lienzo.width !== mw || lienzo.height !== h) { lienzo.width = mw; lienzo.height = h; }
+      ctx.drawImage(con, mw, 0, mw, h, 0, 0, mw, h);
+    };
+    const rvfc = 'requestVideoFrameCallback' in con;
+    const bucle = () => { pintar(); if (!con.paused) rvfc ? con.requestVideoFrameCallback(bucle) : requestAnimationFrame(bucle); };
+    con.addEventListener('play', bucle);
+    ['loadeddata', 'seeked'].forEach(t => con.addEventListener(t, pintar));
     new IntersectionObserver((es) => es.forEach(e => {
-      [con, sin].forEach(v => { if (e.isIntersecting) { const p = v.play(); if (p) p.catch(() => {}); } else v.pause(); });
+      if (e.isIntersecting) { const p = con.play(); if (p) p.catch(() => {}); } else con.pause();
     }), { threshold: 0.25 }).observe(cmp);
   }
 
